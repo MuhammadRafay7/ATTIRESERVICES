@@ -1,26 +1,339 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Meridian Global Trade — design system
+   Art direction: light, airy, editorial corporate-premium.
+   Warm off-white surfaces · navy ink · refined gold accent.
+   Generous whitespace, restrained motion, high craft.
+   All brand colors live here (swappable).
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light surfaces */
+  --bg: #ffffff;
+  --bg-soft: #f8f7f3;
+  --bg-sand: #f1efe8;
+  --border: #e7e4db;
+  --border-strong: #d9d5c9;
+
+  /* Ink (text on light) */
+  --ink: #0b1b2b;
+  --ink-soft: #2a3f52;
+  --muted: #64717d;
+
+  /* Gold accent system */
+  --gold: #b0803a;
+  --gold-soft: #c19243;
+  --gold-bright: #caa14e;
+  --gold-tint: #f4ecdc;
+  --gold-line: rgba(176, 128, 58, 0.5);
+
+  /* Dark surfaces (footer + rare accents) */
+  --deep: #0b1b2b;
+  --deep-2: #12293b;
+  --deep-line: rgba(233, 237, 241, 0.1);
+  --on-deep: #eef1f4;
+  --on-deep-muted: #9fb2c0;
+
+  --radius: 16px;
+  --container: 1240px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Expose tokens to Tailwind's utility engine (v4 CSS config). */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-soft: var(--bg-soft);
+  --color-bg-sand: var(--bg-sand);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-bright: var(--gold-bright);
+  --color-gold-tint: var(--gold-tint);
+  --color-deep: var(--deep);
+  --color-deep-2: var(--deep-2);
+  --color-on-deep: var(--on-deep);
+  --color-on-deep-muted: var(--on-deep-muted);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --radius-brand: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink-soft);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--gold-tint);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-optical-sizing: auto;
+  font-feature-settings: "liga" 1, "dlig" 1;
+}
+
+/* ============================================================
+   Layout primitives
+   ============================================================ */
+.container-x {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 768px) {
+  .container-x {
+    padding-inline: 40px;
+  }
+}
+
+/* Fluid display type — editorial scale, restrained. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-optical-sizing: auto;
+  color: var(--ink);
+}
+.display-xl {
+  font-size: clamp(2.6rem, 7.2vw, 6.25rem);
+  line-height: 0.98;
+}
+.display-lg {
+  font-size: clamp(2.3rem, 5.2vw, 4.25rem);
+}
+.display-md {
+  font-size: clamp(1.9rem, 3.8vw, 3.1rem);
+}
+
+/* Eyebrow — spaced label with a leading rule. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  display: inline-block;
+  opacity: 0.8;
+}
+.eyebrow--center::before {
+  display: none;
+}
+.eyebrow--on-deep {
+  color: var(--gold-soft);
+}
+
+/* Animated hairline underline. */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ============================================================
+   Texture & atmosphere (kept subtle for a clean look)
+   ============================================================ */
+
+/* Faint engineering grid, tuned for light surfaces. */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(11, 27, 43, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 27, 43, 0.04) 1px, transparent 1px);
+  background-size: 76px 76px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 40%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(ellipse 75% 75% at 50% 40%, #000 25%, transparent 78%);
+}
+.grid-lines--deep {
+  background-image:
+    linear-gradient(to right, var(--deep-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--deep-line) 1px, transparent 1px);
+}
+
+/* Soft warm glow blobs for light hero backdrops. */
+.mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.mesh::before,
+.mesh::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+.mesh::before {
+  width: 44vw;
+  height: 44vw;
+  right: -6vw;
+  top: -12vw;
+  background: radial-gradient(circle, rgba(202, 161, 78, 0.24), transparent 66%);
+  opacity: 0.9;
+  animation: drift1 24s var(--ease) infinite alternate;
+}
+.mesh::after {
+  width: 40vw;
+  height: 40vw;
+  left: -10vw;
+  bottom: -16vw;
+  background: radial-gradient(circle, rgba(241, 239, 232, 0.9), transparent 62%);
+  opacity: 0.8;
+  animation: drift2 28s var(--ease) infinite alternate;
+}
+/* Dark variant for the footer/rare dark panels. */
+.mesh--deep::before {
+  background: radial-gradient(circle, rgba(176, 128, 58, 0.35), transparent 66%);
+}
+.mesh--deep::after {
+  background: radial-gradient(circle, rgba(18, 41, 59, 0.9), transparent 62%);
+}
+
+@keyframes drift1 {
+  to { transform: translate3d(-8vw, 8vh, 0) scale(1.12); }
+}
+@keyframes drift2 {
+  to { transform: translate3d(8vw, -6vh, 0) scale(1.1); }
+}
+
+/* Thin gold rule. */
+.hr-gold {
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), transparent);
+}
+
+/* ============================================================
+   Cards
+   ============================================================ */
+.card {
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  transition:
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease),
+    border-color 0.5s var(--ease);
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 50px -30px rgba(11, 27, 43, 0.28);
+  border-color: var(--border-strong);
+}
+
+/* Dark card (footer / dark panels). */
+.card-deep {
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid var(--deep-line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  transition: transform 0.5s var(--ease), border-color 0.5s var(--ease);
+}
+.card-deep:hover {
+  transform: translateY(-6px);
+  border-color: rgba(202, 161, 78, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .card-deep:hover {
+    transform: none;
+  }
+  .mesh::before,
+  .mesh::after {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Marquee (infinite horizontal scroll) — freight ticker.
+   ============================================================ */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 42s) linear infinite;
+}
+.marquee-group:hover .marquee {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
+  }
+}
+
+/* Tabular numerals for counters/stats. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
