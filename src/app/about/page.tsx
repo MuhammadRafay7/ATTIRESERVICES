@@ -13,22 +13,22 @@ import { companyValues } from "@/lib/content";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Founded in 2004, Meridian Global Trade connects buyers and sellers across six continents with a single, accountable trade network built on integrity and reliability.",
+    "Founded in 2004, Meridian Global Trade is a leather and textile goods manufacturer — producing bags, footwear, apparel, and fabric to spec for brands across six continents.",
   alternates: { canonical: "/about" },
 };
 
 const aboutStats = [
   { value: "2004", label: "Founded" },
-  { value: "18", label: "Global offices" },
-  { value: "1,400+", label: "Team members" },
-  { value: "120+", label: "Countries served" },
+  { value: "6", label: "Production sites" },
+  { value: "1,400+", label: "Skilled makers" },
+  { value: "120+", label: "Countries shipped" },
 ];
 
 const leadership = [
   { name: "Daniel Okonkwo", role: "Chief Executive Officer", initials: "DO" },
-  { name: "Sofia Marchetti", role: "Chief Operating Officer", initials: "SM" },
-  { name: "Raj Patel", role: "VP, Customs & Compliance", initials: "RP" },
-  { name: "Mei Lin Chen", role: "VP, Global Network", initials: "MC" },
+  { name: "Sofia Marchetti", role: "Head of Production", initials: "SM" },
+  { name: "Raj Patel", role: "Head of Quality & Compliance", initials: "RP" },
+  { name: "Mei Lin Chen", role: "Head of Sourcing", initials: "MC" },
 ];
 
 export default function AboutPage() {
@@ -36,57 +36,48 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="About"
-        title="Twenty years of moving trust across borders"
-        lead={`Since ${site.founded}, ${site.name} has grown from a single freight desk into a worldwide trade network — but the promise hasn't changed: move goods reliably, and be honest at every step.`}
+        title="Twenty years at the cutting table"
+        lead={`Since ${site.founded}, ${site.name} has grown from a single leather workshop into a multi-site manufacturer — but the promise hasn't changed: make it well, and stand behind every stitch.`}
+        image="/photos/footwear.jpg"
+        imageAlt="A master craftsman inspecting a handmade leather boot"
       />
 
-      {/* Story / mission */}
+      {/* Story */}
       <Section background="default">
         <div className="grid gap-14 lg:grid-cols-2 lg:items-start">
           <SectionHeading
             eyebrow="Our story"
-            title="Built for a world that never stops trading"
+            title="Makers, not middlemen"
           />
           <Reveal className="space-y-5 text-base leading-relaxed text-muted lg:pt-2">
             <p>
-              Meridian began in 2004 with a simple frustration: global trade was
-              too fragmented. Shippers juggled a broker here, a forwarder there,
-              a warehouse somewhere else — and no one owned the outcome.
+              Meridian began in 2004 as a small leather workshop with a stubborn
+              belief: the companies that <em>make</em> the product should be the
+              ones you can call. Too much of the industry hides behind brokers
+              and agents who never touch the material.
             </p>
             <p>
-              We set out to be the single point of accountability across the
-              whole journey — not just moving goods, but making them and sourcing
-              them too. Today Meridian manufactures and fulfills orders, connects
-              buyers with vetted manufacturers worldwide, and ships over a million
-              TEUs a year across every major trade lane.
+              Two decades later we run our own leather and textile floors,
+              producing bags, footwear, apparel, and fabric for brands on six
+              continents — while sourcing specialist materials from a vetted
+              network of mills and tanneries when a project calls for it.
             </p>
             <p>
-              That means one relationship from maker to market: produce it,
-              source it, or move it — clearing customs in more than 120 countries
-              and handling everything from perishables to project freight.
-            </p>
-            <p>
-              Our mission is unchanged: make international trade feel local —
-              simple, visible, and dependable — for every business that relies
-              on it.
+              We&apos;re still makers first. Every order is cut, sewn, inspected,
+              and shipped by people who put their name on the work — because ours
+              travels with it.
             </p>
           </Reveal>
         </div>
 
-        {/* Stats row */}
         <Reveal className="mt-16">
           <dl className="grid grid-cols-2 gap-x-6 gap-y-10 border-t border-border pt-12 sm:grid-cols-4">
             {aboutStats.map((s) => (
               <div key={s.label}>
                 <dt className="sr-only">{s.label}</dt>
                 <dd>
-                  <CountUp
-                    value={s.value}
-                    className="display block text-4xl text-ink sm:text-5xl"
-                  />
-                  <span className="mt-2.5 block text-sm font-medium text-muted">
-                    {s.label}
-                  </span>
+                  <CountUp value={s.value} className="display block text-4xl text-ink sm:text-5xl" />
+                  <span className="mt-2.5 block text-sm font-medium text-muted">{s.label}</span>
                 </dd>
               </div>
             ))}
@@ -98,29 +89,27 @@ export default function AboutPage() {
       <Section background="soft">
         <SectionHeading
           eyebrow="What we stand for"
-          title="Values that travel with every shipment"
+          title="Values stitched into every run"
         />
         <Stagger className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {companyValues.map((value) => (
             <StaggerItem key={value.title} className="flex h-full flex-col">
-              <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-border bg-bg text-gold">
+              <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-bg text-gold">
                 <value.icon width={26} height={26} />
               </span>
               <h3 className="mt-6 text-xl text-ink">{value.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                {value.blurb}
-              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{value.blurb}</p>
             </StaggerItem>
           ))}
         </Stagger>
       </Section>
 
-      {/* Global network / offices */}
+      {/* Network */}
       <Section background="default">
         <SectionHeading
-          eyebrow="Global network"
+          eyebrow="Production & offices"
           title="Regional hubs, worldwide reach"
-          lead="Our people live in the markets they serve. These regional hubs anchor a partner network that spans every continent."
+          lead="Our production sites and offices sit close to materials and markets alike — anchoring a network that spans every continent."
         />
         <Stagger className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {offices.map((office) => (
@@ -143,7 +132,7 @@ export default function AboutPage() {
       <Section background="soft">
         <SectionHeading
           eyebrow="Leadership"
-          title="The people accountable for your cargo"
+          title="The people accountable for your product"
         />
         <Stagger className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {leadership.map((person) => (
@@ -159,11 +148,11 @@ export default function AboutPage() {
       </Section>
 
       <CTABand
-        title="Let's build something dependable"
-        lead="Whether you're scaling into new markets or consolidating a tangled supply chain, our team is ready to help."
+        title="Let's make something together"
+        lead="Whether you're launching a first collection or moving production to a partner who actually makes it, our team is ready."
         primaryLabel="Talk to us"
-        secondaryLabel="Our services"
-        secondaryHref="/services"
+        secondaryLabel="How we make it"
+        secondaryHref="/manufacturing"
       />
     </>
   );

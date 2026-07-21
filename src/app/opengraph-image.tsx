@@ -54,7 +54,7 @@ export default function OpengraphImage() {
               fontFamily: "sans-serif",
             }}
           >
-            Manufacturing · Sourcing · Global Trade
+            Leather &amp; Textile Manufacturing
           </div>
           <div
             style={{
@@ -65,7 +65,7 @@ export default function OpengraphImage() {
               color: "#ffffff",
             }}
           >
-            We make it, source it, and move it — worldwide.
+            We craft leather &amp; textile goods.
           </div>
         </div>
 
@@ -77,7 +77,7 @@ export default function OpengraphImage() {
             fontFamily: "sans-serif",
           }}
         >
-          Manufacture · Fulfill · Source · Import · Export · 120+ countries
+          Leather Goods · Footwear · Apparel · Textiles · 120+ countries
         </div>
       </div>
     ),

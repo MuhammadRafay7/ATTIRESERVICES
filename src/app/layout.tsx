@@ -23,7 +23,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Manufacturing, Sourcing & Global Trade`,
+    default: `${site.name} — Leather & Textile Manufacturing`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
@@ -50,14 +50,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: site.name,
-    title: `${site.name} — Manufacturing, Sourcing & Global Trade`,
+    title: `${site.name} — Leather & Textile Manufacturing`,
     description: site.description,
     url: site.url,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — Manufacturing, Sourcing & Global Trade`,
+    title: `${site.name} — Leather & Textile Manufacturing`,
     description: site.description,
   },
 };

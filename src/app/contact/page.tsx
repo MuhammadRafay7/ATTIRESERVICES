@@ -19,8 +19,8 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Let's build and move your goods"
-        lead="Tell us what you need made, sourced, or shipped. A Meridian specialist will respond within one business day with a tailored quote."
+        title="Let's make your product"
+        lead="Send us your tech pack, sketch, or a reference sample. A Meridian production specialist will respond within one business day with materials, timeline, and a tailored quote."
       />
 
       <Section background="default">

@@ -1,19 +1,18 @@
 import { Button } from "./Button";
 import { Reveal } from "./Reveal";
 import { Magnetic } from "./Magnetic";
-import { RouteMap } from "./RouteMap";
 import { ArrowIcon } from "./icons";
 
 /**
  * Light, atmospheric call-to-action band reused at the foot of most pages.
  */
 export function CTABand({
-  title = "Ready to build your next order?",
-  lead = "Tell us what you need made, sourced, or shipped — we'll scope it and send a tailored quote within one business day.",
-  primaryLabel = "Get a quote",
+  title = "Let's make your next collection",
+  lead = "Send us your tech pack, sketch, or sample. We'll scope the production run and come back with a tailored quote within one business day.",
+  primaryLabel = "Start a production run",
   primaryHref = "/contact",
-  secondaryLabel = "Explore services",
-  secondaryHref = "/services",
+  secondaryLabel = "See how we make it",
+  secondaryHref = "/manufacturing",
 }: {
   title?: string;
   lead?: string;
@@ -25,7 +24,7 @@ export function CTABand({
   return (
     <section className="relative overflow-hidden bg-bg-sand">
       <div className="mesh opacity-90" />
-      <RouteMap className="pointer-events-none absolute inset-0 h-full w-full text-ink/[0.06]" />
+      <div className="grid-lines pointer-events-none absolute inset-0" />
       <div className="container-x relative py-24 sm:py-32">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>

@@ -1,4 +1,21 @@
-production-line: Professional Packaging Systems' Quality Packaging — "Professional Packaging Systems' Quality Packaging" by U.S. Department of Agriculture is marked with CC0 1.0. To view th
-cnc: Metalworking equipment — "Metalworking equipment" is marked with CC0 1.0. To view the terms, visit https://creativecommons.org/publicdomain/zero/
-packaging: Food boxes enter the more — "Food boxes enter the more" by U.S. Department of Agriculture is marked with CC0 1.0. To view the terms, visit https://c
-warehouse: Professional Packaging Systems' Quality Packaging — "Professional Packaging Systems' Quality Packaging" by U.S. Department of Agriculture is marked with CC0 1.0. To view th
+MERIDIAN — placeholder photography
+==================================
+
+These four images are PLACEHOLDERS, unified with a navy/gold duotone in code
+(<Photo duotone />). Swap them with Meridian's own product & factory
+photography (same filenames) — that also removes any attribution obligation.
+
+Currently used:
+  hero.jpg         — leather craftsman tooling straps   (Wikimedia Commons, CC BY-SA 4.0 — "Jozef Rabatin, Slovak craftsman", Amudena Rutkowska)
+  footwear.jpg     — handmade leather boot, cobbler      (Wikimedia Commons, CC BY 4.0 — "Lederstiefel handgefertigt, Kärnten", Naturpuur)
+  textile-mill.jpg — power loom weaving fabric           (Wikimedia Commons, CC BY-SA — "Masson Mills WTM Power Loom")
+  bags.jpg         — finished leather/textile handbag    (rawpixel, CC0)
+
+Where they appear:
+  hero.jpg         — home hero, /services hero, /manufacturing hero
+  bags.jpg         — home hero inset, /industries hero, product card, case study
+  footwear.jpg     — /about hero, footwear product card
+  textile-mill.jpg — home process, /manufacturing capacity, textiles product card
+
+If you keep the Wikimedia images in production, retain CC BY / BY-SA attribution
+(e.g. a /credits page). Replacing them with your own photos is recommended.

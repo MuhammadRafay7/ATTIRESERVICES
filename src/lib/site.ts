@@ -7,10 +7,10 @@
 export const site = {
   name: "Meridian Global Trade",
   wordmark: "MERIDIAN",
-  tagline: "We make it, source it, and move it — worldwide.",
-  shortTagline: "Make it. Source it. Move it.",
+  tagline: "Leather & textile manufacturing, made to your spec.",
+  shortTagline: "We make it. We ship it.",
   description:
-    "Meridian Global Trade is your end-to-end trade partner: we manufacture and fulfill orders, connect you with vetted manufacturers worldwide, and handle the import & export of every category of goods — ocean, air, land, customs, and warehousing.",
+    "Meridian Global Trade is a textiles and leather goods manufacturer. We produce bags, footwear, apparel, and fabrics to your specification on our own floors, source materials from vetted mills and tanneries, and export finished goods worldwide.",
   url: "https://meridianglobaltrade.example.com",
   founded: 2004,
   contact: {
@@ -26,18 +26,19 @@ export const site = {
 
 export const nav = [
   { label: "Home", href: "/" },
+  { label: "Manufacturing", href: "/manufacturing" },
+  { label: "Products", href: "/industries" },
   { label: "Services", href: "/services" },
-  { label: "Industries", href: "/industries" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
 /** Headline trust stats reused on the home + about pages. Manufacturing-led. */
 export const stats = [
-  { value: "8M+", label: "Units produced yearly" },
-  { value: "350+", label: "Manufacturing partners" },
-  { value: "120+", label: "Countries served" },
-  { value: "99.4%", label: "On-time fulfillment" },
+  { value: "12M+", label: "Units produced yearly" },
+  { value: "40+", label: "Production lines" },
+  { value: "220+", label: "Material partners" },
+  { value: "99.4%", label: "QC pass rate" },
 ] as const;
 
 export const partners = [
@@ -49,16 +50,17 @@ export const partners = [
   "FIATA",
 ] as const;
 
-/** Trade lanes scrolled in the marquee ticker — reinforces the freight story. */
+/** Capability / material terms scrolled in the marquee ticker. */
 export const tradeLanes = [
-  "Shanghai → Rotterdam",
-  "New York → Singapore",
-  "Dubai → São Paulo",
-  "Hamburg → Los Angeles",
-  "Busan → Antwerp",
-  "Santos → Shenzhen",
-  "Mumbai → New York",
-  "Jebel Ali → Felixstowe",
+  "Full-grain leather",
+  "Vegetable-tanned hides",
+  "Cut & sew",
+  "OEKO-TEX cotton",
+  "Goodyear welt",
+  "Private label & OEM",
+  "Woven & knit textiles",
+  "Hand-finished",
+  "Small-batch to bulk",
 ] as const;
 
 /** Office hubs used on About + Contact. */

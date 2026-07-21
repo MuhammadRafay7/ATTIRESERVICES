@@ -4,12 +4,12 @@ import { site, nav } from "@/lib/site";
 import { MailIcon, PhoneIcon, PinIcon } from "./icons";
 
 const servicesLinks = [
-  "Manufacturing & Fulfillment",
+  "Leather Goods",
+  "Footwear",
+  "Apparel & Garments",
+  "Textiles & Fabrics",
   "Sourcing & Matchmaking",
-  "Ocean & Air Freight",
-  "Customs & Compliance",
-  "Warehousing & Fulfillment",
-  "Supply Chain Management",
+  "Export & Logistics",
 ];
 
 export function Footer() {
@@ -23,9 +23,9 @@ export function Footer() {
               <Logo />
             </span>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-on-deep-muted">
-              {site.name} makes it, sources it, and moves it — manufacturing,
-              manufacturer matchmaking, and the import & export of every category
-              of goods, worldwide.
+              {site.name} is a leather and textile goods manufacturer —
+              producing bags, footwear, apparel, and fabric to spec, and
+              exporting finished goods worldwide.
             </p>
           </div>
 

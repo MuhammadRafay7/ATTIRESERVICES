@@ -253,3 +253,60 @@ export function CheckIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function BagIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 8h14l-1 12H6L5 8Z" />
+      <path d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8" />
+    </svg>
+  );
+}
+
+export function ShoeIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 8c1.5 0 2 1 3 2l3.5 2c1 .4 2 .5 3.2.5H18a3 3 0 0 1 3 3v1.5H3V8Z" />
+      <path d="M3 12.5h4" />
+    </svg>
+  );
+}
+
+export function ScissorsIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="6" cy="7" r="2.5" />
+      <circle cx="6" cy="17" r="2.5" />
+      <path d="M8 8.5 20 17M8 15.5 20 7M8.2 8.4 14 12" />
+    </svg>
+  );
+}
+
+export function SpoolIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 3h10M7 21h10" />
+      <path d="M8 3v18M16 3v18" />
+      <path d="M8 8h8M8 12h8M8 16h8" />
+    </svg>
+  );
+}
+
+export function HangerIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 7a2 2 0 1 1 1.4-3.4" />
+      <path d="M12 7v2l8 5.5c1 .7.5 2.5-.8 2.5H4.8c-1.3 0-1.8-1.8-.8-2.5L12 9" />
+    </svg>
+  );
+}
+
+export function SofaIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 11V8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5V11" />
+      <path d="M4 11a2 2 0 0 0-2 2v4h20v-4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2H6v-2a2 2 0 0 0-2-2Z" />
+      <path d="M5 19v1.5M19 19v1.5" />
+    </svg>
+  );
+}
