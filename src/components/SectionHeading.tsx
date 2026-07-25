@@ -2,10 +2,13 @@ import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 
 /**
- * Eyebrow + h2 + optional lead paragraph.
+ * Eyebrow + h2 + optional lead. The eyebrow is monospaced and carries an
+ * optional section index, which is what makes a long page read as a
+ * structured document rather than a sequence of marketing blocks.
  */
 export function SectionHeading({
   eyebrow,
+  index,
   title,
   lead,
   align = "left",
@@ -13,6 +16,7 @@ export function SectionHeading({
   className = "",
 }: {
   eyebrow?: string;
+  index?: string;
   title: ReactNode;
   lead?: ReactNode;
   align?: "left" | "center";
@@ -22,19 +26,32 @@ export function SectionHeading({
   const centered = align === "center";
   return (
     <Reveal
-      className={`${centered ? "mx-auto text-center" : ""} max-w-2xl ${className}`}
+      className={`${centered ? "mx-auto text-center" : ""} max-w-3xl ${className}`}
     >
       {eyebrow && (
-        <p
-          className={`eyebrow ${centered ? "eyebrow--center justify-center" : ""} ${
-            onDeep ? "eyebrow--on-deep" : ""
-          }`}
+        <div
+          className={`flex items-center gap-3 ${centered ? "justify-center" : ""}`}
         >
-          {eyebrow}
-        </p>
+          <p
+            className={`eyebrow ${centered ? "eyebrow--center" : ""} ${
+              onDeep ? "eyebrow--on-deep" : ""
+            }`}
+          >
+            {eyebrow}
+          </p>
+          {index && (
+            <span
+              className={`label-mono ${
+                onDeep ? "text-on-deep-muted/60" : "text-ink-faint"
+              }`}
+            >
+              {index}
+            </span>
+          )}
+        </div>
       )}
       <h2
-        className={`display display-md mt-6 ${
+        className={`display display-md mt-5 ${
           onDeep ? "text-on-deep" : "text-ink"
         }`}
       >
@@ -42,9 +59,9 @@ export function SectionHeading({
       </h2>
       {lead && (
         <p
-          className={`mt-6 text-lg leading-relaxed ${
-            onDeep ? "text-on-deep-muted" : "text-muted"
-          }`}
+          className={`mt-5 max-w-2xl text-base leading-relaxed sm:text-[1.0625rem] ${
+            onDeep ? "text-on-deep-muted" : "text-ink-muted"
+          } ${centered ? "mx-auto" : ""}`}
         >
           {lead}
         </p>

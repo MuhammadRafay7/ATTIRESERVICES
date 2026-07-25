@@ -1,23 +1,32 @@
 /**
- * Central place for all placeholder brand data (BUILD_BRIEF §3).
- * Swap these values to rebrand — name, contact, stats, nav, and content
- * are all defined here so there's one file to find-and-replace.
+ * Central place for all placeholder brand data.
+ * Swap these values to rebrand — name, contact, figures, nav and credentials
+ * are all defined here so there is one file to find-and-replace.
  */
 
 export const site = {
-  name: "Meridian Global Trade",
-  wordmark: "MERIDIAN",
-  tagline: "Leather & textile manufacturing, made to your spec.",
-  shortTagline: "We make it. We ship it.",
+  name: "Ostenmark",
+  wordmark: "OSTENMARK",
+  descriptor: "Garments · Leather · Import & Export",
+  tagline:
+    "Garment manufacturing, leather manufacturing, and import & export.",
+  shortTagline: "Owned production. Audited supply chain. Global export.",
   description:
-    "Meridian Global Trade is a textiles and leather goods manufacturer. We produce bags, footwear, apparel, and fabrics to your specification on our own floors, source materials from vetted mills and tanneries, and export finished goods worldwide.",
-  url: "https://meridianglobaltrade.example.com",
+    "Ostenmark operates three divisions: garment manufacturing, leather manufacturing, and import & export. Six owned sites, 49 production lines, 18.6M units of annual capacity, and trade into 120+ markets under Incoterms 2020. ISO 9001 and SMETA-audited throughout.",
+  url: "https://ostenmark.example.com",
   founded: 2004,
+  legalEntity: "Ostenmark Group B.V.",
+  registration: "NL 8234 51 097",
+  duns: "D-U-N-S 41-882-6103",
   contact: {
-    email: "hello@meridianglobaltrade.com",
-    phone: "+1 (212) 555-0148",
+    email: "mrtrades2005@gmail.com",
+    // Telephone withheld for now. Restore the line below and uncomment the
+    // blocks marked "phone — commented out" in Header, Footer, CTABand and
+    // the contact page to bring it back.
+    // phone: "+1 (212) 555-0148",
     address: "1 Harbor Point, Suite 2400, New York, NY 10004, USA",
   },
+  responseSla: "One business day",
   social: {
     linkedin: "#",
     x: "#",
@@ -25,50 +34,141 @@ export const site = {
 } as const;
 
 export const nav = [
-  { label: "Home", href: "/" },
+  { label: "Capabilities", href: "/services" },
   { label: "Manufacturing", href: "/manufacturing" },
-  { label: "Products", href: "/industries" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
+  { label: "Portfolio", href: "/industries" },
+  { label: "Company", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
-/** Headline trust stats reused on the home + about pages. Manufacturing-led. */
+/** Headline operating figures reused on the home + about pages. */
 export const stats = [
-  { value: "12M+", label: "Units produced yearly" },
-  { value: "40+", label: "Production lines" },
-  { value: "220+", label: "Material partners" },
-  { value: "99.4%", label: "QC pass rate" },
+  { value: "12.1M", label: "Garment units / year", note: "30 lines · İzmir, HCMC" },
+  { value: "6.5M", label: "Leather units / year", note: "19 lines · Porto, Chennai" },
+  { value: "120+", label: "Markets traded", note: "2,400 TEU exported" },
+  { value: "97.8%", label: "On-time shipment", note: "Against confirmed ETD" },
 ] as const;
 
-export const partners = [
-  "ISO 9001",
-  "WCO SAFE",
-  "IATA",
-  "AEO",
-  "C-TPAT",
-  "FIATA",
+/** Formal credentials with scope and validity — procurement due-diligence facing. */
+export const credentials = [
+  {
+    code: "ISO 9001:2015",
+    scope: "Quality management system",
+    body: "SGS",
+    valid: "2027",
+  },
+  {
+    code: "ISO 14001:2015",
+    scope: "Environmental management",
+    body: "SGS",
+    valid: "2027",
+  },
+  {
+    code: "SMETA 4-Pillar",
+    scope: "Ethical trade audit",
+    body: "Sedex",
+    valid: "Annual",
+  },
+  {
+    code: "OEKO-TEX 100",
+    scope: "Textile substance testing",
+    body: "Hohenstein",
+    valid: "2026",
+  },
+  {
+    code: "LWG Gold",
+    scope: "Tannery environmental rating",
+    body: "Leather Working Group",
+    valid: "2026",
+  },
+  {
+    code: "GOTS 7.0",
+    scope: "Organic chain of custody",
+    body: "Control Union",
+    valid: "2026",
+  },
+  {
+    code: "amfori BSCI",
+    scope: "Social compliance",
+    body: "amfori",
+    valid: "Annual",
+  },
+  {
+    code: "REACH / SVHC",
+    scope: "EU chemical compliance",
+    body: "Intertek",
+    valid: "Continuous",
+  },
 ] as const;
 
-/** Capability / material terms scrolled in the marquee ticker. */
-export const tradeLanes = [
-  "Full-grain leather",
-  "Vegetable-tanned hides",
-  "Cut & sew",
-  "OEKO-TEX cotton",
-  "Goodyear welt",
-  "Private label & OEM",
-  "Woven & knit textiles",
-  "Hand-finished",
-  "Small-batch to bulk",
+/** Commercial terms surfaced early — the questions procurement asks first. */
+export const commercialTerms = [
+  { term: "Incoterms 2020", value: "EXW · FOB · CIF · DDP" },
+  { term: "Minimum order", value: "150 units / style / colourway" },
+  { term: "Sampling lead time", value: "10–15 working days" },
+  { term: "Bulk lead time", value: "35–60 working days" },
+  { term: "Payment terms", value: "30% deposit · 70% against B/L" },
+  { term: "Settlement currencies", value: "USD · EUR · GBP" },
 ] as const;
 
-/** Office hubs used on About + Contact. */
+/** Production and commercial sites — the operating footprint. */
 export const offices = [
-  { city: "Rotterdam", region: "Europe" },
-  { city: "Singapore", region: "Asia Pacific" },
-  { city: "Dubai", region: "Middle East" },
-  { city: "Shanghai", region: "East Asia" },
-  { city: "New York", region: "North America" },
-  { city: "São Paulo", region: "South America" },
+  {
+    city: "Rotterdam",
+    country: "Netherlands",
+    region: "Europe",
+    role: "Group headquarters · EU distribution",
+    lines: 0,
+    headcount: 90,
+  },
+  {
+    city: "Porto",
+    country: "Portugal",
+    region: "Europe",
+    role: "Leather goods · Footwear",
+    lines: 11,
+    headcount: 340,
+  },
+  {
+    city: "İzmir",
+    country: "Türkiye",
+    region: "EMEA",
+    role: "Garment · Knitwear · Woven textiles",
+    lines: 14,
+    headcount: 470,
+  },
+  {
+    city: "Chennai",
+    country: "India",
+    region: "South Asia",
+    role: "Leather goods · Tannery-adjacent",
+    lines: 8,
+    headcount: 310,
+  },
+  {
+    city: "Ho Chi Minh City",
+    country: "Vietnam",
+    region: "Southeast Asia",
+    role: "Garment · Outerwear · Footwear",
+    lines: 16,
+    headcount: 710,
+  },
+  {
+    city: "New York",
+    country: "United States",
+    region: "North America",
+    role: "Commercial · Client services",
+    lines: 0,
+    headcount: 40,
+  },
+] as const;
+
+/** Named export markets — reach stated concretely rather than as a slogan. */
+export const marketRegions = [
+  { region: "European Union", detail: "27 markets · DDP, EORI registered" },
+  { region: "United Kingdom", detail: "UKCA marking · customs handled in full" },
+  { region: "North America", detail: "USA, Canada, Mexico · CTPAT-aligned" },
+  { region: "Middle East", detail: "GCC · SASO and G-Mark conformity" },
+  { region: "Asia Pacific", detail: "Japan, Korea, Australia, Singapore" },
+  { region: "Latin America", detail: "Brazil, Chile, Colombia · consolidated freight" },
 ] as const;

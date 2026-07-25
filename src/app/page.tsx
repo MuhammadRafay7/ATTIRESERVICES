@@ -4,230 +4,316 @@ import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import { Stagger, StaggerItem } from "@/components/Stagger";
-import { TextReveal } from "@/components/TextReveal";
-import { CountUp } from "@/components/CountUp";
-import { Marquee } from "@/components/Marquee";
-import { Magnetic } from "@/components/Magnetic";
+import { Stat } from "@/components/Stat";
 import { Photo } from "@/components/Photo";
+import { ProductPlate } from "@/components/ProductPlate";
 import { Faq } from "@/components/Faq";
 import { CTABand } from "@/components/CTABand";
+import { SectionNav } from "@/components/SectionNav";
+import { ExecutiveSummary } from "@/components/ExecutiveSummary";
+import { RouteMap } from "@/components/RouteMap";
+import { SpecTable, DataTable } from "@/components/SpecTable";
 import { ArrowIcon, CheckIcon } from "@/components/icons";
-import { site, stats, tradeLanes } from "@/lib/site";
+import { site, stats, credentials, commercialTerms, marketRegions } from "@/lib/site";
 import {
+  divisions,
   productCategories,
-  whyMeridian,
-  heroCapabilities,
+  whyOstenmark,
+  heroFacts,
   pillars,
   manufacturingProcess,
-  certifications,
   faqs,
 } from "@/lib/content";
+
+const pageSections = [
+  { id: "summary", label: "Summary" },
+  { id: "divisions", label: "Divisions" },
+  { id: "models", label: "Engagement models" },
+  { id: "portfolio", label: "Portfolio" },
+  { id: "record", label: "Operating record" },
+  { id: "workflow", label: "Workflow" },
+  { id: "footprint", label: "Footprint" },
+  { id: "certification", label: "Certification" },
+  { id: "faq", label: "FAQ" },
+];
 
 export default function Home() {
   return (
     <>
-      {/* 1. Hero — split, image-driven */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-bg-soft to-bg">
-        <div className="mesh" />
-        <div className="grid-lines pointer-events-none absolute inset-0" />
-        <div className="container-x relative grid items-center gap-12 pb-20 pt-32 sm:pt-40 lg:grid-cols-12 lg:gap-10 lg:pb-28">
-          {/* Copy */}
-          <div className="lg:col-span-6">
-            <Reveal delay={100}>
-              <p className="eyebrow">
-                Textile &amp; leather manufacturing · Est. {site.founded}
-              </p>
-            </Reveal>
-            <TextReveal
-              as="h1"
-              className="display display-xl mt-6 text-ink"
-              delay={0.15}
-              segments={[
-                { text: "We craft leather &" },
-                { text: "textile goods.", accent: true },
-              ]}
-            />
-            <Reveal delay={520}>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
-                Meridian is a manufacturer of bags, footwear, apparel, and
-                fabrics — made to your spec on our own floors. We source the
-                materials, control the quality, and export the finished goods
-                worldwide.
-              </p>
-            </Reveal>
-            <Reveal delay={640}>
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
-                <Magnetic>
+      {/* 01 — Masthead */}
+      <section className="relative overflow-hidden border-b border-line bg-bg-subtle">
+        <div className="grid-lines pointer-events-none absolute inset-0 opacity-70" />
+
+        <div className="container-x relative pb-0 pt-14 sm:pt-20">
+          <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-12">
+            {/* Statement */}
+            <div className="lg:col-span-7">
+              <Reveal>
+                <p className="eyebrow">Est. {site.founded} · Rotterdam</p>
+              </Reveal>
+              <Reveal delay={60}>
+                <h1 className="display display-xl mt-7 text-ink">
+                  Global Commerce in High-Quality Garments and Leather.
+                </h1>
+              </Reveal>
+            </div>
+
+            <div className="lg:col-span-5">
+              <Reveal delay={120}>
+                <p className="max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
+                  Three divisions under one contracting entity: garment
+                  manufacturing across 30 lines, leather goods and footwear
+                  across 19, and an import &amp; export arm that sources the
+                  materials and clears the finished goods into 120+ markets.
+                </p>
+              </Reveal>
+              <Reveal delay={180}>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <Button href="/contact" variant="primary">
-                    Start a production run
+                    Request a quotation
                     <ArrowIcon
-                      width={18}
-                      height={18}
-                      className="transition-transform duration-300 group-hover/btn:translate-x-1"
+                      width={16}
+                      height={16}
+                      className="transition-transform duration-200 group-hover/btn:translate-x-0.5"
                     />
                   </Button>
-                </Magnetic>
-                <Button href="/manufacturing" variant="outline">
-                  See how we make it
-                </Button>
-              </div>
-            </Reveal>
-            <Stagger className="mt-12 flex flex-wrap gap-x-7 gap-y-4" delayChildren={0.8}>
-              {heroCapabilities.map((cap) => (
-                <StaggerItem key={cap.label} className="flex items-center gap-2.5 text-ink-soft">
-                  <cap.icon width={20} height={20} className="text-gold" />
-                  <span className="text-sm font-medium tracking-wide">{cap.label}</span>
-                </StaggerItem>
-              ))}
-            </Stagger>
+                  <Button href="/services" variant="outline">
+                    Our divisions
+                  </Button>
+                </div>
+              </Reveal>
+            </div>
           </div>
 
-          {/* Image cluster */}
-          <Reveal delay={200} className="lg:col-span-6">
-            <div className="relative mx-auto max-w-md lg:mr-0 lg:max-w-none">
-              <Photo
-                src="/photos/hero.jpg"
-                alt="Artisan hand-tooling a leather strap in the Meridian workshop"
-                duotone
-                priority
-                sizes="(max-width: 1024px) 90vw, 48vw"
-                className="aspect-[4/5] rounded-brand shadow-[0_40px_80px_-40px_rgba(11,27,43,0.5)]"
-              />
-              {/* overlapping product shot */}
-              <div className="absolute -bottom-8 -left-6 hidden w-40 sm:block lg:-left-10 lg:w-48">
-                <Photo
-                  src="/photos/bags.jpg"
-                  alt="Finished full-grain leather handbag"
-                  sizes="200px"
-                  className="aspect-square rounded-brand border-4 border-bg shadow-xl"
-                />
-              </div>
-              {/* floating stat */}
-              <div className="absolute -right-3 -top-5 rounded-brand border border-border bg-bg/95 px-5 py-4 shadow-lg backdrop-blur sm:-right-6">
-                <CountUp value="12M+" className="display block text-2xl text-ink" />
-                <span className="text-xs font-medium text-muted">units made / year</span>
-              </div>
-            </div>
+          {/* Division triptych — all three visible before any scrolling */}
+          <Stagger className="mt-14 grid gap-4 sm:grid-cols-3" delayChildren={0.15}>
+            {divisions.map((d, i) => (
+              <StaggerItem key={d.key}>
+                <figure>
+                  <Photo
+                    src={d.image}
+                    alt={d.imageAlt}
+                    priority={i === 0}
+                    sizes="(max-width: 640px) 90vw, 30vw"
+                    className="aspect-4/3 rounded-brand border border-line"
+                  />
+                  <figcaption className="mt-3 flex items-baseline justify-between gap-3 border-t border-line pt-3">
+                    <span className="label-mono text-ink">{d.title}</span>
+                    <span className="label-mono text-ink-faint">{d.code}</span>
+                  </figcaption>
+                </figure>
+              </StaggerItem>
+            ))}
+          </Stagger>
+
+          {/* Fact strip */}
+          <Reveal delay={220}>
+            <dl className="mt-14 grid grid-cols-2 border-t border-line sm:grid-cols-4">
+              {heroFacts.map((fact) => (
+                <div
+                  key={fact.label}
+                  className="border-b border-line py-6 sm:border-b-0 sm:border-r sm:px-8 sm:first:pl-0 sm:last:border-r-0"
+                >
+                  <dt className="label-mono">{fact.label}</dt>
+                  <dd className="figure mt-2.5 text-3xl sm:text-[2rem]">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </Reveal>
         </div>
       </section>
 
-      {/* 2. Capability marquee */}
-      <section className="border-y border-border bg-bg-soft py-6">
-        <div className="flex items-center gap-6">
-          <span className="hidden shrink-0 pl-6 text-xs font-semibold uppercase tracking-[0.2em] text-gold sm:block">
-            Capabilities
-          </span>
-          <Marquee duration={40} className="flex-1">
-            {[...tradeLanes, ...certifications].map((item, i) => (
-              <span key={i} className="mx-7 flex items-center gap-7 text-sm font-medium text-muted">
-                {item}
-                <span className="h-1 w-1 rounded-full bg-gold/60" />
-              </span>
+      {/* In-page index — sticks for the remainder of the document */}
+      <SectionNav sections={pageSections} />
+
+      {/* 02 — Executive summary (the 60-second read) */}
+      <ExecutiveSummary />
+
+      {/* 03 — Credential strip */}
+      <section className="border-b border-line bg-bg py-7">
+        <div className="container-x flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-10">
+          <p className="label-mono shrink-0 text-ink-faint">
+            Certified and audited to
+          </p>
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-2.5">
+            {credentials.map((c) => (
+              <li
+                key={c.code}
+                className="font-mono text-xs tracking-[0.06em] text-ink-muted"
+              >
+                {c.code}
+              </li>
             ))}
-          </Marquee>
+          </ul>
         </div>
       </section>
 
-      {/* 3. Three pillars */}
-      <Section background="default">
+      {/* 04 — The three divisions, given equal weight */}
+      <Section id="divisions" background="default" divider={false}>
         <SectionHeading
-          eyebrow="What we do"
-          title="Made in-house, sourced smart, shipped worldwide"
-          lead="We're a manufacturer first — but when you need a specific material or partner, we source it, and we handle the export either way."
+          eyebrow="Divisions"
+          index="§ 01"
+          title="Three divisions, one contracting entity"
+          lead="Ostenmark makes garments, makes leather goods, and trades. Each division stands on its own — and any combination of them can sit under a single purchase order."
         />
-        <Stagger className="mt-16 grid gap-5 lg:grid-cols-3">
-          {pillars.map((pillar, i) => {
-            const featured = i === 0;
-            return (
-              <StaggerItem key={pillar.title}>
-                <div
-                  className={`card flex h-full flex-col p-8 sm:p-9 ${
-                    featured
-                      ? "border-gold/40 bg-gold-tint/30 shadow-[0_26px_60px_-34px_rgba(176,128,58,0.55)]"
-                      : ""
-                  }`}
-                >
+
+        <Stagger className="mt-14 grid gap-px border-y border-line bg-line lg:grid-cols-3">
+          {divisions.map((d) => (
+            <StaggerItem key={d.key} className="bg-bg">
+              <article className="flex h-full flex-col">
+                <Photo
+                  src={d.image}
+                  alt={d.imageAlt}
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  className="aspect-16/10 w-full"
+                />
+                <div className="flex flex-1 flex-col p-8 lg:p-9">
                   <div className="flex items-center justify-between">
-                    <span
-                      className={`inline-flex h-14 w-14 items-center justify-center rounded-full ${
-                        featured ? "bg-gold text-white" : "bg-gold-tint text-gold"
-                      }`}
-                    >
-                      <pillar.icon width={28} height={28} />
+                    <span className="inline-flex h-11 w-11 items-center justify-center border border-line text-accent">
+                      <d.icon width={22} height={22} />
                     </span>
-                    {featured ? (
-                      <span className="rounded-full border border-gold/40 bg-bg px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-gold">
-                        What we&apos;re built on
-                      </span>
-                    ) : (
-                      <span className="tnum font-display text-3xl text-border-strong">
-                        0{i + 1}
-                      </span>
-                    )}
+                    <span className="label-mono text-ink-faint">{d.code}</span>
                   </div>
-                  <h3 className="mt-6 text-2xl text-ink">{pillar.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
-                    {pillar.blurb}
+
+                  <h3 className="mt-7 text-xl font-medium tracking-[-0.02em] text-ink">
+                    {d.title}
+                  </h3>
+                  <p className="mt-3.5 text-sm leading-relaxed text-ink-muted">
+                    {d.blurb}
                   </p>
-                  <ul className="mt-6 space-y-2.5 border-t border-border pt-6">
-                    {pillar.points.map((point) => (
+
+                  <dl className="mt-7 flex gap-8 border-t border-line pt-6">
+                    {d.facts.map((f) => (
+                      <div key={f.label}>
+                        <dt className="label-mono">{f.label}</dt>
+                        <dd className="figure mt-2 text-2xl">{f.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+
+                  <ul className="mt-6 flex-1 space-y-2.5 border-t border-line pt-6">
+                    {d.points.map((point) => (
                       <li key={point} className="flex items-start gap-2.5">
-                        <CheckIcon width={17} height={17} className="mt-0.5 shrink-0 text-gold" />
-                        <span className="text-sm text-ink-soft">{point}</span>
+                        <CheckIcon
+                          width={15}
+                          height={15}
+                          className="mt-1 shrink-0 text-accent"
+                        />
+                        <span className="text-sm text-ink-body">{point}</span>
                       </li>
                     ))}
                   </ul>
+
+                  <p className="label-mono mt-6 border-t border-line pt-5 text-ink-faint">
+                    {d.caption}
+                  </p>
                 </div>
-              </StaggerItem>
-            );
-          })}
+              </article>
+            </StaggerItem>
+          ))}
+        </Stagger>
+
+        <Reveal delay={140} className="mt-10">
+          <Button href="/services" variant="outline">
+            Full capability schedule
+            <ArrowIcon width={15} height={15} />
+          </Button>
+        </Reveal>
+      </Section>
+
+      {/* 05 — Engagement models */}
+      <Section id="models" background="subtle">
+        <SectionHeading
+          eyebrow="Engagement models"
+          index="§ 02"
+          title="Three ways to contract with us"
+          lead="Most enquiries resolve to one of three arrangements. The difference is who nominates the materials and who carries the quality liability — the rest is scheduling."
+        />
+        <Stagger className="mt-14 grid gap-px border-y border-line bg-line lg:grid-cols-3">
+          {pillars.map((pillar) => (
+            <StaggerItem key={pillar.title} className="bg-bg">
+              <div className="flex h-full flex-col p-8 lg:p-10">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex h-11 w-11 items-center justify-center border border-line text-accent">
+                    <pillar.icon width={22} height={22} />
+                  </span>
+                  <span className="label-mono text-ink-faint">{pillar.code}</span>
+                </div>
+                <h3 className="mt-7 text-xl font-medium tracking-[-0.02em] text-ink">
+                  {pillar.title}
+                </h3>
+                <p className="mt-3.5 flex-1 text-sm leading-relaxed text-ink-muted">
+                  {pillar.blurb}
+                </p>
+                <ul className="mt-7 space-y-2.5 border-t border-line pt-6">
+                  {pillar.points.map((point) => (
+                    <li key={point} className="flex items-start gap-2.5">
+                      <CheckIcon
+                        width={15}
+                        height={15}
+                        className="mt-1 shrink-0 text-accent"
+                      />
+                      <span className="text-sm text-ink-body">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </StaggerItem>
+          ))}
         </Stagger>
       </Section>
 
-      {/* 4. What we make — product categories */}
-      <Section background="soft">
+      {/* 06 — Portfolio preview */}
+      <Section id="portfolio" background="default">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading
-            eyebrow="What we make"
-            title="From full-grain leather to finished fabric"
-            lead="Bags, footwear, apparel, and textiles — produced to your specification and finished to a standard that carries your brand."
+            eyebrow="Product portfolio"
+            index="§ 03"
+            title="What the floors produce"
+            lead="Twelve categories in continuous production across the three divisions, each with a defined minimum order and lead time."
           />
           <Reveal>
             <Link
               href="/industries"
               className="link-underline inline-flex items-center gap-2 whitespace-nowrap text-sm font-medium text-ink"
             >
-              All categories <ArrowIcon width={16} height={16} />
+              Full portfolio <ArrowIcon width={15} height={15} />
             </Link>
           </Reveal>
         </div>
-        <Stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+        <Stagger className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
           {productCategories.slice(0, 4).map((cat) => (
-            <StaggerItem key={cat.title}>
-              <Link
-                href="/industries"
-                className="card group block h-full overflow-hidden"
-              >
+            <StaggerItem key={cat.title} className="bg-bg">
+              <Link href="/industries" className="group flex h-full flex-col">
                 {cat.image ? (
                   <Photo
                     src={cat.image}
                     alt={cat.title}
-                    duotone
                     sizes="(max-width: 768px) 100vw, 25vw"
-                    className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                    className="aspect-4/3 w-full"
+                    imageClassName="transition-transform duration-500 group-hover:scale-[1.02]"
                   />
                 ) : (
-                  <div className="flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-bg-sand to-gold-tint/50">
-                    <cat.icon width={40} height={40} className="text-gold" />
-                  </div>
+                  <ProductPlate
+                    plate={cat.plate ?? "fabric"}
+                    label={cat.code}
+                    className="aspect-4/3 w-full"
+                  />
                 )}
-                <div className="p-6">
-                  <div className="flex items-center gap-2.5">
-                    <cat.icon width={20} height={20} className="text-gold" />
-                    <h3 className="text-lg text-ink">{cat.title}</h3>
-                  </div>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{cat.blurb}</p>
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="label-mono text-ink-faint">{cat.code}</span>
+                  <h3 className="mt-2.5 text-base font-medium tracking-[-0.015em] text-ink">
+                    {cat.title}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">
+                    {cat.blurb}
+                  </p>
+                  <p className="label-mono mt-5 border-t border-line pt-4 text-ink-faint">
+                    {cat.detail}
+                  </p>
                 </div>
               </Link>
             </StaggerItem>
@@ -235,135 +321,218 @@ export default function Home() {
         </Stagger>
       </Section>
 
-      {/* 5. How we make it — process showcase with imagery */}
-      <Section background="default">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
-          <div className="lg:col-span-5">
+      {/* 06 — Operating figures + commercial terms */}
+      <Section id="record" background="default">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-6">
             <SectionHeading
-              eyebrow="How we make it"
-              title="A production line you can see into"
-              lead="Every order runs the same disciplined path — from sample to export — with quality gates you can trace at each step."
+              eyebrow="Operating record"
+              index="§ 04"
+              title="The figures, qualified"
+              lead="Performance data for the trailing twelve months, measured against confirmed commitments rather than internal targets."
             />
-            <Reveal delay={120} className="mt-8">
-              <Photo
-                src="/photos/textile-mill.jpg"
-                alt="Fabric being woven on a Meridian production line"
-                duotone
-                sizes="(max-width: 1024px) 90vw, 40vw"
-                className="aspect-[4/3] rounded-brand"
-              />
-            </Reveal>
-            <Reveal delay={200} className="mt-8">
-              <Button href="/manufacturing" variant="outline">
-                Explore our process
-                <ArrowIcon width={17} height={17} />
-              </Button>
+            <Reveal delay={80}>
+              <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10">
+                {stats.map((s) => (
+                  <Stat
+                    key={s.label}
+                    value={s.value}
+                    label={s.label}
+                    note={s.note}
+                  />
+                ))}
+              </dl>
             </Reveal>
           </div>
-          <Stagger className="lg:col-span-7 lg:pt-4">
-            {manufacturingProcess.map((step, i) => (
-              <StaggerItem key={step.step}>
-                <div
-                  className={`flex gap-5 py-6 ${
-                    i < manufacturingProcess.length - 1 ? "border-b border-border" : ""
-                  }`}
-                >
-                  <span className="tnum font-display text-2xl text-gold">{step.step}</span>
-                  <span className="mt-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border text-gold">
-                    <step.icon width={22} height={22} />
-                  </span>
-                  <div>
-                    <h3 className="text-xl text-ink">{step.title}</h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-muted">{step.blurb}</p>
-                  </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </Stagger>
+
+          <div className="lg:col-span-6">
+            <Reveal delay={120}>
+              <p className="eyebrow">Standard commercial terms</p>
+              <SpecTable className="mt-6" rows={commercialTerms} />
+              <p className="mt-6 text-xs leading-relaxed text-ink-faint">
+                Terms shown are standard and are confirmed per programme. Volume
+                tiering, consignment stock and extended payment terms are
+                available subject to credit review.
+              </p>
+            </Reveal>
+          </div>
         </div>
       </Section>
 
-      {/* 6. Why Meridian */}
-      <Section background="soft">
+      {/* 07 — Production workflow */}
+      <Section id="workflow" background="subtle">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
+            <SectionHeading
+              eyebrow="Production workflow"
+              index="§ 05"
+              title="Six stages, each with an owner"
+              lead="Every order follows the same sequence. Bulk does not begin until the pre-production sample is approved in writing."
+            />
+            <Reveal delay={100} className="mt-9">
+              <Button href="/manufacturing" variant="outline">
+                Full production protocol
+                <ArrowIcon width={15} height={15} />
+              </Button>
+            </Reveal>
+            <Reveal delay={140} className="mt-10">
+              <Photo
+                src="/photos/loom-detail.jpg"
+                alt="Warp threads running through a loom on an Ostenmark textile line"
+                sizes="(max-width: 1024px) 90vw, 30vw"
+                className="aspect-4/5 rounded-brand border border-line"
+              />
+              <p className="label-mono mt-3 text-ink-faint">
+                Fig. 02 — Warp feed, İzmir
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={80} className="lg:col-span-8">
+            <ol className="border-t border-line">
+              {manufacturingProcess.map((step) => (
+                <li
+                  key={step.step}
+                  className="grid gap-x-6 gap-y-2 border-b border-line py-6 sm:grid-cols-[3rem_1fr_9rem]"
+                >
+                  <span className="label-mono pt-1 text-accent">{step.step}</span>
+                  <div>
+                    <h3 className="text-base font-medium tracking-[-0.015em] text-ink">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-muted">
+                      {step.blurb}
+                    </p>
+                  </div>
+                  <div className="sm:text-right">
+                    <p className="font-mono text-xs text-ink">{step.duration}</p>
+                    <p className="mt-1 text-xs text-ink-faint">{step.owner}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* 08 — Differentiators */}
+      <Section id="why" background="default">
         <SectionHeading
-          eyebrow="Why Meridian"
-          title="The advantages of a real maker"
-          lead="Plenty of firms broker production. Few own the floor. That difference shows up in your product."
+          eyebrow="Why Ostenmark"
+          index="§ 06"
+          title="What separates an owned floor from an agent"
+          lead="The distinction is not craft language. It is who you hold a contract with when a lot fails inspection three weeks before a launch."
         />
-        <Stagger className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {whyMeridian.map((value) => (
-            <StaggerItem key={value.title} className="flex h-full flex-col">
-              <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-border bg-bg text-gold">
-                <value.icon width={26} height={26} />
+        <Stagger className="mt-14 grid gap-x-12 gap-y-10 border-t border-line pt-10 sm:grid-cols-2">
+          {whyOstenmark.map((value, i) => (
+            <StaggerItem key={value.title} className="flex gap-5">
+              <span className="label-mono pt-1 text-accent">
+                {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="mt-6 text-xl text-ink">{value.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{value.blurb}</p>
+              <div>
+                <h3 className="text-lg font-medium tracking-[-0.02em] text-ink">
+                  {value.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+                  {value.blurb}
+                </p>
+              </div>
             </StaggerItem>
           ))}
         </Stagger>
       </Section>
 
-      {/* 7. Proof band — stats + certifications */}
-      <Section background="default">
-        <Reveal>
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label}>
-                <dt className="sr-only">{s.label}</dt>
-                <dd>
-                  <CountUp value={s.value} className="display block text-4xl text-ink sm:text-5xl" />
-                  <span className="mt-2 block text-sm font-medium text-muted">{s.label}</span>
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
-        <Reveal delay={120} className="mt-14 border-t border-border pt-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-            Standards &amp; certifications
-          </p>
-          <ul className="mt-5 flex flex-wrap items-center gap-x-8 gap-y-3">
-            {certifications.map((c) => (
-              <li
-                key={c}
-                className="text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft/70"
-              >
-                {c}
-              </li>
-            ))}
-          </ul>
+      {/* 09 — Network */}
+      <Section id="footprint" background="deep">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-5">
+            <SectionHeading
+              eyebrow="Footprint"
+              index="§ 07"
+              onDeep
+              title="Production close to material, distribution close to market"
+              lead="Four production sites and two commercial offices, exporting to more than 120 markets under EXW, FOB, CIF and DDP."
+            />
+            <Reveal delay={100} className="mt-10">
+              <SpecTable
+                onDeep
+                dense
+                rows={marketRegions.map((m) => ({
+                  term: m.region,
+                  value: m.detail,
+                }))}
+              />
+            </Reveal>
+          </div>
+
+          <Reveal delay={80} className="lg:col-span-7">
+            <RouteMap showLabels className="w-full text-on-deep-muted/50" />
+            <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/12 pt-5">
+              <span className="flex items-center gap-2.5 text-xs text-on-deep-muted">
+                <span className="h-2 w-2 bg-accent-soft" />
+                Production site
+              </span>
+              <span className="flex items-center gap-2.5 text-xs text-on-deep-muted">
+                <span className="h-2 w-2 border border-accent-soft" />
+                Commercial office
+              </span>
+              <span className="flex items-center gap-2.5 text-xs text-on-deep-muted">
+                <span className="h-px w-6 bg-accent-soft" />
+                Primary export lane
+              </span>
+            </div>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* 10 — Certification register */}
+      <Section id="certification" background="default">
+        <SectionHeading
+          eyebrow="Due diligence"
+          index="§ 08"
+          title="Certification register"
+          lead="Current certificates are issued with the vendor onboarding pack on request. Unannounced audit access to any Ostenmark site is written into our standard terms."
+        />
+        <Reveal delay={80} className="mt-12">
+          <DataTable
+            caption="Ostenmark certification register"
+            columns={["Standard", "Scope", "Certification body", "Valid to"]}
+            rows={credentials.map((c) => [c.code, c.scope, c.body, c.valid])}
+          />
         </Reveal>
       </Section>
 
-      {/* 8. Case study / testimonial */}
-      <Section background="sand">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
+      {/* 11 — Client reference */}
+      <Section id="reference" background="subtle">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+          <Reveal className="lg:col-span-5">
             <Photo
-              src="/photos/bags.jpg"
-              alt="A finished leather handbag from a Meridian private-label run"
-              duotone
-              sizes="(max-width: 1024px) 90vw, 45vw"
-              className="aspect-[5/4] rounded-brand"
+              src="/photos/leather-bag.jpg"
+              alt="Full-grain leather satchel from a private-label programme"
+              sizes="(max-width: 1024px) 90vw, 40vw"
+              className="aspect-5/4 rounded-brand border border-line"
             />
           </Reveal>
-          <Reveal delay={120}>
-            <p className="eyebrow">Client story</p>
-            <blockquote className="mt-6">
+          <Reveal delay={80} className="lg:col-span-7">
+            <p className="eyebrow">Client reference</p>
+            <blockquote className="mt-7">
               <p className="display display-md text-ink">
-                &ldquo;Meridian produced our entire leather accessories line to
-                spec, sourced the hardware we couldn&apos;t, and shipped to
-                fourteen markets — one partner, from cutting table to shelf.&rdquo;
+                &ldquo;We moved four categories to Ostenmark after an agent
+                subcontracted a run without disclosure. Two years on, the
+                material declarations reconcile, the audit access is real, and
+                we have one counterparty instead of nine.&rdquo;
               </p>
             </blockquote>
-            <footer className="mt-8 flex items-center gap-3">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gold-tint font-display text-lg text-gold">
+            <footer className="mt-9 flex items-center gap-4 border-t border-line pt-6">
+              <span className="inline-flex h-11 w-11 items-center justify-center border border-line font-mono text-sm text-ink">
                 EA
               </span>
               <span>
-                <span className="block text-sm font-semibold text-ink">Elena Almeida</span>
-                <span className="block text-sm text-muted">
-                  Head of Product, Northwind Leather Co.
+                <span className="block text-sm font-medium text-ink">
+                  Elena Almeida
+                </span>
+                <span className="block text-sm text-ink-muted">
+                  Group Sourcing Director, Northwind Leather Co.
                 </span>
               </span>
             </footer>
@@ -371,14 +540,15 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 9. FAQ */}
-      <Section background="default">
+      {/* 12 — FAQ */}
+      <Section id="faq" background="default">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
             <SectionHeading
-              eyebrow="FAQ"
-              title="Questions, answered"
-              lead="The things brands ask us most before their first run."
+              eyebrow="Enquiries"
+              index="§ 09"
+              title="Questions raised before onboarding"
+              lead="The points procurement teams raise most often during vendor qualification."
             />
           </div>
           <div className="lg:col-span-8">
@@ -387,7 +557,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 10. CTA */}
       <CTABand />
     </>
   );

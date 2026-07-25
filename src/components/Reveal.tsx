@@ -3,17 +3,18 @@
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.32, 0.72, 0, 1] as const;
 
 /**
- * Fade + rise on scroll (Motion-powered). Keeps the original API
- * (`delay` in ms) so existing call sites keep working.
+ * Restrained entrance: a short fade and rise, nothing more. Distance and
+ * duration are deliberately small — motion should register as the page
+ * settling, not as an effect.
  */
 export function Reveal({
   children,
   as = "div",
   delay = 0,
-  y = 26,
+  y = 12,
   className = "",
 }: {
   children: ReactNode;
@@ -31,8 +32,8 @@ export function Reveal({
       className={className}
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -60px 0px" }}
-      transition={{ duration: 0.75, delay: delay / 1000, ease: EASE }}
+      viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+      transition={{ duration: 0.5, delay: delay / 1000, ease: EASE }}
     >
       {children}
     </MotionTag>

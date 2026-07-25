@@ -3,15 +3,17 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.32, 0.72, 0, 1] as const;
 
 /**
- * Container that reveals its <StaggerItem> children in sequence on scroll.
+ * Container that reveals its <StaggerItem> children in sequence. The
+ * interval is short so a grid resolves almost as one block — a long
+ * cascade reads as decoration.
  */
 export function Stagger({
   children,
   className = "",
-  stagger = 0.09,
+  stagger = 0.05,
   delayChildren = 0,
   as = "div",
 }: {
@@ -33,7 +35,7 @@ export function Stagger({
       variants={variants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+      viewport={{ once: true, margin: "0px 0px -80px 0px" }}
     >
       {children}
     </MotionTag>
@@ -43,7 +45,7 @@ export function Stagger({
 export function StaggerItem({
   children,
   className = "",
-  y = 26,
+  y = 12,
   as = "div",
 }: {
   children: ReactNode;
@@ -58,7 +60,7 @@ export function StaggerItem({
     ? { hidden: {}, show: {} }
     : {
         hidden: { opacity: 0, y },
-        show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
+        show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
       };
   return (
     <MotionTag className={className} variants={variants}>

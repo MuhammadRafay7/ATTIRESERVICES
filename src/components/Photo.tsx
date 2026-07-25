@@ -1,12 +1,12 @@
 import Image from "next/image";
 
 /**
- * Image frame with an optional navy/gold duotone treatment so photography
- * from mixed sources reads as one cohesive, art-directed system.
- * The wrapper must set an aspect ratio / size via `className`.
+ * Image frame. Photography is treated with a light, neutral desaturation
+ * and a cool scrim so images from mixed sources sit together without the
+ * warm duotone that reads as a lifestyle brand.
  *
- * Photos in /public/photos are placeholders (see CREDITS.txt) — swap with
- * the client's own product & factory photography.
+ * The wrapper must set an aspect ratio / size via `className`.
+ * Photos in /public/photos are placeholders (see CREDITS.txt).
  */
 export function Photo({
   src,
@@ -15,7 +15,7 @@ export function Photo({
   imageClassName = "",
   sizes = "(max-width: 768px) 100vw, 50vw",
   priority = false,
-  duotone = false,
+  treated = true,
   overlay = "",
 }: {
   src: string;
@@ -24,26 +24,23 @@ export function Photo({
   imageClassName?: string;
   sizes?: string;
   priority?: boolean;
-  duotone?: boolean;
+  treated?: boolean;
   overlay?: string;
 }) {
   return (
-    <div className={`relative overflow-hidden bg-bg-sand ${className}`}>
+    <div className={`relative overflow-hidden bg-bg-muted ${className}`}>
       <Image
         src={src}
         alt={alt}
         fill
         sizes={sizes}
         priority={priority}
-        className={`object-cover ${duotone ? "grayscale-[35%]" : ""} ${imageClassName}`}
+        className={`object-cover ${
+          treated ? "grayscale-[55%] contrast-[1.04]" : ""
+        } ${imageClassName}`}
       />
-      {duotone && (
-        <>
-          {/* navy tint */}
-          <div className="pointer-events-none absolute inset-0 bg-deep/45 mix-blend-multiply" />
-          {/* warm gold lift */}
-          <div className="pointer-events-none absolute inset-0 bg-gold/10 mix-blend-overlay" />
-        </>
+      {treated && (
+        <div className="pointer-events-none absolute inset-0 bg-deep/12 mix-blend-multiply" />
       )}
       {overlay && <div className={`pointer-events-none absolute inset-0 ${overlay}`} />}
     </div>

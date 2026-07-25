@@ -1,21 +1,72 @@
-MERIDIAN — placeholder photography
-==================================
+OSTENMARK — placeholder imagery
+==============================
 
-These four images are PLACEHOLDERS, unified with a navy/gold duotone in code
-(<Photo duotone />). Swap them with Meridian's own product & factory
-photography (same filenames) — that also removes any attribution obligation.
+Every file was visually checked on a contact sheet before selection — photo
+IDs were not trusted blind. All re-encoded to max 2000px, mozjpeg q80–82,
+progressive.
 
-Currently used:
-  hero.jpg         — leather craftsman tooling straps   (Wikimedia Commons, CC BY-SA 4.0 — "Jozef Rabatin, Slovak craftsman", Amudena Rutkowska)
-  footwear.jpg     — handmade leather boot, cobbler      (Wikimedia Commons, CC BY 4.0 — "Lederstiefel handgefertigt, Kärnten", Naturpuur)
-  textile-mill.jpg — power loom weaving fabric           (Wikimedia Commons, CC BY-SA — "Masson Mills WTM Power Loom")
-  bags.jpg         — finished leather/textile handbag    (rawpixel, CC0)
+UNSPLASH — no attribution required, free for commercial use
+------------------------------------------------------------
+Garment division
+  apparel-line.jpg      photo-1534126511673-b6899657816a  sewing line
+  apparel-pressing.jpg  photo-1489274495757-95c7c837b101  pressing / finishing
+  apparel-hangers.jpg   photo-1523381210434-271e8be1f52b  garments on hangers
+  apparel-denim.jpg     photo-1565084888279-aca607ecce0c  folded denim
+  shirt.jpg             photo-1596755094514-f87e34085b2c  woven shirt
+  knitwear.jpg          photo-1556905055-8f358a7a47b2     knitwear
+  outerwear.jpg         photo-1604176354204-9268737828e4  folded outerwear
+  workwear.jpg          photo-1626497764746-6dc36546b388  shirting on a rail
+  tailoring.jpg         photo-1593030103066-0093718efeb9  tailored suit
+  upholstery.jpg        photo-1567016432779-094069958ea5  upholstered seating
 
-Where they appear:
-  hero.jpg         — home hero, /services hero, /manufacturing hero
-  bags.jpg         — home hero inset, /industries hero, product card, case study
-  footwear.jpg     — /about hero, footwear product card
-  textile-mill.jpg — home process, /manufacturing capacity, textiles product card
+Leather division
+  leather-line.jpg       photo-1517254797898-04edd251bfb3  goods on the floor
+  leather-bag.jpg        photo-1473188588951-666fce8e7c68  full-grain satchel
+  leather-boots.jpg      photo-1608256246200-53e635b5b65f  welted boots
+  leather-shoes.jpg      photo-1449505278894-297fdb3edbc1  derby shoes
+  leather-handbags.jpg   photo-1594223274512-ad4803739b7c  finished handbags
+  leather-components.jpg photo-1519415943484-9fa1873496d4  cut components
 
-If you keep the Wikimedia images in production, retain CC BY / BY-SA attribution
-(e.g. a /credits page). Replacing them with your own photos is recommended.
+Import & export division
+  trade-port.jpg        photo-1578575437130-527eed3abbec  vessel + quay cranes
+  trade-containers.jpg  photo-1494412574643-ff11b0a5c1c3  container terminal
+  trade-yard.jpg        photo-1494412651409-8963ce7935a7  container yard
+  trade-vessel.jpg      photo-1605745341112-85968b19335b  vessel under way
+  trade-warehouse.jpg   photo-1553413077-190dd305871c     warehouse racking
+  trade-packing.jpg     photo-1580674285054-bed31e145f59  cartons for despatch
+
+The Unsplash License permits commercial use without attribution. Crediting
+the photographers is still courteous if these stay in production.
+
+WIKIMEDIA COMMONS — attribution REQUIRED
+-----------------------------------------
+Only two files remain from the original placeholder set. Everything else was
+replaced with unencumbered Unsplash photography.
+
+  textile-mill.jpg  power loom  (CC BY-SA — "Masson Mills WTM Power Loom")
+  loom-detail.jpg   crop of textile-mill.jpg, same licence
+
+>>> These two are the ONLY remaining attribution obligation on the site.
+    No weaving or loom photograph was available from Unsplash. Replace them
+    with Ostenmark's own mill photography — or retain CC BY-SA attribution
+    on a /credits page — before launch. <<<
+
+TECHNICAL PLATE (drawn in code, no licence obligation)
+-------------------------------------------------------
+One portfolio entry still has no photograph and renders as a dimensioned
+schematic — src/components/ProductPlate.tsx:
+
+  P-11 Finished leather and hides   plate "hide"
+
+To swap it for a photograph, add `image: "/photos/<file>.jpg"` to that entry
+in src/lib/content.tsx — the `plate` field is then ignored.
+
+BALANCE
+-------
+Image references by division, kept deliberately even:
+  garment / textile   13
+  leather             13
+  import & export     10
+
+The home hero opens with a three-frame triptych — one per division — so all
+three are visible before any scrolling.

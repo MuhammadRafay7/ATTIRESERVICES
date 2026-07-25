@@ -1,16 +1,20 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { Reveal } from "./Reveal";
-import { TextReveal } from "./TextReveal";
 import { Photo } from "./Photo";
 
+export type HeroFact = { value: string; label: string };
+
 /**
- * Compact, airy hero for inner pages — light surface, navy ink, gold accent.
- * Optionally shows a duotone image on the right for an editorial split.
+ * Inner-page masthead. Breadcrumb, document-style eyebrow, title and lead,
+ * closed by an optional ruled fact strip. Structure carries the weight —
+ * there is no background treatment beyond a faint measured grid.
  */
 export function PageHero({
   eyebrow,
   title,
   lead,
+  facts,
   image,
   imageAlt,
   children,
@@ -18,52 +22,82 @@ export function PageHero({
   eyebrow: string;
   title: string;
   lead?: ReactNode;
+  facts?: HeroFact[];
   image?: string;
   imageAlt?: string;
   children?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-bg-soft to-bg">
-      <div className="mesh opacity-80" />
-      <div className="grid-lines pointer-events-none absolute inset-0" />
+    <section className="relative overflow-hidden border-b border-line bg-bg-subtle">
+      <div className="grid-lines pointer-events-none absolute inset-0 opacity-60" />
 
-      <div
-        className={`container-x relative pb-16 pt-36 sm:pb-20 sm:pt-44 ${
-          image ? "grid items-center gap-12 lg:grid-cols-12" : ""
-        }`}
-      >
-        <div className={image ? "lg:col-span-7" : ""}>
-          <Reveal delay={80}>
-            <p className="eyebrow">{eyebrow}</p>
-          </Reveal>
-          <TextReveal
-            as="h1"
-            className="display display-lg mt-6 max-w-3xl text-ink"
-            text={title}
-            delay={0.12}
-          />
-          {lead && (
-            <Reveal delay={400}>
-              <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted">{lead}</p>
+      <div className="container-x relative pb-14 pt-12 sm:pb-16 sm:pt-16">
+        {/* Breadcrumb */}
+        <Reveal>
+          <nav aria-label="Breadcrumb" className="label-mono flex items-center gap-2">
+            <Link href="/" className="transition-colors hover:text-ink">
+              Home
+            </Link>
+            <span aria-hidden className="text-ink-faint">
+              /
+            </span>
+            <span className="text-ink">{eyebrow}</span>
+          </nav>
+        </Reveal>
+
+        <div
+          className={
+            image ? "mt-8 grid items-end gap-10 lg:grid-cols-12 lg:gap-12" : "mt-8"
+          }
+        >
+          <div className={image ? "lg:col-span-7" : ""}>
+            <Reveal delay={60}>
+              <div className="rule-accent" />
+              <h1 className="display display-lg mt-6 max-w-3xl text-ink">{title}</h1>
             </Reveal>
-          )}
-          {children && (
-            <Reveal delay={520}>
-              <div className="mt-9">{children}</div>
+            {lead && (
+              <Reveal delay={120}>
+                <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-muted sm:text-lg">
+                  {lead}
+                </p>
+              </Reveal>
+            )}
+            {children && (
+              <Reveal delay={180}>
+                <div className="mt-8">{children}</div>
+              </Reveal>
+            )}
+          </div>
+
+          {image && (
+            <Reveal delay={140} className="lg:col-span-5">
+              <Photo
+                src={image}
+                alt={imageAlt ?? ""}
+                priority
+                sizes="(max-width: 1024px) 90vw, 42vw"
+                className="aspect-4/3 rounded-brand border border-line"
+              />
             </Reveal>
           )}
         </div>
 
-        {image && (
-          <Reveal delay={220} className="lg:col-span-5">
-            <Photo
-              src={image}
-              alt={imageAlt ?? ""}
-              duotone
-              priority
-              sizes="(max-width: 1024px) 90vw, 42vw"
-              className="aspect-[4/3] rounded-brand shadow-[0_40px_80px_-44px_rgba(11,27,43,0.5)]"
-            />
+        {/* Fact strip */}
+        {facts && facts.length > 0 && (
+          <Reveal delay={200}>
+            <dl className="mt-12 grid grid-cols-2 border-t border-line sm:grid-cols-4">
+              {facts.map((fact) => (
+                <div
+                  key={fact.label}
+                  className="border-b border-line px-0 py-5 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0"
+                >
+                  <dt className="label-mono">{fact.label}</dt>
+                  <dd className="figure mt-2 text-2xl sm:text-[1.75rem]">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </Reveal>
         )}
       </div>

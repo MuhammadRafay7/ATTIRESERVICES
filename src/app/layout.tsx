@@ -1,46 +1,46 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { IBM_Plex_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { site } from "@/lib/site";
 
-// Editorial serif for display / headings (BUILD_BRIEF §4).
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  display: "swap",
-  axes: ["opsz"],
-});
-
-// Inter for body / UI.
+// Inter carries both display and body — tight, neutral, institutional.
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
 
+// Monospace for data labels, reference codes, figures and eyebrows.
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Leather & Textile Manufacturing`,
+    default: `${site.name} — Contract Leather & Textile Manufacturing`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
   applicationName: site.name,
   keywords: [
-    "import export",
-    "international trade",
-    "manufacturing",
-    "order fulfillment",
-    "manufacturer sourcing",
     "contract manufacturing",
-    "ocean freight",
-    "air freight",
-    "customs brokerage",
-    "supply chain",
-    "logistics",
-    "freight forwarding",
+    "private label manufacturing",
+    "OEM leather goods",
+    "textile manufacturing",
+    "footwear manufacturing",
+    "apparel production",
+    "supplier audit",
+    "AQL inspection",
+    "OEKO-TEX",
+    "Leather Working Group",
+    "export documentation",
+    "incoterms",
   ],
   authors: [{ name: site.name }],
   robots: {
@@ -50,20 +50,20 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: site.name,
-    title: `${site.name} — Leather & Textile Manufacturing`,
+    title: `${site.name} — Contract Leather & Textile Manufacturing`,
     description: site.description,
     url: site.url,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — Leather & Textile Manufacturing`,
+    title: `${site.name} — Contract Leather & Textile Manufacturing`,
     description: site.description,
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#081521",
+  themeColor: "#0a1a2b",
   colorScheme: "light",
 };
 
@@ -73,11 +73,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="en" className={`${inter.variable} ${plexMono.variable}`}>
       <body className="flex min-h-screen flex-col bg-bg">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-brand focus:bg-deep focus:px-4 focus:py-2 focus:text-on-deep"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-brand focus:bg-deep focus:px-4 focus:py-2 focus:text-on-deep"
         >
           Skip to content
         </a>

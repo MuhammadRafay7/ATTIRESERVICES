@@ -16,358 +16,714 @@ import {
   HangerIcon,
   SofaIcon,
   SearchIcon,
+  ClipboardIcon,
+  LayersIcon,
 } from "@/components/icons";
+import type { PlateKey } from "@/components/ProductPlate";
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 
-/** Manufacturing-led capability signals under the hero. */
-export const heroCapabilities: { icon: Icon; label: string }[] = [
-  { icon: ScissorsIcon, label: "Cut & sewn to spec" },
-  { icon: LeafIcon, label: "Full-grain leather" },
-  { icon: ShieldIcon, label: "Quality inspected" },
-  { icon: GlobeIcon, label: "Shipped worldwide" },
+/**
+ * Hero fact strip — hard operating figures rather than adjectives.
+ * These are the four numbers a sourcing lead scans for first.
+ */
+export const heroFacts: { value: string; label: string }[] = [
+  { value: "3", label: "Divisions" },
+  { value: "18.6M", label: "Units / year" },
+  { value: "49", label: "Production lines" },
+  { value: "120+", label: "Markets traded" },
 ];
 
 export type Pillar = {
   icon: Icon;
+  code: string;
   title: string;
   blurb: string;
   points: string[];
 };
 
 /**
- * The three ways Meridian works — the core business model:
- * in-house manufacturing, sourcing/matchmaking, and export logistics.
+ * The three contracting models Ostenmark operates under. Framed as
+ * engagement types a procurement team can actually select between.
  */
 export const pillars: Pillar[] = [
   {
     icon: CogIcon,
-    title: "Manufacture & Fulfill",
+    code: "01",
+    title: "Full-package production",
     blurb:
-      "Our own leather and textile floors produce to your specification — from first sample to full production run, quality-controlled and ready to ship.",
-    points: ["Made-to-spec production", "Prototyping & sampling", "In-line quality control"],
+      "We take the specification and return finished, packed, inspected goods. Ostenmark holds responsibility for materials, labour, quality and export documentation under a single purchase order.",
+    points: [
+      "Tech pack to bulk delivery",
+      "Materials nominated or sourced by us",
+      "Single point of contractual liability",
+      "FOB or DDP at your election",
+    ],
   },
   {
     icon: UsersIcon,
-    title: "Source & Connect",
+    code: "02",
+    title: "Cut, make and trim",
     blurb:
-      "Need a specific mill, tannery, or trim? We connect you with vetted partners worldwide — matched on capability, price, and compliance, then managed for you.",
-    points: ["Vetted mill & tannery network", "Material & price matching", "Managed on your behalf"],
+      "You nominate and consign the materials; we provide the line, the labour and the quality system. Suited to brands with established mill relationships that need capacity, not sourcing.",
+    points: [
+      "Client-consigned materials",
+      "Dedicated or shared line allocation",
+      "Bonded warehousing for inputs",
+      "Per-unit conversion pricing",
+    ],
   },
   {
     icon: GlobeIcon,
-    title: "Export & Deliver",
+    code: "03",
+    title: "Managed supplier network",
     blurb:
-      "Then we ship it. Customs, documentation, and freight across ocean and air — finished goods delivered to your markets with full trade compliance.",
-    points: ["Export documentation", "Customs & compliance", "Ocean & air freight"],
+      "For categories outside our own floors, we appoint, audit and manage third-party vendors on your behalf — under Ostenmark's quality protocol and our contract, not yours.",
+    points: [
+      "Vendor qualification and audit",
+      "On-site Ostenmark QA presence",
+      "Consolidated invoicing and freight",
+      "Ostenmark retains liability",
+    ],
   },
 ];
 
+export type Division = "garment" | "leather" | "trade";
+
 export type Service = {
   slug: string;
+  division: Division;
   icon: Icon;
+  code: string;
   title: string;
   summary: string;
   points: string[];
+  specs: { key: string; value: string }[];
 };
 
-/** Full service catalogue — textiles & leather manufacturing led. */
-export const services: Service[] = [
+/**
+ * The three divisions. Deliberately equal in weight: the business is a
+ * garment maker, a leather maker and a trading house, and a visitor should
+ * be able to tell which one they need within a few seconds.
+ */
+export type DivisionEntry = {
+  key: Division;
+  icon: Icon;
+  code: string;
+  title: string;
+  blurb: string;
+  points: string[];
+  facts: { value: string; label: string }[];
+  image: string;
+  imageAlt: string;
+  caption: string;
+};
+
+export const divisions: DivisionEntry[] = [
   {
-    slug: "leather-goods",
+    key: "garment",
+    icon: HangerIcon,
+    code: "D-01",
+    title: "Garment manufacturing",
+    blurb:
+      "Woven and knit cut-and-sew across apparel, knitwear, outerwear and workwear — from tech pack to packed carton, full package or CMT.",
+    points: [
+      "Apparel, shirting and tailoring",
+      "Knitwear and jersey, 3–14 gauge",
+      "Outerwear and uniform programmes",
+      "Woven and knit fabric production",
+    ],
+    facts: [
+      { value: "12.1M", label: "Units / year" },
+      { value: "30", label: "Lines" },
+    ],
+    image: "/photos/apparel-line.jpg",
+    imageAlt: "Machinist working a garment on an industrial sewing line",
+    caption: "İzmir · Ho Chi Minh City",
+  },
+  {
+    key: "leather",
     icon: BagIcon,
-    title: "Leather Goods Manufacturing",
-    summary:
-      "Bags, wallets, belts, and accessories crafted from full-grain and top-grain leather — cut, skived, and hand-finished to luxury standards.",
+    code: "D-02",
+    title: "Leather manufacturing",
+    blurb:
+      "Bags, footwear and small leather goods cut and closed on our own floors, from LWG Gold tanned hides through hand and machine finishing.",
     points: [
-      "Full-grain & top-grain leather",
-      "Hand-stitched & machine-sewn",
-      "Hardware & lining to spec",
-      "Small-batch to bulk runs",
+      "Bags, luggage and small leather goods",
+      "Lasted footwear, three constructions",
+      "Finished leather and hides by the panel",
+      "Hand closing, edge paint, skiving",
     ],
+    facts: [
+      { value: "6.5M", label: "Units / year" },
+      { value: "19", label: "Lines" },
+    ],
+    image: "/photos/leather-line.jpg",
+    imageAlt: "Finished leather goods stacked on the production floor",
+    caption: "Porto · Chennai",
   },
   {
-    slug: "footwear",
-    icon: ShoeIcon,
-    title: "Footwear Manufacturing",
-    summary:
-      "Leather shoes, boots, and sandals built on lasted construction — from pattern and last development through finishing and boxing.",
+    key: "trade",
+    icon: ShipIcon,
+    code: "D-03",
+    title: "Import and export",
+    blurb:
+      "A trading arm in its own right. We source and import materials and finished goods, and we export under Incoterms 2020 with documentation issued in-house.",
     points: [
-      "Goodyear & cemented construction",
-      "Last & pattern development",
-      "Leather & textile uppers",
-      "Sizing runs & grading",
+      "Import sourcing and vendor management",
+      "Export documentation and origin certification",
+      "Customs clearance and HS classification",
+      "Ocean, air and rail consolidation",
     ],
+    facts: [
+      { value: "120+", label: "Markets served" },
+      { value: "2,400", label: "TEU / year" },
+    ],
+    image: "/photos/trade-port.jpg",
+    imageAlt: "Container vessel loading alongside quay cranes",
+    caption: "Rotterdam · New York",
   },
+];
+
+/** Full capability catalogue, each with hard specification data. */
+export const services: Service[] = [
+  // ---- Garment division -----------------------------------------------
   {
     slug: "apparel",
+    division: "garment",
     icon: HangerIcon,
-    title: "Apparel & Garment Production",
+    code: "GMT-01",
+    title: "Apparel and shirting",
     summary:
-      "Cut-and-sew garment manufacturing across woven and knit fabrics — jackets, outerwear, and everyday apparel, private-label ready.",
+      "Woven cut-and-sew across shirting, trousers, dresses and tailoring, produced full-package or CMT from your tech pack.",
     points: [
-      "Cut, sew & finish",
-      "Woven & knit fabrics",
-      "Leather & shearling outerwear",
-      "Private label & OEM",
+      "Woven cut-and-sew",
+      "Tech pack to bulk, full package or CMT",
+      "Grading across full size curves",
+      "Private label and OEM under NDA",
+    ],
+    specs: [
+      { key: "Minimum order", value: "200 units / style" },
+      { key: "Lead time", value: "35–50 working days" },
+      { key: "Sites", value: "İzmir · Ho Chi Minh City" },
+    ],
+  },
+  {
+    slug: "knitwear",
+    division: "garment",
+    icon: SpoolIcon,
+    code: "GMT-02",
+    title: "Knitwear and jersey",
+    summary:
+      "Circular and flat-knit production from yarn to finished garment — jersey basics, fine-gauge knitwear, fleece and heavyweight sweats.",
+    points: [
+      "Circular and flat knitting, 3–14 gauge",
+      "Fully fashioned and cut-and-sew jersey",
+      "Garment dye, wash and enzyme finishing",
+      "Pilling and spirality tested",
+    ],
+    specs: [
+      { key: "Minimum order", value: "250 units / style" },
+      { key: "Lead time", value: "35–45 working days" },
+      { key: "Sites", value: "İzmir" },
+    ],
+  },
+  {
+    slug: "outerwear",
+    division: "garment",
+    icon: ShirtIcon,
+    code: "GMT-03",
+    title: "Outerwear and workwear",
+    summary:
+      "Technical and insulated outerwear alongside industrial workwear and uniform programmes built for multi-year contracts.",
+    points: [
+      "Seam sealing and taped construction",
+      "Down and synthetic insulation, RDS certified",
+      "ISO 15797 industrial-laundry tested",
+      "Multi-year uniform contracts",
+    ],
+    specs: [
+      { key: "Minimum order", value: "300 units / style" },
+      { key: "Lead time", value: "45–60 working days" },
+      { key: "Sites", value: "Ho Chi Minh City · İzmir" },
     ],
   },
   {
     slug: "textiles",
-    icon: SpoolIcon,
-    title: "Textile & Fabric Production",
+    division: "garment",
+    icon: LayersIcon,
+    code: "GMT-04",
+    title: "Textile and fabric production",
     summary:
-      "Woven and knitted fabrics produced to your weight, weave, and color — with dyeing, printing, and finishing under one roof.",
+      "Woven and knitted fabric to nominated weight, construction and colour, with dyeing, printing and finishing held in-house for shade continuity.",
     points: [
-      "Weaving & knitting",
-      "Dyeing & printing",
-      "Custom weights & finishes",
-      "Home & apparel textiles",
+      "Weaving, circular and flat knitting",
+      "Reactive and pigment dyeing",
+      "Lab dips within five working days",
+      "Shade banding and continuity control",
+    ],
+    specs: [
+      { key: "Minimum order", value: "500 m / colourway" },
+      { key: "Lead time", value: "25–40 working days" },
+      { key: "Sites", value: "İzmir" },
+    ],
+  },
+
+  // ---- Leather division ------------------------------------------------
+  {
+    slug: "leather-goods",
+    division: "leather",
+    icon: BagIcon,
+    code: "LTH-01",
+    title: "Leather goods",
+    summary:
+      "Bags, luggage, wallets, belts and small leather accessories in full-grain, top-grain and suede, cut and closed to luxury standards.",
+    points: [
+      "Hand and machine closing",
+      "Edge painting, skiving, creasing",
+      "Client-nominated or sourced hardware",
+      "Serialised authentication available",
+    ],
+    specs: [
+      { key: "Minimum order", value: "150 units / style" },
+      { key: "Lead time", value: "40–55 working days" },
+      { key: "Sites", value: "Porto · Chennai" },
     ],
   },
   {
-    slug: "sourcing-matchmaking",
-    icon: UsersIcon,
-    title: "Sourcing & Mill Matchmaking",
+    slug: "footwear",
+    division: "leather",
+    icon: ShoeIcon,
+    code: "LTH-02",
+    title: "Footwear",
     summary:
-      "When you need a specific material or partner, we connect you with vetted mills, tanneries, and trim suppliers — then manage the relationship.",
+      "Lasted footwear across cemented, Goodyear-welted and vulcanised constructions, from last and pattern development through boxing.",
     points: [
-      "Vetted mill & tannery network",
-      "Material & price matching",
-      "Contract & PO management",
-      "On-site quality inspection",
+      "Last and pattern development",
+      "Cemented, welted, vulcanised",
+      "Full size grading and fit trials",
+      "SATRA-referenced wear testing",
+    ],
+    specs: [
+      { key: "Minimum order", value: "300 pairs / style" },
+      { key: "Lead time", value: "50–60 working days" },
+      { key: "Sites", value: "Porto · Ho Chi Minh City" },
     ],
   },
   {
-    slug: "quality-compliance",
-    icon: ShieldIcon,
-    title: "Quality Control & Compliance",
+    slug: "finished-leather",
+    division: "leather",
+    icon: LeafIcon,
+    code: "LTH-03",
+    title: "Finished leather and hides",
     summary:
-      "In-line and final inspection with full material traceability — meeting OEKO-TEX, Leather Working Group, and social-compliance standards.",
+      "Tanned, finished and graded leather supplied by the hide or cut panel, from Leather Working Group Gold-rated tanneries.",
     points: [
-      "AQL inspection standards",
-      "Material traceability",
-      "OEKO-TEX & LWG aligned",
-      "Ethical & social audits",
+      "Full-grain, top-grain, split and suede",
+      "Vegetable and chrome tanned",
+      "Cut to panel or supplied by the hide",
+      "Chrome VI and rub tested",
+    ],
+    specs: [
+      { key: "Minimum order", value: "200 sq ft" },
+      { key: "Lead time", value: "20–30 working days" },
+      { key: "Sites", value: "Chennai" },
     ],
   },
+
+  // ---- Import & export division ---------------------------------------
   {
-    slug: "private-label",
-    icon: ScissorsIcon,
-    title: "Private Label & OEM",
+    slug: "import-sourcing",
+    division: "trade",
+    icon: SearchIcon,
+    code: "TRD-01",
+    title: "Import and material sourcing",
     summary:
-      "Your brand, our factory floor. Full private-label and OEM production with custom labeling, packaging, and retail-ready presentation.",
+      "We buy and import on your behalf — qualifying mills, tanneries and trim suppliers, holding the vendor contract and the quality liability ourselves.",
     points: [
-      "Custom labels & branding",
-      "Retail-ready packaging",
-      "Tech-pack development",
-      "Confidential production",
+      "Vendor qualification and audit",
+      "Cost breakdown transparency",
+      "Purchase order administration",
+      "Resident QA at partner sites",
+    ],
+    specs: [
+      { key: "Network", value: "220+ qualified vendors" },
+      { key: "Audit cycle", value: "12 months, or on change" },
+      { key: "Liability", value: "Held by Ostenmark" },
     ],
   },
   {
     slug: "export-logistics",
+    division: "trade",
     icon: ShipIcon,
-    title: "Export & Global Logistics",
+    code: "TRD-02",
+    title: "Export and freight",
     summary:
-      "Finished goods handled end to end — export documentation, customs clearance, and ocean or air freight to your markets worldwide.",
+      "Finished goods delivered under Incoterms 2020, with ocean, air and rail consolidation across our own and third-party production.",
     points: [
-      "Export documentation",
-      "Customs & compliance",
-      "Ocean & air freight",
-      "Door-to-door delivery",
+      "EXW, FOB, CIF and DDP",
+      "FCL, LCL, air and rail",
+      "Consolidated multi-site shipments",
+      "Tracking issued at departure",
+    ],
+    specs: [
+      { key: "Markets", value: "120+ served" },
+      { key: "Volume", value: "2,400 TEU / year" },
+      { key: "Sites", value: "Rotterdam · New York" },
+    ],
+  },
+  {
+    slug: "trade-compliance",
+    division: "trade",
+    icon: ClipboardIcon,
+    code: "TRD-03",
+    title: "Customs and trade compliance",
+    summary:
+      "Export documentation, origin certification, HS classification and destination clearance, issued in-house rather than brokered out.",
+    points: [
+      "Certificates of origin and EUR.1",
+      "HS classification and duty planning",
+      "Destination customs clearance",
+      "UKCA, SASO and G-Mark conformity",
+    ],
+    specs: [
+      { key: "Documentation", value: "Issued by Ostenmark" },
+      { key: "DDP markets", value: "EU, UK, North America" },
+      { key: "Registrations", value: "EORI · CTPAT-aligned" },
+    ],
+  },
+
+  // ---- Cross-division --------------------------------------------------
+  {
+    slug: "quality-compliance",
+    division: "garment",
+    icon: ShieldIcon,
+    code: "QA-01",
+    title: "Quality and compliance",
+    summary:
+      "An inspection regime governed by AQL 2.5 across in-line and final stages, applied identically to all three divisions.",
+    points: [
+      "AQL 2.5 in-line and final",
+      "Needle and metal detection",
+      "Physical and chemical testing",
+      "Audit-ready documentation pack",
+    ],
+    specs: [
+      { key: "Standard", value: "ISO 2859-1 / AQL 2.5" },
+      { key: "Traceability", value: "Lot-level, 7 years" },
+      { key: "Audit access", value: "Unannounced permitted" },
+    ],
+  },
+  {
+    slug: "private-label",
+    division: "garment",
+    icon: ScissorsIcon,
+    code: "OEM-01",
+    title: "Private label and OEM",
+    summary:
+      "Confidential production under your marks across every division, with branded labelling, packaging and retail presentation.",
+    points: [
+      "Brand book adherence",
+      "Retail-ready and e-commerce packing",
+      "Tech pack development support",
+      "NDA-governed segregated production",
+    ],
+    specs: [
+      { key: "Confidentiality", value: "Mutual NDA, standard" },
+      { key: "Tooling", value: "Client-owned, held by us" },
+      { key: "Exclusivity", value: "Available by category" },
     ],
   },
 ];
 
-/** Home page shows a focused preview of representative services. */
+/** Home page shows a focused preview of representative capabilities. */
 export const featuredServiceSlugs = [
-  "leather-goods",
-  "footwear",
   "apparel",
-  "textiles",
+  "leather-goods",
+  "export-logistics",
+  "knitwear",
 ];
+
+/** Human labels for the three divisions, used to group the schedule. */
+export const divisionLabels: Record<Division, string> = {
+  garment: "Garment division",
+  leather: "Leather division",
+  trade: "Import & export division",
+};
 
 export type ProductCategory = {
   icon: Icon;
+  code: string;
   title: string;
   blurb: string;
+  detail: string;
+  /** Photography, where we hold it. */
   image?: string;
+  /** Otherwise the category is drawn as a dimensioned technical plate. */
+  plate?: PlateKey;
 };
 
-/** What we make — textiles & leather product categories. */
+/** Product portfolio — what the floors actually produce. */
 export const productCategories: ProductCategory[] = [
   {
-    icon: BagIcon,
-    title: "Leather Goods",
-    blurb: "Bags, wallets, belts, and small leather accessories in full-grain leather.",
-    image: "/photos/bags.jpg",
-  },
-  {
-    icon: ShoeIcon,
-    title: "Footwear",
-    blurb: "Leather shoes, boots, and sandals on quality lasted construction.",
-    image: "/photos/footwear.jpg",
+    icon: HangerIcon,
+    code: "P-01",
+    title: "Apparel and shirting",
+    blurb: "Woven cut-and-sew — shirting, trousers, dresses and tailoring.",
+    detail: "Full package or CMT · MOQ 200 units",
+    image: "/photos/shirt.jpg",
   },
   {
     icon: SpoolIcon,
-    title: "Woven & Knit Textiles",
-    blurb: "Fabrics produced to your weight, weave, and finish — dyed and printed in-house.",
-    image: "/photos/textile-mill.jpg",
-  },
-  {
-    icon: HangerIcon,
-    title: "Apparel & Garments",
-    blurb: "Cut-and-sew outerwear and everyday apparel across woven and knit fabric.",
+    code: "P-02",
+    title: "Knitwear and jersey",
+    blurb: "Jersey basics, fine-gauge knitwear, fleece and heavyweight sweats.",
+    detail: "3–14 gauge · MOQ 250 units",
+    image: "/photos/knitwear.jpg",
   },
   {
     icon: ShirtIcon,
-    title: "Workwear & Uniforms",
-    blurb: "Durable workwear and branded uniforms built for daily wear and washing.",
+    code: "P-03",
+    title: "Outerwear",
+    blurb: "Technical and insulated outerwear, seam-sealed and taped.",
+    detail: "RDS-certified fill · MOQ 300 units",
+    image: "/photos/outerwear.jpg",
   },
   {
-    icon: SofaIcon,
-    title: "Home & Upholstery Textiles",
-    blurb: "Home linens, throws, and upholstery-grade leather and fabric.",
+    icon: LayersIcon,
+    code: "P-04",
+    title: "Denim and casual",
+    blurb: "Denim bottoms and casualwear with garment wash and finishing.",
+    detail: "Laser and enzyme finish · MOQ 300 units",
+    image: "/photos/apparel-denim.jpg",
   },
   {
-    icon: LeafIcon,
-    title: "Finished Leather & Hides",
-    blurb: "Responsibly tanned finished leather and hides, cut and graded to order.",
+    icon: ShirtIcon,
+    code: "P-05",
+    title: "Workwear and uniform",
+    blurb: "Programme wear built for repeat ordering and industrial laundering.",
+    detail: "ISO 15797 wash-tested · MOQ 500 units",
+    image: "/photos/workwear.jpg",
+  },
+  {
+    icon: HangerIcon,
+    code: "P-06",
+    title: "Tailoring and formalwear",
+    blurb: "Structured jackets, suiting and formal separates.",
+    detail: "Fused and half-canvas · MOQ 150 units",
+    image: "/photos/tailoring.jpg",
   },
   {
     icon: BagIcon,
-    title: "Accessories & Trims",
-    blurb: "Straps, gloves, hardware, and trims to complete any collection.",
+    code: "P-07",
+    title: "Leather goods",
+    blurb: "Bags, luggage, wallets, belts and small leather accessories.",
+    detail: "Full-grain and top-grain · MOQ 150 units",
+    image: "/photos/leather-handbags.jpg",
   },
-];
-
-/** Manufacturing process — the "how we make it" showcase. */
-export type Step = { icon: Icon; step: string; title: string; blurb: string };
-export const manufacturingProcess: Step[] = [
   {
-    icon: SearchIcon,
-    step: "01",
-    title: "Design & Sample",
-    blurb: "We turn your tech pack or sketch into a production-ready sample and confirm every detail.",
+    icon: ShoeIcon,
+    code: "P-08",
+    title: "Footwear",
+    blurb: "Lasted shoes, boots and sandals across three constructions.",
+    detail: "Cemented, welted, vulcanised · MOQ 300 pairs",
+    image: "/photos/leather-boots.jpg",
+  },
+  {
+    icon: SpoolIcon,
+    code: "P-09",
+    title: "Woven and knit fabric",
+    blurb: "Fabric to nominated weight, construction and colour.",
+    detail: "Dyed and finished in-house · MOQ 500 m",
+    image: "/photos/textile-mill.jpg",
+  },
+  {
+    icon: SofaIcon,
+    code: "P-10",
+    title: "Home and upholstery",
+    blurb: "Linens, throws and upholstery-grade leather and fabric.",
+    detail: "Martindale-rated to 40,000 rubs · MOQ 300 units",
+    image: "/photos/upholstery.jpg",
   },
   {
     icon: LeafIcon,
+    code: "P-11",
+    title: "Finished leather and hides",
+    blurb: "Tanned, finished and graded leather supplied by the hide or panel.",
+    detail: "LWG Gold tanneries · MOQ 200 sq ft",
+    plate: "hide",
+  },
+  {
+    icon: LayersIcon,
+    code: "P-12",
+    title: "Components and trims",
+    blurb: "Straps, hardware, labels and branded trim components.",
+    detail: "Nickel-free tested · MOQ by component",
+    image: "/photos/leather-components.jpg",
+  },
+];
+
+/** Production workflow — the contractual sequence, with owners and durations. */
+export type Step = {
+  icon: Icon;
+  step: string;
+  title: string;
+  blurb: string;
+  duration: string;
+  owner: string;
+};
+
+export const manufacturingProcess: Step[] = [
+  {
+    icon: ClipboardIcon,
+    step: "01",
+    title: "Specification and costing",
+    blurb:
+      "We review the tech pack, resolve open construction questions and return a costed bill of materials with a firm production window.",
+    duration: "3–5 days",
+    owner: "Client services",
+  },
+  {
+    icon: SearchIcon,
     step: "02",
-    title: "Source Materials",
-    blurb: "We select and test leather, fabric, and trims — from our stock or vetted partner mills.",
+    title: "Material qualification",
+    blurb:
+      "Leather, fabric and trim are selected and physically tested — or your nominated supplier is audited and approved before any order is placed.",
+    duration: "5–10 days",
+    owner: "Sourcing · QA",
   },
   {
     icon: ScissorsIcon,
     step: "03",
-    title: "Cut & Make",
-    blurb: "Skilled cutters and machinists produce your run on our own leather and textile floors.",
+    title: "Sampling and approval",
+    blurb:
+      "Proto, fit and pre-production samples are produced and signed off in sequence. Bulk does not start until the PP sample is approved in writing.",
+    duration: "10–15 days",
+    owner: "Product development",
+  },
+  {
+    icon: CogIcon,
+    step: "04",
+    title: "Bulk production",
+    blurb:
+      "The run is scheduled against a named line with weekly output reporting and in-line inspection at defined checkpoints.",
+    duration: "25–45 days",
+    owner: "Production",
   },
   {
     icon: ShieldIcon,
-    step: "04",
-    title: "Quality Control",
-    blurb: "In-line and final AQL inspection with full material traceability before anything ships.",
+    step: "05",
+    title: "Final inspection",
+    blurb:
+      "Final random inspection to AQL 2.5. Third-party inspectors may attend unannounced. Non-conforming lots are reworked, not shipped.",
+    duration: "2–4 days",
+    owner: "Quality assurance",
   },
   {
     icon: ShipIcon,
-    step: "05",
-    title: "Pack & Export",
-    blurb: "Retail-ready packing, export documentation, and freight to your markets worldwide.",
+    step: "06",
+    title: "Export and delivery",
+    blurb:
+      "Packing, export documentation, customs clearance and freight under your elected Incoterm, with tracking issued at departure.",
+    duration: "Per Incoterm",
+    owner: "Trade compliance",
   },
 ];
 
 export type Value = { icon: Icon; title: string; blurb: string };
 
-/** "Why Meridian" value props. */
-export const whyMeridian: Value[] = [
+/** Differentiators, argued with evidence rather than adjectives. */
+export const whyOstenmark: Value[] = [
   {
     icon: CogIcon,
-    title: "We own the factory floor",
+    title: "Owned production, not brokerage",
     blurb:
-      "Meridian is a manufacturer first — leather and textile production is done in-house, so we control craft and quality from cutting table to carton.",
+      "Six sites and 49 lines are Ostenmark-owned and Ostenmark-staffed across garment and leather production, and the trading arm is ours too. When a specification is missed, the accountable party is a company you hold a contract with — not an agent's undisclosed subcontractor.",
   },
   {
-    icon: LeafIcon,
-    title: "Material expertise",
+    icon: ShieldIcon,
+    title: "Auditable at any time",
     blurb:
-      "Decades working full-grain leather and technical textiles means we get weight, hand-feel, and durability right the first time.",
+      "ISO 9001 and 14001 certified, SMETA 4-Pillar audited annually, with lot-level traceability retained for seven years. Unannounced client and third-party audits are permitted by contract.",
   },
   {
     icon: RouteIcon,
-    title: "One partner, end to end",
+    title: "Single contractual counterparty",
     blurb:
-      "Make, source, or ship — it's all under one roof, with no handoffs and no finger-pointing between vendors.",
+      "Materials, conversion, inspection, documentation and freight sit under one purchase order and one liable entity, whether the work runs on our floors or a managed partner's.",
   },
   {
     icon: EyeIcon,
-    title: "Real-time visibility",
+    title: "Reported, not promised",
     blurb:
-      "Live milestones from cutting floor to final delivery, so you always know exactly where your order stands.",
+      "Weekly output against plan, inspection results by lot, and shipment milestones are issued as standard — so schedule risk surfaces early enough to act on.",
   },
 ];
 
-/** Company values. */
+/** Company principles. */
 export const companyValues: Value[] = [
   {
     icon: ShieldIcon,
-    title: "Craftsmanship",
+    title: "Accountability",
     blurb:
-      "Every stitch is a signature. Our makers treat your product like their own — because our name travels with it.",
+      "We hold the liability we ask clients to rely on. No undisclosed subcontracting, and no deflection when a lot fails.",
   },
   {
     icon: RouteIcon,
-    title: "Reliability",
+    title: "Schedule integrity",
     blurb:
-      "Deadlines are commitments. We plan capacity and materials so your drops land on time, run after run.",
+      "Capacity is committed against a named line before a date is confirmed. 97.8% of shipments departed on or before the confirmed ETD in the last twelve months.",
   },
   {
     icon: GlobeIcon,
-    title: "Global mindset",
+    title: "Jurisdictional fluency",
     blurb:
-      "Local material knowledge in every market we serve, connected by one accountable production network.",
+      "Customs, conformity marking and chemical regulation differ by market. We administer those obligations rather than passing them back to the client.",
   },
   {
     icon: LeafIcon,
-    title: "Responsible making",
+    title: "Verified responsibility",
     blurb:
-      "Leather Working Group tanneries, OEKO-TEX textiles, and audited, ethical labor across every floor.",
+      "LWG Gold tanneries, OEKO-TEX and GOTS certified textiles, and audited labour standards — evidenced by certificate, not by claim.",
   },
 ];
 
-/** Trust / quality certifications (leather & textile relevant). */
-export const certifications = [
-  "ISO 9001",
-  "OEKO-TEX",
-  "Leather Working Group",
-  "GOTS",
-  "SEDEX / SMETA",
-  "BSCI",
+/** Quality controls, stated as testable measures. */
+export const qualityControls = [
+  "AQL 2.5 in-line and final random inspection",
+  "Lot-level material traceability, retained 7 years",
+  "Needle and broken-metal detection, 100% of output",
+  "Tensile, rub, seam-slippage and colourfastness testing",
+  "Restricted substance testing against REACH SVHC",
+  "Pre-production sample approval in writing before bulk",
+  "Unannounced third-party audit access by contract",
+  "Non-conformance reporting within 24 hours",
 ];
 
-/** FAQ — proof & objection handling. */
+/** FAQ — the objections a procurement team raises before onboarding a vendor. */
 export const faqs = [
   {
-    q: "What's your minimum order quantity?",
-    a: "It depends on the product — leather goods and footwear typically start around 100–300 units per style, textiles by fabric run. We also take on small-batch and sampling work for new brands scaling up.",
+    q: "What is your minimum order quantity?",
+    a: "150 units per style and colourway for leather goods and apparel, 300 pairs for footwear, and 500 metres per colourway for fabric. Lower quantities are accepted for sampling and for first production runs where a scaling commitment is agreed.",
   },
   {
-    q: "Can you produce under our own private label?",
-    a: "Yes. The majority of our work is private-label and OEM — your brand, labels, packaging, and retail presentation, produced confidentially on our floors.",
+    q: "Who holds liability if a shipment fails inspection?",
+    a: "Ostenmark does. That applies equally to work produced on our own floors and to work placed with a managed partner, because in the managed model we hold the vendor contract rather than introducing you to it. Non-conforming lots are reworked or replaced at our cost.",
   },
   {
-    q: "Do you supply the materials or do we?",
-    a: "Either. We stock full-grain leathers and core fabrics, and we'll source specific materials from our vetted mill and tannery network. You can also nominate your own suppliers.",
+    q: "Can we nominate our own mills and tanneries?",
+    a: "Yes. Under a cut-make-trim arrangement you consign the materials directly. Under full-package production you may nominate suppliers and we will audit and administer them, or we will source against your specification from our qualified network.",
   },
   {
-    q: "How do you handle quality and compliance?",
-    a: "Every run passes in-line and final AQL inspection with full material traceability. Our partners align to OEKO-TEX, Leather Working Group, and social-compliance (SEDEX/BSCI) standards.",
+    q: "What audit access do we get?",
+    a: "Unannounced access to any Ostenmark site during production hours is written into our standard terms, for your staff and for third-party inspection bodies. Current ISO, SMETA, OEKO-TEX, LWG and GOTS certificates are issued on request with the vendor pack.",
   },
   {
-    q: "Can you ship finished goods to our country?",
-    a: "Yes — we handle export documentation, customs, and ocean or air freight door-to-door to more than 120 countries.",
+    q: "Which Incoterms do you trade on?",
+    a: "EXW, FOB, CIF and DDP under Incoterms 2020. We issue export documentation, certificates of origin and EUR.1 movement certificates directly, and we handle destination customs clearance under DDP in the EU, UK and North America.",
   },
   {
-    q: "How long does sampling and production take?",
-    a: "Samples typically take 2–3 weeks; bulk production runs 4–8 weeks depending on volume, materials, and finishing. We confirm a firm timeline with every quote.",
+    q: "How is intellectual property protected?",
+    a: "Production runs under a mutual NDA as standard. Client-owned lasts, dies and tooling are held segregated and returned on request, patterns are not reused across accounts, and category exclusivity is available contractually.",
   },
 ];

@@ -4,136 +4,169 @@ import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import { Stagger, StaggerItem } from "@/components/Stagger";
-import { CountUp } from "@/components/CountUp";
+import { Stat } from "@/components/Stat";
 import { Photo } from "@/components/Photo";
+import { DataTable, SpecTable } from "@/components/SpecTable";
 import { CTABand } from "@/components/CTABand";
+import { SectionNav } from "@/components/SectionNav";
 import { CheckIcon } from "@/components/icons";
-import { manufacturingProcess, certifications } from "@/lib/content";
+import { manufacturingProcess, qualityControls } from "@/lib/content";
+import { credentials, offices } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "How We Make It",
+  title: "Manufacturing",
   description:
-    "Inside Meridian's leather and textile production — design and sampling, material sourcing, cutting and sewing, AQL quality control, and export, all under one roof.",
+    "Ostenmark's production and quality protocol — six workflow stages with named owners, AQL 2.5 inspection, lot-level traceability, capacity by site, and unannounced audit access.",
   alternates: { canonical: "/manufacturing" },
 };
 
 const capacity = [
-  { value: "12M+", label: "Units produced yearly" },
-  { value: "40+", label: "Production lines" },
-  { value: "1,400+", label: "Skilled makers" },
-  { value: "6", label: "Production sites" },
+  { value: "18.6M", label: "Annual unit capacity", note: "FY2025 · all sites" },
+  { value: "49", label: "Production lines", note: "30 garment, 19 other" },
+  { value: "1,960", label: "Direct employees", note: "Production and QA" },
+  { value: "82%", label: "Capacity utilisation", note: "Rolling quarter" },
 ];
 
-const quality = [
-  "AQL 2.5 in-line & final inspection",
-  "Full material traceability",
-  "Metal & needle detection",
-  "Pull, rub & colorfastness testing",
-  "Third-party audit ready",
-  "Pre-shipment sample approval",
+const escalation = [
+  { term: "Non-conformance report", value: "Issued within 24 hours of detection" },
+  { term: "Corrective action plan", value: "Within 3 working days, client-approved" },
+  { term: "Rework or replacement", value: "At Ostenmark cost, schedule protected" },
+  { term: "Root cause review", value: "8D methodology, closed in writing" },
+];
+
+const productionSites = offices.filter((o) => o.lines > 0);
+
+const pageSections = [
+  { id: "workflow", label: "Workflow" },
+  { id: "capacity", label: "Capacity" },
+  { id: "quality", label: "Inspection regime" },
+  { id: "escalation", label: "Non-conformance" },
+  { id: "export", label: "Export" },
+  { id: "audit", label: "Audit access" },
 ];
 
 export default function ManufacturingPage() {
   return (
     <>
       <PageHero
-        eyebrow="How we make it"
-        title="Inside the Meridian floor"
-        lead="We don't broker your production from a distance — we run it. Here's the disciplined path every order takes, from first sample to sealed export carton."
-        image="/photos/hero.jpg"
-        imageAlt="Artisan hand-tooling leather on the Meridian production floor"
+        eyebrow="Manufacturing"
+        title="Production and quality protocol"
+        lead="Ostenmark runs its own floors. This is the sequence every order follows, the inspection regime applied to it, and what happens contractually when a lot does not conform."
+        facts={[
+          { value: "AQL 2.5", label: "Inspection standard" },
+          { value: "99.4%", label: "Pass rate, 12 mo" },
+          { value: "97.8%", label: "On-time shipment" },
+          { value: "7 yr", label: "Traceability held" },
+        ]}
+        image="/photos/textile-mill.jpg"
+        imageAlt="Fabric production line at an Ostenmark textile site"
       />
 
-      {/* Process */}
-      <Section background="soft">
+      <SectionNav sections={pageSections} />
+
+      {/* Workflow */}
+      <Section id="workflow" background="default" divider={false}>
         <SectionHeading
-          eyebrow="The process"
-          title="Five gates, fully managed"
-          lead="Consistent, transparent, and traceable — you always know which stage your order is at and what happens next."
+          eyebrow="Workflow"
+          index="§ 01"
+          title="Six stages, each with a named owner"
+          lead="Durations are working days and are confirmed per programme at quotation. Bulk production does not begin until the pre-production sample is approved in writing."
         />
-        <Stagger className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
-          {manufacturingProcess.map((step) => (
-            <StaggerItem key={step.step} className="h-full">
-              <div className="card flex h-full flex-col p-7">
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gold-tint text-gold">
-                    <step.icon width={24} height={24} />
-                  </span>
-                  <span className="tnum font-display text-3xl text-border-strong">
-                    {step.step}
-                  </span>
+        <Reveal delay={80} className="mt-14">
+          <ol className="border-t border-line">
+            {manufacturingProcess.map((step) => (
+              <li
+                key={step.step}
+                className="grid gap-x-8 gap-y-3 border-b border-line py-7 sm:grid-cols-[3rem_3rem_1fr_10rem]"
+              >
+                <span className="label-mono pt-1.5 text-accent">{step.step}</span>
+                <span className="hidden pt-0.5 text-accent sm:block">
+                  <step.icon width={22} height={22} />
+                </span>
+                <div>
+                  <h2 className="text-base font-medium tracking-[-0.015em] text-ink">
+                    {step.title}
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
+                    {step.blurb}
+                  </p>
                 </div>
-                <h3 className="mt-6 text-lg text-ink">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{step.blurb}</p>
-              </div>
-            </StaggerItem>
-          ))}
-        </Stagger>
+                <div className="sm:text-right">
+                  <p className="font-mono text-xs text-ink">{step.duration}</p>
+                  <p className="mt-1 text-xs text-ink-faint">{step.owner}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Reveal>
       </Section>
 
       {/* Capacity */}
-      <Section background="default">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <Photo
-              src="/photos/textile-mill.jpg"
-              alt="Fabric being produced on a Meridian textile line"
-              duotone
-              sizes="(max-width: 1024px) 90vw, 45vw"
-              className="aspect-[4/3] rounded-brand"
-            />
-          </Reveal>
-          <div>
+      <Section id="capacity" background="subtle">
+        {/* [&>*]:min-w-0 — grid children default to min-content width, which
+            would let the wide capacity table stretch the column. */}
+        <div className="grid items-start gap-14 [&>*]:min-w-0 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-6">
             <SectionHeading
               eyebrow="Capacity"
-              title="Scale without losing the craft"
-              lead="From 100-unit sampling runs to bulk programs, our floors flex to your volume — without handing your product to a stranger."
+              index="§ 02"
+              title="Capacity by site"
+              lead="Allocation is committed against a named line before a delivery date is confirmed. Utilisation is reported so schedule risk surfaces before it becomes a delay."
             />
-            <Reveal delay={120} className="mt-10">
-              <dl className="grid grid-cols-2 gap-x-6 gap-y-10">
+            <Reveal delay={80}>
+              <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10">
                 {capacity.map((s) => (
-                  <div key={s.label}>
-                    <dt className="sr-only">{s.label}</dt>
-                    <dd>
-                      <CountUp value={s.value} className="display block text-4xl text-ink sm:text-5xl" />
-                      <span className="mt-2 block text-sm font-medium text-muted">{s.label}</span>
-                    </dd>
-                  </div>
+                  <Stat key={s.label} value={s.value} label={s.label} note={s.note} />
                 ))}
               </dl>
             </Reveal>
           </div>
+
+          <Reveal delay={100} className="lg:col-span-6">
+            <DataTable
+              caption="Production capacity by site"
+              columns={["Site", "Output", "Lines", "Headcount"]}
+              rows={productionSites.map((o) => [
+                `${o.city}, ${o.country}`,
+                o.role,
+                String(o.lines),
+                String(o.headcount),
+              ])}
+            />
+            <Photo
+              src="/photos/leather-shoes.jpg"
+              alt="Finished derby shoes from the leather division"
+              sizes="(max-width: 1024px) 90vw, 45vw"
+              className="mt-10 aspect-16/9 rounded-brand border border-line"
+            />
+            <p className="label-mono mt-3 text-ink-faint">
+              Fig. 02 — Footwear finishing, Porto
+            </p>
+          </Reveal>
         </div>
       </Section>
 
       {/* Quality */}
-      <Section background="sand">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
+      <Section id="quality" background="default">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
             <SectionHeading
-              eyebrow="Quality & compliance"
-              title="Nothing ships until it passes"
-              lead="Quality isn't a final step — it's a gate at every stage, backed by traceability and independent standards."
+              eyebrow="Quality"
+              index="§ 03"
+              title="Inspection regime"
+              lead="Inspection is a gate at each stage, governed by ISO 2859-1 at AQL 2.5. Non-conforming lots are reworked or replaced — they are not shipped and discounted."
             />
-            <Reveal delay={160} className="mt-8">
-              <ul className="flex flex-wrap gap-x-8 gap-y-3">
-                {certifications.map((c) => (
-                  <li
-                    key={c}
-                    className="text-sm font-semibold uppercase tracking-[0.12em] text-ink-soft/70"
-                  >
-                    {c}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
           </div>
-          <Stagger className="grid gap-3 sm:grid-cols-2 lg:col-span-7">
-            {quality.map((q) => (
-              <StaggerItem key={q}>
-                <div className="flex items-start gap-3 rounded-brand border border-border bg-bg p-5">
-                  <CheckIcon width={18} height={18} className="mt-0.5 shrink-0 text-gold" />
-                  <span className="text-sm font-medium text-ink-soft">{q}</span>
+          <Stagger className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:col-span-8">
+            {qualityControls.map((q) => (
+              <StaggerItem key={q} className="bg-bg">
+                <div className="flex h-full items-start gap-3 p-6">
+                  <CheckIcon
+                    width={16}
+                    height={16}
+                    className="mt-0.5 shrink-0 text-accent"
+                  />
+                  <span className="text-sm leading-relaxed text-ink-body">{q}</span>
                 </div>
               </StaggerItem>
             ))}
@@ -141,11 +174,107 @@ export default function ManufacturingPage() {
         </div>
       </Section>
 
+      {/* Escalation */}
+      <Section id="escalation" background="deep">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-5">
+            <SectionHeading
+              eyebrow="Non-conformance"
+              index="§ 04"
+              onDeep
+              title="What happens when a lot fails"
+              lead="The measure of a manufacturer is not the pass rate. It is the documented, time-bound sequence that runs when the pass rate is missed."
+            />
+          </div>
+          <Reveal delay={80} className="lg:col-span-7">
+            <SpecTable onDeep rows={escalation} />
+            <p className="mt-7 max-w-xl text-sm leading-relaxed text-on-deep-muted">
+              Ostenmark carries the liability in every engagement model, including
+              work placed with managed third-party vendors — because in that
+              model we hold the vendor contract rather than introducing you to it.
+            </p>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* Export */}
+      <Section id="export" background="default">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-5">
+            <SectionHeading
+              eyebrow="Export"
+              index="§ 05"
+              title="Out of the factory, into the market"
+              lead="Finished goods are packed, documented and shipped by our own trade division — the same entity that made them, so the paperwork matches the carton."
+            />
+            <Reveal delay={120} className="mt-9">
+              <SpecTable
+                dense
+                rows={[
+                  { term: "Incoterms", value: "EXW · FOB · CIF · DDP" },
+                  { term: "Modes", value: "FCL, LCL, air and rail" },
+                  { term: "Volume", value: "2,400 TEU / year" },
+                  { term: "Documentation", value: "Issued by Ostenmark" },
+                ]}
+              />
+            </Reveal>
+          </div>
+          <Reveal delay={80} className="lg:col-span-7">
+            <div className="grid grid-cols-2 gap-4">
+              <Photo
+                src="/photos/trade-packing.jpg"
+                alt="Cartons staged for despatch after final inspection"
+                sizes="(max-width: 1024px) 45vw, 28vw"
+                className="aspect-4/3 rounded-brand border border-line"
+              />
+              <Photo
+                src="/photos/trade-warehouse.jpg"
+                alt="Distribution warehouse racking"
+                sizes="(max-width: 1024px) 45vw, 28vw"
+                className="aspect-4/3 rounded-brand border border-line"
+              />
+              <Photo
+                src="/photos/trade-containers.jpg"
+                alt="Container terminal handling export volume"
+                sizes="(max-width: 1024px) 45vw, 28vw"
+                className="aspect-4/3 rounded-brand border border-line"
+              />
+              <Photo
+                src="/photos/trade-vessel.jpg"
+                alt="Loaded container vessel under way"
+                sizes="(max-width: 1024px) 45vw, 28vw"
+                className="aspect-4/3 rounded-brand border border-line"
+              />
+            </div>
+            <p className="label-mono mt-3 text-ink-faint">
+              Fig. 03 — Packing, consolidation and despatch
+            </p>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* Certification */}
+      <Section id="audit" background="subtle">
+        <SectionHeading
+          eyebrow="Audit"
+          index="§ 06"
+          title="Certification and audit access"
+          lead="Unannounced access to any Ostenmark site during production hours is written into our standard terms, for your staff and for third-party inspection bodies."
+        />
+        <Reveal delay={80} className="mt-12">
+          <DataTable
+            caption="Ostenmark certification register"
+            columns={["Standard", "Scope", "Certification body", "Valid to"]}
+            rows={credentials.map((c) => [c.code, c.scope, c.body, c.valid])}
+          />
+        </Reveal>
+      </Section>
+
       <CTABand
-        title="Ready to see a sample?"
-        lead="Send your design and we'll build a production-ready sample — the fastest way to judge our craft for yourself."
+        title="Request a sample run"
+        lead="A pre-production sample is the fastest way to assess construction quality against your own standard. Send the specification and we will schedule it."
         primaryLabel="Request a sample"
-        secondaryLabel="What we make"
+        secondaryLabel="Product portfolio"
         secondaryHref="/industries"
       />
     </>

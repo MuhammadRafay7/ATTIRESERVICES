@@ -1,18 +1,20 @@
 import { Button } from "./Button";
 import { Reveal } from "./Reveal";
-import { Magnetic } from "./Magnetic";
 import { ArrowIcon } from "./icons";
+import { site } from "@/lib/site";
 
 /**
- * Light, atmospheric call-to-action band reused at the foot of most pages.
+ * Closing action band. Dark, left-aligned and paired with the response
+ * commitment — a stated SLA converts better with corporate buyers than
+ * an exhortation does.
  */
 export function CTABand({
-  title = "Let's make your next collection",
-  lead = "Send us your tech pack, sketch, or sample. We'll scope the production run and come back with a tailored quote within one business day.",
-  primaryLabel = "Start a production run",
+  title = "Open a production enquiry",
+  lead = "Send a tech pack, specification or reference sample. We return a costed bill of materials, a firm production window and applicable Incoterms.",
+  primaryLabel = "Request a quotation",
   primaryHref = "/contact",
-  secondaryLabel = "See how we make it",
-  secondaryHref = "/manufacturing",
+  secondaryLabel = "Review capabilities",
+  secondaryHref = "/services",
 }: {
   title?: string;
   lead?: string;
@@ -22,34 +24,50 @@ export function CTABand({
   secondaryHref?: string;
 }) {
   return (
-    <section className="relative overflow-hidden bg-bg-sand">
-      <div className="mesh opacity-90" />
-      <div className="grid-lines pointer-events-none absolute inset-0" />
-      <div className="container-x relative py-24 sm:py-32">
-        <div className="mx-auto max-w-3xl text-center">
-          <Reveal>
-            <p className="eyebrow eyebrow--center mx-auto justify-center">
-              Get started
-            </p>
-            <h2 className="display display-lg mt-6 text-ink">{title}</h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted">
+    <section className="relative overflow-hidden border-t border-line bg-deep text-on-deep">
+      <div className="grid-lines grid-lines--deep pointer-events-none absolute inset-0" />
+      <div className="container-x relative py-20 lg:py-24">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <Reveal className="lg:col-span-7">
+            <p className="eyebrow eyebrow--on-deep">Next step</p>
+            <h2 className="display display-lg mt-5 text-on-deep">{title}</h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-on-deep-muted">
               {lead}
             </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Magnetic>
-                <Button href={primaryHref} variant="primary">
-                  {primaryLabel}
-                  <ArrowIcon
-                    width={18}
-                    height={18}
-                    className="transition-transform duration-300 group-hover/btn:translate-x-1"
-                  />
-                </Button>
-              </Magnetic>
-              <Button href={secondaryHref} variant="outline">
+          </Reveal>
+
+          <Reveal delay={80} className="lg:col-span-5">
+            <div className="flex flex-col gap-4 sm:flex-row lg:justify-end">
+              <Button href={primaryHref} variant="inverse">
+                {primaryLabel}
+                <ArrowIcon
+                  width={16}
+                  height={16}
+                  className="transition-transform duration-200 group-hover/btn:translate-x-0.5"
+                />
+              </Button>
+              <Button href={secondaryHref} variant="on-deep">
                 {secondaryLabel}
               </Button>
             </div>
+            <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-6 lg:justify-end">
+              <div>
+                <dt className="label-mono text-on-deep-muted">Response time</dt>
+                <dd className="mt-1.5 text-sm text-on-deep">{site.responseSla}</dd>
+              </div>
+              <div>
+                <dt className="label-mono text-on-deep-muted">Enquiries</dt>
+                <dd className="mt-1.5 text-sm break-all text-on-deep">
+                  {site.contact.email}
+                </dd>
+              </div>
+              {/* phone — commented out
+              <div>
+                <dt className="label-mono text-on-deep-muted">Direct line</dt>
+                <dd className="mt-1.5 text-sm text-on-deep">{site.contact.phone}</dd>
+              </div>
+              */}
+            </dl>
           </Reveal>
         </div>
       </div>

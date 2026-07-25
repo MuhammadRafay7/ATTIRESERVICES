@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
-import { site } from "@/lib/site";
+import { site, stats } from "@/lib/site";
 
-export const alt = `${site.name} — International Import & Export`;
+export const alt = `${site.name} — Contract Manufacturing & Export`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -15,69 +15,111 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "72px",
-          background: "linear-gradient(135deg, #081521 0%, #0d2233 100%)",
-          color: "#e9edf1",
-          fontFamily: "Georgia, serif",
+          padding: "64px",
+          background: "#0a1a2b",
+          color: "#e8edf2",
+          fontFamily: "sans-serif",
         }}
       >
-        {/* Wordmark */}
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+        {/* Masthead */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "1px solid rgba(232,237,242,0.16)",
+            paddingBottom: 28,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                border: "2px solid #e8edf2",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ width: 10, height: 10, background: "#a9873f", display: "flex" }} />
+            </div>
+            <div style={{ fontSize: 26, letterSpacing: 7, fontWeight: 600 }}>
+              {site.wordmark}
+            </div>
+          </div>
           <div
             style={{
-              width: 56,
-              height: 56,
-              borderRadius: 999,
-              border: "3px solid #b8863b",
-              display: "flex",
-            }}
-          />
-          <div
-            style={{
-              fontSize: 30,
-              letterSpacing: 8,
-              color: "#e9edf1",
+              fontSize: 17,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              color: "#93a4b3",
             }}
           >
-            {site.wordmark}
+            {`Est. ${site.founded}`}
           </div>
         </div>
 
-        {/* Headline */}
+        {/* Statement */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              fontSize: 26,
-              letterSpacing: 6,
+              fontSize: 18,
+              letterSpacing: 4,
               textTransform: "uppercase",
-              color: "#caa14e",
-              fontFamily: "sans-serif",
+              color: "#a9873f",
             }}
           >
-            Leather &amp; Textile Manufacturing
+            {site.descriptor}
           </div>
           <div
             style={{
-              marginTop: 24,
-              fontSize: 72,
-              lineHeight: 1.05,
-              maxWidth: 900,
+              marginTop: 22,
+              fontSize: 62,
+              lineHeight: 1.08,
+              letterSpacing: -1.6,
+              maxWidth: 940,
               color: "#ffffff",
+              fontWeight: 500,
             }}
           >
-            We craft leather &amp; textile goods.
+            Leather goods, footwear, apparel and textiles — produced on owned
+            floors.
           </div>
         </div>
 
-        {/* Footer line */}
+        {/* Figures */}
         <div
           style={{
-            fontSize: 24,
-            color: "#9fb2c0",
-            fontFamily: "sans-serif",
+            display: "flex",
+            borderTop: "1px solid rgba(232,237,242,0.16)",
+            paddingTop: 26,
           }}
         >
-          Leather Goods · Footwear · Apparel · Textiles · 120+ countries
+          {stats.map((s) => (
+            <div
+              key={s.label}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 1,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 14,
+                  letterSpacing: 2,
+                  textTransform: "uppercase",
+                  color: "#93a4b3",
+                }}
+              >
+                {s.label}
+              </div>
+              <div style={{ marginTop: 10, fontSize: 34, color: "#ffffff" }}>
+                {s.value}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     ),

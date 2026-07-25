@@ -3,10 +3,13 @@
 import { motion, useReducedMotion } from "motion/react";
 
 /* ------------------------------------------------------------------
-   Deterministic dotted world map + animated shipping lanes.
+   Deterministic dotted world map + export lanes between Ostenmark sites.
    Coordinates use a rough equirectangular projection on a 1000×500
-   canvas so hub placement reads as a real world map. Generated with a
-   fixed seed → identical output on server and client (no hydration drift).
+   canvas so placement reads as a real world map. Generated with a fixed
+   seed → identical output on server and client (no hydration drift).
+
+   Motion is limited to a single draw-in on view. Nothing loops: an
+   endlessly animating map reads as a screensaver, not as infrastructure.
 ------------------------------------------------------------------- */
 
 const W = 1000;
@@ -23,7 +26,7 @@ function makeRng(seed: number) {
 
 type Ellipse = { cx: number; cy: number; rx: number; ry: number; n: number };
 
-// Loose continent blobs (not exact — an editorial impression of landmasses).
+// Loose continent blobs — an impression of landmass, not a survey.
 const landmasses: Ellipse[] = [
   { cx: 235, cy: 150, rx: 92, ry: 62, n: 46 }, // North America
   { cx: 250, cy: 108, rx: 85, ry: 34, n: 26 }, // Canada / Arctic
@@ -56,46 +59,44 @@ const dots: Array<[number, number]> = (() => {
   return out;
 })();
 
-type Hub = { name: string; x: number; y: number };
+type Hub = { name: string; x: number; y: number; production: boolean };
 
-// Meridian's six regional hubs, positioned by lon/lat.
+// Ostenmark's operating sites, positioned by lon/lat.
 const hubs: Hub[] = [
-  { name: "New York", x: 294, y: 137 },
-  { name: "Rotterdam", x: 512, y: 106 },
-  { name: "Dubai", x: 654, y: 180 },
-  { name: "Singapore", x: 788, y: 246 },
-  { name: "Shanghai", x: 838, y: 163 },
-  { name: "São Paulo", x: 371, y: 315 },
+  { name: "New York", x: 294, y: 137, production: false },
+  { name: "Porto", x: 476, y: 136, production: true },
+  { name: "Rotterdam", x: 512, y: 106, production: false },
+  { name: "İzmir", x: 575, y: 143, production: true },
+  { name: "Chennai", x: 723, y: 214, production: true },
+  { name: "Ho Chi Minh City", x: 796, y: 220, production: true },
 ];
 
 const H_NY = 0;
-const H_ROT = 1;
-const H_DXB = 2;
-const H_SIN = 3;
-const H_SHA = 4;
-const H_SAO = 5;
+const H_POR = 1;
+const H_ROT = 2;
+const H_IZM = 3;
+const H_CHE = 4;
+const H_HCM = 5;
 
-// Arc between two hubs, lifted vertically for a great-circle feel.
+// Arc between two sites, lifted vertically for a great-circle feel.
 function arc(a: Hub, b: Hub, lift = 0.2) {
   const mx = (a.x + b.x) / 2;
   const my = (a.y + b.y) / 2;
   const dist = Math.hypot(b.x - a.x, b.y - a.y);
-  const cx = mx;
-  const cy = my - dist * lift;
-  return `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`;
+  return `M ${a.x} ${a.y} Q ${mx} ${my - dist * lift} ${b.x} ${b.y}`;
 }
 
-const lanes: Array<{ d: string; delay: number }> = [
-  { d: arc(hubs[H_NY], hubs[H_ROT], 0.24), delay: 0 },
-  { d: arc(hubs[H_ROT], hubs[H_DXB], 0.28), delay: 0.4 },
-  { d: arc(hubs[H_DXB], hubs[H_SIN], 0.26), delay: 0.8 },
-  { d: arc(hubs[H_SIN], hubs[H_SHA], 0.34), delay: 1.2 },
-  { d: arc(hubs[H_NY], hubs[H_SAO], 0.2), delay: 0.6 },
-  { d: arc(hubs[H_ROT], hubs[H_SHA], 0.16), delay: 1.0 },
-  { d: arc(hubs[H_DXB], hubs[H_SHA], 0.3), delay: 1.6 },
+const lanes: string[] = [
+  arc(hubs[H_POR], hubs[H_ROT], 0.3),
+  arc(hubs[H_IZM], hubs[H_ROT], 0.28),
+  arc(hubs[H_CHE], hubs[H_ROT], 0.22),
+  arc(hubs[H_HCM], hubs[H_ROT], 0.2),
+  arc(hubs[H_ROT], hubs[H_NY], 0.24),
+  arc(hubs[H_POR], hubs[H_NY], 0.22),
+  arc(hubs[H_HCM], hubs[H_NY], 0.14),
 ];
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.32, 0.72, 0, 1] as const;
 
 export function RouteMap({
   className = "",
@@ -111,87 +112,54 @@ export function RouteMap({
       viewBox={`0 0 ${W} ${H}`}
       fill="none"
       role="img"
-      aria-label="Meridian global shipping network across six continents"
+      aria-label="Ostenmark production sites and export lanes across Europe, South Asia, Southeast Asia and North America"
       className={className}
     >
       {/* Continent dot field */}
       <g fill="currentColor">
         {dots.map(([cx, cy], i) => (
-          <circle key={i} cx={cx} cy={cy} r={2.2} opacity={0.5} />
+          <circle key={i} cx={cx} cy={cy} r={2} opacity={0.45} />
         ))}
       </g>
 
-      {/* Shipping lanes */}
+      {/* Export lanes */}
       <g>
-        {lanes.map((lane, i) => (
-          <g key={i}>
-            {/* base lane draws in on view */}
-            <motion.path
-              d={lane.d}
-              stroke="var(--gold)"
-              strokeWidth={1.2}
-              strokeLinecap="round"
-              opacity={0.32}
-              initial={reduce ? undefined : { pathLength: 0 }}
-              whileInView={reduce ? undefined : { pathLength: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.4, ease: EASE, delay: lane.delay * 0.3 }}
-            />
-            {/* traveling shipment streak */}
-            {!reduce && (
-              <motion.path
-                d={lane.d}
-                pathLength={1}
-                stroke="var(--gold-bright)"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeDasharray="0.05 1"
-                initial={{ strokeDashoffset: 1 }}
-                animate={{ strokeDashoffset: 0 }}
-                transition={{
-                  duration: 3.6,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: lane.delay,
-                }}
-              />
-            )}
-          </g>
+        {lanes.map((d, i) => (
+          <motion.path
+            key={i}
+            d={d}
+            stroke="var(--accent)"
+            strokeWidth={1}
+            strokeLinecap="round"
+            opacity={0.55}
+            initial={reduce ? undefined : { pathLength: 0 }}
+            whileInView={reduce ? undefined : { pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: EASE, delay: i * 0.08 }}
+          />
         ))}
       </g>
 
-      {/* Hub markers */}
+      {/* Site markers — filled squares for production, hollow for commercial */}
       <g>
         {hubs.map((hub) => (
-          <g key={hub.name} className="group">
-            {!reduce && (
-              <motion.circle
-                cx={hub.x}
-                cy={hub.y}
-                r={5}
-                fill="none"
-                stroke="var(--gold-bright)"
-                strokeWidth={1.5}
-                initial={{ scale: 1, opacity: 0.7 }}
-                animate={{ scale: [1, 3.2], opacity: [0.7, 0] }}
-                transition={{
-                  duration: 2.6,
-                  repeat: Infinity,
-                  ease: "easeOut",
-                }}
-                style={{ transformOrigin: `${hub.x}px ${hub.y}px` }}
-              />
-            )}
-            <circle cx={hub.x} cy={hub.y} r={4} fill="var(--gold-bright)" />
-            <circle cx={hub.x} cy={hub.y} r={8} fill="var(--gold-bright)" opacity={0.16} />
+          <g key={hub.name}>
+            <rect
+              x={hub.x - 3.5}
+              y={hub.y - 3.5}
+              width={7}
+              height={7}
+              fill={hub.production ? "var(--accent)" : "none"}
+              stroke="var(--accent)"
+              strokeWidth={1.5}
+            />
             {showLabels && (
               <text
                 x={hub.x + 12}
                 y={hub.y + 4}
-                fontSize={15}
-                fill="var(--ink)"
-                opacity={0.7}
-                className="font-sans"
+                fontSize={14}
+                fill="currentColor"
+                opacity={0.75}
               >
                 {hub.name}
               </text>
