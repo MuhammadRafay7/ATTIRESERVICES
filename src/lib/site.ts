@@ -13,7 +13,7 @@ export const site = {
   shortTagline: "Owned production. Audited supply chain. Global export.",
   description:
     "Ostenmark operates three divisions: garment manufacturing, leather manufacturing, and import & export. Six owned sites, 49 production lines, 18.6M units of annual capacity, and trade into 120+ markets under Incoterms 2020. ISO 9001 and SMETA-audited throughout.",
-  url: "https://ostenmark.example.com",
+  url: "https://www.ostenmark.com",
   founded: 2004,
   legalEntity: "Ostenmark Group B.V.",
   registration: "NL 8234 51 097",
