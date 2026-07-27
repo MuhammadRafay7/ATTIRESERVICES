@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/PageHero";
+import { JsonLd } from "@/components/JsonLd";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
@@ -12,13 +13,15 @@ import { SectionNav } from "@/components/SectionNav";
 import { CheckIcon } from "@/components/icons";
 import { manufacturingProcess, qualityControls } from "@/lib/content";
 import { credentials, offices } from "@/lib/site";
+import { breadcrumbSchema } from "@/lib/schema";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Manufacturing",
   description:
     "Ostenmark's production and quality protocol — six workflow stages with named owners, AQL 2.5 inspection, lot-level traceability, capacity by site, and unannounced audit access.",
-  alternates: { canonical: "/manufacturing" },
-};
+  path: "/manufacturing",
+});
 
 const capacity = [
   { value: "18.6M", label: "Annual unit capacity", note: "FY2025 · all sites" },
@@ -48,6 +51,8 @@ const pageSections = [
 export default function ManufacturingPage() {
   return (
     <>
+      <JsonLd schema={breadcrumbSchema([{ name: "Manufacturing", href: "/manufacturing" }])} />
+
       <PageHero
         eyebrow="Manufacturing"
         title="Production and quality protocol"

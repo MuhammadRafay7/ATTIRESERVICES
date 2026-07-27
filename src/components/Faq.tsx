@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 /**
  * Ruled disclosure list. Rows are numbered and separated by hairlines so
  * the block reads as a reference section, not a widget.
+ *
+ * Every answer stays mounted and is collapsed with a grid-rows transition
+ * rather than being unmounted — closed answers must still be present in the
+ * prerendered HTML for crawlers, which a mount/unmount animation would hide.
  */
 export function Faq({ items }: { items: { q: string; a: string }[] }) {
   const [open, setOpen] = useState<number | null>(0);
-  const reduce = useReducedMotion();
 
   return (
     <div className="border-t border-line">
@@ -47,22 +49,18 @@ export function Faq({ items }: { items: { q: string; a: string }[] }) {
                 </span>
               </button>
             </h3>
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  id={`faq-panel-${i}`}
-                  initial={reduce ? undefined : { height: 0, opacity: 0 }}
-                  animate={reduce ? undefined : { height: "auto", opacity: 1 }}
-                  exit={reduce ? undefined : { height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-                  className="overflow-hidden"
-                >
-                  <p className="max-w-3xl pb-7 pl-11 text-[0.9375rem] leading-relaxed text-ink-muted">
-                    {item.a}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div
+              id={`faq-panel-${i}`}
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none ${
+                isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <p className="max-w-3xl pb-7 pl-11 text-[0.9375rem] leading-relaxed text-ink-muted">
+                  {item.a}
+                </p>
+              </div>
+            </div>
           </div>
         );
       })}

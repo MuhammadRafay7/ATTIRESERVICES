@@ -1,9 +1,10 @@
 import { ImageResponse } from "next/og";
 import { site, stats } from "@/lib/site";
+import { ogImage } from "@/lib/seo";
 
-export const alt = `${site.name} — Contract Manufacturing & Export`;
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const alt = ogImage.alt;
+export const size = { width: ogImage.width, height: ogImage.height };
+export const contentType = ogImage.type;
 
 export default function OpengraphImage() {
   return new ImageResponse(

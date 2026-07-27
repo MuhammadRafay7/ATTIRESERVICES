@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/PageHero";
+import { JsonLd } from "@/components/JsonLd";
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { QuoteForm } from "@/components/QuoteForm";
@@ -9,13 +10,15 @@ import { SpecTable } from "@/components/SpecTable";
 import { MailIcon, PinIcon } from "@/components/icons";
 // phone — commented out: restore PhoneIcon to the import above
 import { site, offices, commercialTerms } from "@/lib/site";
+import { breadcrumbSchema } from "@/lib/schema";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
     "Open a production enquiry with Ostenmark. Acknowledged within one business day with a costed bill of materials, production window and applicable Incoterms.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+});
 
 const routes = [
   {
@@ -31,6 +34,8 @@ const routes = [
 export default function ContactPage() {
   return (
     <>
+      <JsonLd schema={breadcrumbSchema([{ name: "Contact", href: "/contact" }])} />
+
       <PageHero
         eyebrow="Contact"
         title="Open a production enquiry"

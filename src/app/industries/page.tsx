@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
+import { JsonLd } from "@/components/JsonLd";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
@@ -12,13 +13,15 @@ import { CTABand } from "@/components/CTABand";
 import { SectionNav } from "@/components/SectionNav";
 import { ArrowIcon, ShieldIcon } from "@/components/icons";
 import { productCategories } from "@/lib/content";
+import { breadcrumbSchema } from "@/lib/schema";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Product Portfolio",
   description:
     "Ostenmark's product portfolio across leather goods, footwear, apparel, textiles, workwear, upholstery, finished leather and components — with minimum orders and material standards stated.",
-  alternates: { canonical: "/industries" },
-};
+  path: "/industries",
+});
 
 const materialStandards = [
   {
@@ -69,6 +72,8 @@ const pageSections = [
 export default function PortfolioPage() {
   return (
     <>
+      <JsonLd schema={breadcrumbSchema([{ name: "Product Portfolio", href: "/industries" }])} />
+
       <PageHero
         eyebrow="Portfolio"
         title="Product portfolio and material standards"

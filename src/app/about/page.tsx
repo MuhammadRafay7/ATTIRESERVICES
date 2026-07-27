@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/PageHero";
+import { JsonLd } from "@/components/JsonLd";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
@@ -11,13 +12,15 @@ import { SectionNav } from "@/components/SectionNav";
 import { Photo } from "@/components/Photo";
 import { site, offices, stats } from "@/lib/site";
 import { companyValues } from "@/lib/content";
+import { breadcrumbSchema } from "@/lib/schema";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Company",
   description:
     "Ostenmark Group B.V. — founded 2004, six owned sites across Europe, South Asia, Southeast Asia and North America, 1,960 employees, governed by ISO 9001 and SMETA audit.",
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+});
 
 const corporateRecord = [
   { term: "Legal entity", value: site.legalEntity },
@@ -75,6 +78,8 @@ const pageSections = [
 export default function CompanyPage() {
   return (
     <>
+      <JsonLd schema={breadcrumbSchema([{ name: "Company", href: "/about" }])} />
+
       <PageHero
         eyebrow="Company"
         title="Corporate record"

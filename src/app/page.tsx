@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/Button";
+import { JsonLd } from "@/components/JsonLd";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
@@ -24,6 +26,12 @@ import {
   manufacturingProcess,
   faqs,
 } from "@/lib/content";
+import { faqSchema } from "@/lib/schema";
+import { pageMetadata } from "@/lib/seo";
+
+// Title and description are inherited from the root layout; the homepage only
+// needs its own canonical and og:url, which it was previously missing.
+export const metadata: Metadata = pageMetadata({ path: "/" });
 
 const pageSections = [
   { id: "summary", label: "Summary" },
@@ -40,6 +48,8 @@ const pageSections = [
 export default function Home() {
   return (
     <>
+      <JsonLd schema={faqSchema(faqs)} />
+
       {/* 01 — Masthead */}
       <section className="relative overflow-hidden border-b border-line bg-bg-subtle">
         <div className="grid-lines pointer-events-none absolute inset-0 opacity-70" />

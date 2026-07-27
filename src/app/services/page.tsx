@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/PageHero";
+import { JsonLd } from "@/components/JsonLd";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
@@ -12,13 +13,15 @@ import { CheckIcon } from "@/components/icons";
 import { services, pillars, divisions, divisionLabels } from "@/lib/content";
 import type { Division } from "@/lib/content";
 import { commercialTerms } from "@/lib/site";
+import { breadcrumbSchema } from "@/lib/schema";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Capabilities",
   description:
     "Ostenmark capability schedule across three divisions — garment manufacturing, leather manufacturing, and import & export — with stated minimum orders, lead times and producing sites.",
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+});
 
 /** Three frames per division, so the schedule shows as well as tells. */
 const divisionGallery: Record<Division, { src: string; alt: string }[]> = {
@@ -48,6 +51,8 @@ const pageSections = [
 export default function CapabilitiesPage() {
   return (
     <>
+      <JsonLd schema={breadcrumbSchema([{ name: "Capabilities", href: "/services" }])} />
+
       <PageHero
         eyebrow="Capabilities"
         title="Capability schedule"

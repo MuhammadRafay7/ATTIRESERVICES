@@ -3,7 +3,9 @@ import { IBM_Plex_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
 import { site } from "@/lib/site";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
 
 // Inter carries both display and body — tight, neutral, institutional.
 const inter = Inter({
@@ -52,7 +54,8 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} — Contract Leather & Textile Manufacturing`,
     description: site.description,
-    url: site.url,
+    // No `url` here on purpose — a hardcoded one makes every route advertise
+    // the homepage. Next derives og:url from each page's canonical instead.
     locale: "en_US",
   },
   twitter: {
@@ -75,6 +78,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${plexMono.variable}`}>
       <body className="flex min-h-screen flex-col bg-bg">
+        <JsonLd schema={[organizationSchema(), websiteSchema()]} />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-brand focus:bg-deep focus:px-4 focus:py-2 focus:text-on-deep"
