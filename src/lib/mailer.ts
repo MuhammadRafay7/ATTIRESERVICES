@@ -84,7 +84,7 @@ async function sendViaWeb3Forms(payload: MailPayload): Promise<MailResult> {
       body: JSON.stringify({
         access_key: process.env.WEB3FORMS_ACCESS_KEY,
         subject: payload.subject,
-        from_name: "Ostenmark website enquiry",
+        from_name: "Attire Services website enquiry",
         email: payload.replyTo,
         message: payload.text,
       }),

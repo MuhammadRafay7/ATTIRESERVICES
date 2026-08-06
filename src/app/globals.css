@@ -1,53 +1,74 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Ostenmark — design system
-   Art direction: institutional light.
+   Attire Services — design system
+   Art direction: maritime trade desk.
 
-   Cool neutral surfaces · deep navy ink · one restrained bronze
-   accent used only for hairlines, labels and small marks.
-   Sharp 3px radii, hairline rules, dense 12-column grid,
-   monospaced data labels. Motion is functional, never decorative.
+   The subject is freight moving between ports, so the page is
+   built from two worlds: a deep marine night (hero, footprint,
+   footer) where the globe and its lanes live, and a bright,
+   spacious document ground where the commercial detail is read.
+
+   Marine blue carries every action. Brass carries data —
+   figures, lane markers, registration ticks — the way a
+   chart light or a ship's instrument would.
 
    All brand values live here (swappable).
    ============================================================ */
 :root {
-  /* Surfaces — cool, neutral, institutional */
+  /* Surfaces — bright, cool, generous */
   --bg: #ffffff;
-  --bg-subtle: #f6f7f9;
-  --bg-muted: #eceff2;
+  --bg-subtle: #f5f7f9;
+  --bg-muted: #e9eef2;
   --bg-inset: #fafbfc;
 
   /* Hairlines */
-  --line: #dfe3e8;
-  --line-strong: #c3cad2;
+  --line: #dde4ea;
+  --line-strong: #bfcad4;
 
   /* Ink (text on light) */
-  --ink: #0a1a2b;
-  --ink-body: #34424f;
-  --ink-muted: #5f6d7a;
-  --ink-faint: #8b97a3;
+  --ink: #0b1b2b;
+  --ink-body: #3a4854;
+  --ink-muted: #5c6b78;
+  --ink-faint: #8695a2;
 
-  /* Single accent — bronze. Hairlines, eyebrows, marks. Never gradients. */
-  --accent: #8b6b2e;
-  --accent-soft: #a9873f;
-  --accent-wash: #f6f1e6;
+  /* Marine — every interactive and directional cue. */
+  --accent: #0e5c8c;
+  --accent-strong: #0a4568;
+  --accent-soft: #3a8dc0;
+  --accent-wash: #eaf2f8;
 
-  /* Dark surfaces (footer, data panels) */
-  --deep: #0a1a2b;
-  --deep-2: #102437;
-  --deep-line: rgba(232, 237, 242, 0.14);
-  --on-deep: #e8edf2;
-  --on-deep-muted: #93a4b3;
+  /* Brass — figures, lane markers, registration ticks. Never a background. */
+  --brass: #a97430;
+  --brass-soft: #d2a462;
+  --brass-wash: #f7f1e7;
+
+  /* Deep marine surfaces (hero, footprint, footer) */
+  --deep: #061727;
+  --deep-2: #0b2438;
+  --deep-3: #123049;
+  --deep-line: rgba(228, 236, 243, 0.14);
+  --on-deep: #e4ecf3;
+  --on-deep-muted: #8da2b4;
 
   /* Status */
   --positive: #1a6b4f;
   --danger: #b3261e;
 
-  --radius: 3px;
-  --container: 1320px;
+  --radius: 8px;
+  --radius-sm: 5px;
+  --container: 1240px;
 
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Console chrome — slate rather than marine, so the admin never reads as the
+     public site. Deliberately not exposed in the theme editor: this is tool
+     chrome, not brand. */
+  --admin-canvas: #edf0f4;
+  --admin-sunken: #e0e6ec;
+  --admin-rail: #16232f;
+  --admin-rail-2: #1e2e3c;
 }
 
 /* Expose tokens to Tailwind's utility engine (v4 CSS config). */
@@ -66,21 +87,44 @@
   --color-ink-faint: var(--ink-faint);
 
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
   --color-accent-wash: var(--accent-wash);
 
+  --color-brass: var(--brass);
+  --color-brass-soft: var(--brass-soft);
+  --color-brass-wash: var(--brass-wash);
+
   --color-deep: var(--deep);
   --color-deep-2: var(--deep-2);
+  --color-deep-3: var(--deep-3);
   --color-on-deep: var(--on-deep);
   --color-on-deep-muted: var(--on-deep-muted);
 
   --color-positive: var(--positive);
   --color-danger: var(--danger);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Aliases used by the admin UI kit. The admin speaks in surface/foreground
+     terms while the public site speaks in bg/ink terms; mapping them here means
+     one set of values drives both, so re-theming the site re-themes the CMS. */
+  --color-canvas: var(--admin-canvas);
+  --color-surface: var(--admin-canvas);
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: var(--admin-sunken);
+  --color-fg: var(--ink);
+  --color-fg-muted: var(--ink-muted);
+  --color-fg-subtle: var(--ink-faint);
+  --color-fg-on-accent: #ffffff;
+  --color-accent-hover: var(--accent-strong);
+  --color-accent-ring: color-mix(in srgb, var(--accent) 28%, transparent);
+  --color-critical: var(--danger);
+
+  --font-sans: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
 
   --radius-brand: var(--radius);
+  --radius-brand-sm: var(--radius-sm);
 }
 
 /* Base element styling lives in @layer base, and every custom class below
@@ -108,6 +152,8 @@
     background: var(--bg);
     color: var(--ink-body);
     font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -115,22 +161,23 @@
   }
 
   ::selection {
-    background: var(--ink);
-    color: var(--bg);
+    background: var(--accent);
+    color: #ffffff;
   }
 
   :focus-visible {
-    outline: 2px solid var(--ink);
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 3px;
   }
 
-  /* Headings: sans, tight, confident. No serif flourish. */
+  /* Headings run on Archivo — wider, more industrial than the body face. */
   h1, h2, h3, h4 {
+    font-family: var(--font-display);
     color: var(--ink);
-    font-weight: 500;
-    letter-spacing: -0.021em;
-    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.16;
   }
 
   /* Anchored sections must clear the sticky masthead + in-page index. */
@@ -162,32 +209,35 @@
 }
 @media (min-width: 1280px) {
   .container-x {
-    padding-inline: 56px;
+    padding-inline: 48px;
   }
 }
 
-/* Display type — restrained institutional scale. */
+/* Display type — Archivo, tight and confident. */
 .display {
-  font-weight: 500;
-  line-height: 1.06;
-  letter-spacing: -0.028em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
   color: var(--ink);
+  text-wrap: balance;
 }
 .display-xl {
-  font-size: clamp(2.5rem, 5.4vw, 4.5rem);
-  line-height: 1.03;
+  font-size: clamp(2.75rem, 5.6vw, 4.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
 }
 .display-lg {
-  font-size: clamp(2.1rem, 4vw, 3.25rem);
-  line-height: 1.06;
+  font-size: clamp(2.15rem, 4.1vw, 3.35rem);
+  line-height: 1.07;
 }
 .display-md {
-  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
-  line-height: 1.12;
-  letter-spacing: -0.022em;
+  font-size: clamp(1.65rem, 2.7vw, 2.3rem);
+  line-height: 1.14;
+  letter-spacing: -0.024em;
 }
 
-/* Eyebrow — monospaced, uppercase, with a short accent tick. */
+/* Eyebrow — monospaced, uppercase, with a short brass tick. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -202,8 +252,8 @@
 .eyebrow::before {
   content: "";
   width: 18px;
-  height: 1px;
-  background: var(--accent);
+  height: 2px;
+  background: var(--brass);
   display: inline-block;
 }
 .eyebrow--center::before {
@@ -213,7 +263,7 @@
   color: var(--on-deep-muted);
 }
 .eyebrow--on-deep::before {
-  background: var(--accent-soft);
+  background: var(--brass-soft);
 }
 
 /* Monospaced data label — used on stats, table headers, spec keys. */
@@ -250,14 +300,14 @@
 }
 
 /* ============================================================
-   Structure & texture — hairlines only, no atmosphere
+   Structure & texture
    ============================================================ */
 
 /* Faint measured grid, used sparingly behind heroes. */
 .grid-lines {
   background-image:
-    linear-gradient(to right, rgba(10, 26, 43, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(10, 26, 43, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, rgba(11, 27, 43, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 27, 43, 0.04) 1px, transparent 1px);
   background-size: 88px 88px;
 }
 .grid-lines--deep {
@@ -272,11 +322,31 @@
   background-size: calc(100% / 4) 100%;
 }
 
-/* Short accent rule above a heading block. */
+/* Short brass rule above a heading block. */
 .rule-accent {
   width: 40px;
   height: 2px;
-  background: var(--accent);
+  background: var(--brass);
+}
+
+/* The deep marine ground the globe and footprint sit on. */
+.deep-field {
+  background:
+    radial-gradient(120% 80% at 72% 18%, rgba(58, 141, 192, 0.18) 0%, transparent 62%),
+    radial-gradient(90% 70% at 8% 92%, rgba(169, 116, 48, 0.12) 0%, transparent 60%),
+    linear-gradient(168deg, var(--deep-2) 0%, var(--deep) 62%);
+}
+
+/* Hairline that fades at both ends — used to close dark sections. */
+.rule-fade {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--deep-line) 18%,
+    var(--deep-line) 82%,
+    transparent
+  );
 }
 
 /* ============================================================
@@ -289,24 +359,56 @@
   background: var(--bg);
   transition:
     border-color 0.3s var(--ease),
-    background-color 0.3s var(--ease),
+    transform 0.3s var(--ease),
     box-shadow 0.3s var(--ease);
 }
 .card:hover {
   border-color: var(--line-strong);
-  box-shadow: 0 1px 2px rgba(10, 26, 43, 0.04), 0 12px 28px -20px rgba(10, 26, 43, 0.22);
+  box-shadow:
+    0 1px 2px rgba(11, 27, 43, 0.04),
+    0 18px 40px -28px rgba(11, 27, 43, 0.35);
 }
 
 .card-deep {
   position: relative;
   border-radius: var(--radius);
   border: 1px solid var(--deep-line);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.035);
   transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease);
 }
 .card-deep:hover {
-  border-color: rgba(232, 237, 242, 0.3);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(228, 236, 243, 0.3);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Frosted panel for content laid over the globe. */
+.panel-glass {
+  border-radius: var(--radius);
+  border: 1px solid rgba(228, 236, 243, 0.16);
+  background: rgba(6, 23, 39, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Small status/credential chip. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  padding: 0.3125rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.chip--on-deep {
+  border-color: rgba(228, 236, 243, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--on-deep-muted);
 }
 
 /* ============================================================
@@ -314,7 +416,7 @@
    ============================================================ */
 .field {
   width: 100%;
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--line-strong);
   background: var(--bg);
   padding: 0.6875rem 0.875rem;
@@ -327,8 +429,8 @@
   color: var(--ink-faint);
 }
 .field:focus {
-  border-color: var(--ink);
-  box-shadow: 0 0 0 3px rgba(10, 26, 43, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(14, 92, 140, 0.14);
 }
 .field[aria-invalid="true"] {
   border-color: var(--danger);
@@ -345,14 +447,31 @@
   font-feature-settings: "tnum" 1;
 }
 
-/* Large figure — mono, tabular, institutional. */
+/* Large figure — Archivo, tabular, institutional. */
 .figure {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
   line-height: 1;
+}
+
+/* ============================================================
+   Motion
+   ============================================================ */
+@keyframes lane-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+.lane-pulse {
+  animation: lane-pulse 2.6s var(--ease) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lane-pulse {
+    animation: none;
+  }
 }
 
 } /* @layer components */

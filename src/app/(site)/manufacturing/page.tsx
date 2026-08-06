@@ -9,54 +9,40 @@ import { Stat } from "@/components/Stat";
 import { Photo } from "@/components/Photo";
 import { DataTable, SpecTable } from "@/components/SpecTable";
 import { CTABand } from "@/components/CTABand";
-import { SectionNav } from "@/components/SectionNav";
 import { CheckIcon } from "@/components/icons";
 import { manufacturingProcess, qualityControls } from "@/lib/content";
 import { credentials, offices } from "@/lib/site";
+import { getCollection, getCopy, getSettings } from "@/lib/cms";
 import { breadcrumbSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Manufacturing",
   description:
-    "Ostenmark's production and quality protocol — six workflow stages with named owners, AQL 2.5 inspection, lot-level traceability, capacity by site, and unannounced audit access.",
+    "Attire Services production and quality protocol — six order-lifecycle stages with named owners, AQL 2.5 inspection, lot-level traceability, capacity by site, and unannounced audit access.",
   path: "/manufacturing",
 });
 
-const capacity = [
-  { value: "18.6M", label: "Annual unit capacity", note: "FY2025 · all sites" },
-  { value: "49", label: "Production lines", note: "30 garment, 19 other" },
-  { value: "1,960", label: "Direct employees", note: "Production and QA" },
-  { value: "82%", label: "Capacity utilisation", note: "Rolling quarter" },
-];
-
-const escalation = [
-  { term: "Non-conformance report", value: "Issued within 24 hours of detection" },
-  { term: "Corrective action plan", value: "Within 3 working days, client-approved" },
-  { term: "Rework or replacement", value: "At Ostenmark cost, schedule protected" },
-  { term: "Root cause review", value: "8D methodology, closed in writing" },
-];
-
 const productionSites = offices.filter((o) => o.lines > 0);
 
-const pageSections = [
-  { id: "workflow", label: "Workflow" },
-  { id: "capacity", label: "Capacity" },
-  { id: "quality", label: "Inspection regime" },
-  { id: "escalation", label: "Non-conformance" },
-  { id: "export", label: "Export" },
-  { id: "audit", label: "Audit access" },
-];
 
-export default function ManufacturingPage() {
+export default async function ManufacturingPage() {
+  const copy = await getCopy("manufacturing");
+  const settings = await getSettings();
+  // Editable under Pages → Manufacturing in the admin.
+  const capacity = await getCollection<{ value: string; label: string; note: string }>(
+    "capacity_figures",
+  );
+  const escalation = await getCollection<{ term: string; value: string }>(
+    "escalation_terms",
+  );
+
   return (
     <>
       <JsonLd schema={breadcrumbSchema([{ name: "Manufacturing", href: "/manufacturing" }])} />
 
       <PageHero
-        eyebrow="Manufacturing"
-        title="Production and quality protocol"
-        lead="Ostenmark runs its own floors. This is the sequence every order follows, the inspection regime applied to it, and what happens contractually when a lot does not conform."
+        {...copy("page-hero")}
         facts={[
           { value: "AQL 2.5", label: "Inspection standard" },
           { value: "99.4%", label: "Pass rate, 12 mo" },
@@ -64,19 +50,13 @@ export default function ManufacturingPage() {
           { value: "7 yr", label: "Traceability held" },
         ]}
         image="/photos/textile-mill.jpg"
-        imageAlt="Fabric production line at an Ostenmark textile site"
+        imageAlt="Fabric production line at an Attire Services textile site"
       />
 
-      <SectionNav sections={pageSections} />
 
       {/* Workflow */}
       <Section id="workflow" background="default" divider={false}>
-        <SectionHeading
-          eyebrow="Workflow"
-          index="§ 01"
-          title="Six stages, each with a named owner"
-          lead="Durations are working days and are confirmed per programme at quotation. Bulk production does not begin until the pre-production sample is approved in writing."
-        />
+        <SectionHeading {...copy("workflow")} />
         <Reveal delay={80} className="mt-14">
           <ol className="border-t border-line">
             {manufacturingProcess.map((step) => (
@@ -84,12 +64,12 @@ export default function ManufacturingPage() {
                 key={step.step}
                 className="grid gap-x-8 gap-y-3 border-b border-line py-7 sm:grid-cols-[3rem_3rem_1fr_10rem]"
               >
-                <span className="label-mono pt-1.5 text-accent">{step.step}</span>
+                <span className="label-mono pt-1.5 text-brass">{step.step}</span>
                 <span className="hidden pt-0.5 text-accent sm:block">
                   <step.icon width={22} height={22} />
                 </span>
                 <div>
-                  <h2 className="text-base font-medium tracking-[-0.015em] text-ink">
+                  <h2 className="font-display text-base font-semibold tracking-[-0.018em] text-ink">
                     {step.title}
                   </h2>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
@@ -112,12 +92,7 @@ export default function ManufacturingPage() {
             would let the wide capacity table stretch the column. */}
         <div className="grid items-start gap-14 [&>*]:min-w-0 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-6">
-            <SectionHeading
-              eyebrow="Capacity"
-              index="§ 02"
-              title="Capacity by site"
-              lead="Allocation is committed against a named line before a delivery date is confirmed. Utilisation is reported so schedule risk surfaces before it becomes a delay."
-            />
+            <SectionHeading {...copy("capacity")} />
             <Reveal delay={80}>
               <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10">
                 {capacity.map((s) => (
@@ -139,13 +114,13 @@ export default function ManufacturingPage() {
               ])}
             />
             <Photo
-              src="/photos/leather-shoes.jpg"
-              alt="Finished derby shoes from the leather division"
+              src="/photos/apparel-pressing.jpg"
+              alt="Pressing and finishing a garment before final inspection"
               sizes="(max-width: 1024px) 90vw, 45vw"
               className="mt-10 aspect-16/9 rounded-brand border border-line"
             />
             <p className="label-mono mt-3 text-ink-faint">
-              Fig. 02 — Footwear finishing, Porto
+              Fig. 02 — Pressing and finishing, İzmir
             </p>
           </Reveal>
         </div>
@@ -155,17 +130,12 @@ export default function ManufacturingPage() {
       <Section id="quality" background="default">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
-            <SectionHeading
-              eyebrow="Quality"
-              index="§ 03"
-              title="Inspection regime"
-              lead="Inspection is a gate at each stage, governed by ISO 2859-1 at AQL 2.5. Non-conforming lots are reworked or replaced — they are not shipped and discounted."
-            />
+            <SectionHeading {...copy("quality")} />
           </div>
-          <Stagger className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:col-span-8">
+          <Stagger className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
             {qualityControls.map((q) => (
-              <StaggerItem key={q} className="bg-bg">
-                <div className="flex h-full items-start gap-3 p-6">
+              <StaggerItem key={q}>
+                <div className="card flex h-full items-start gap-3 p-6">
                   <CheckIcon
                     width={16}
                     height={16}
@@ -183,20 +153,15 @@ export default function ManufacturingPage() {
       <Section id="escalation" background="deep">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
-            <SectionHeading
-              eyebrow="Non-conformance"
-              index="§ 04"
-              onDeep
-              title="What happens when a lot fails"
-              lead="The measure of a manufacturer is not the pass rate. It is the documented, time-bound sequence that runs when the pass rate is missed."
-            />
+            <SectionHeading {...copy("escalation")} onDeep />
           </div>
           <Reveal delay={80} className="lg:col-span-7">
             <SpecTable onDeep rows={escalation} />
             <p className="mt-7 max-w-xl text-sm leading-relaxed text-on-deep-muted">
-              Ostenmark carries the liability in every engagement model, including
-              work placed with managed third-party vendors — because in that
-              model we hold the vendor contract rather than introducing you to it.
+              Attire Services carries the liability in every engagement model,
+              including goods bought from a partner mill — because in that model
+              we hold the vendor contract as principal rather than introducing
+              you to it.
             </p>
           </Reveal>
         </div>
@@ -206,12 +171,7 @@ export default function ManufacturingPage() {
       <Section id="export" background="default">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
-            <SectionHeading
-              eyebrow="Export"
-              index="§ 05"
-              title="Out of the factory, into the market"
-              lead="Finished goods are packed, documented and shipped by our own trade division — the same entity that made them, so the paperwork matches the carton."
-            />
+            <SectionHeading {...copy("export")} />
             <Reveal delay={120} className="mt-9">
               <SpecTable
                 dense
@@ -219,7 +179,7 @@ export default function ManufacturingPage() {
                   { term: "Incoterms", value: "EXW · FOB · CIF · DDP" },
                   { term: "Modes", value: "FCL, LCL, air and rail" },
                   { term: "Volume", value: "2,400 TEU / year" },
-                  { term: "Documentation", value: "Issued by Ostenmark" },
+                  { term: "Documentation", value: "Issued by Attire Services" },
                 ]}
               />
             </Reveal>
@@ -260,15 +220,10 @@ export default function ManufacturingPage() {
 
       {/* Certification */}
       <Section id="audit" background="subtle">
-        <SectionHeading
-          eyebrow="Audit"
-          index="§ 06"
-          title="Certification and audit access"
-          lead="Unannounced access to any Ostenmark site during production hours is written into our standard terms, for your staff and for third-party inspection bodies."
-        />
+        <SectionHeading {...copy("certification")} />
         <Reveal delay={80} className="mt-12">
           <DataTable
-            caption="Ostenmark certification register"
+            caption="Attire Services certification register"
             columns={["Standard", "Scope", "Certification body", "Valid to"]}
             rows={credentials.map((c) => [c.code, c.scope, c.body, c.valid])}
           />
@@ -276,8 +231,9 @@ export default function ManufacturingPage() {
       </Section>
 
       <CTABand
-        title="Request a sample run"
-        lead="A pre-production sample is the fastest way to assess construction quality against your own standard. Send the specification and we will schedule it."
+        {...copy("cta")}
+        responseSla={settings.responseSla}
+        email={settings.contact.email}
         primaryLabel="Request a sample"
         secondaryLabel="Product portfolio"
         secondaryHref="/industries"

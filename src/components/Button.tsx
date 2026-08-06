@@ -5,30 +5,30 @@ type Variant = "primary" | "outline" | "on-deep" | "inverse" | "ghost";
 type Size = "sm" | "md";
 
 /**
- * Institutional button set: solid ink for the primary action, hairline
- * outline for the secondary. No gradients, no glow, no lift on hover —
- * state is communicated by colour and border weight only.
+ * Marine button set: the accent blue carries every primary action, a hairline
+ * outline carries the secondary. Hover shifts colour and lifts the shadow a
+ * fraction — enough to feel responsive, not enough to look like a toy.
  */
 const variants: Record<Variant, string> = {
-  primary: "bg-ink text-bg border border-ink hover:bg-deep-2 hover:border-deep-2",
+  primary:
+    "bg-accent text-white border border-accent shadow-[0_1px_2px_rgba(11,27,43,0.10)] hover:bg-accent-strong hover:border-accent-strong hover:shadow-[0_6px_18px_-8px_rgba(14,92,140,0.6)]",
   outline:
-    "bg-transparent text-ink border border-line-strong hover:border-ink hover:bg-bg-subtle",
+    "bg-transparent text-ink border border-line-strong hover:border-accent hover:text-accent hover:bg-accent-wash",
   "on-deep":
-    "bg-transparent text-on-deep border border-white/25 hover:border-on-deep hover:bg-white/8",
+    "bg-transparent text-on-deep border border-white/25 hover:border-on-deep hover:bg-white/10",
   // Primary action when sitting on a dark panel.
   inverse:
     "bg-bg text-ink border border-bg hover:bg-bg-muted hover:border-bg-muted",
-  ghost:
-    "bg-transparent text-ink border border-transparent hover:bg-bg-muted",
+  ghost: "bg-transparent text-ink border border-transparent hover:bg-bg-muted",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "text-[0.8125rem] px-4 py-2 gap-2",
-  md: "text-sm px-6 py-3 gap-2.5",
+  sm: "text-[0.8125rem] px-4 py-2.5 gap-2",
+  md: "text-sm px-6 py-3.5 gap-2.5",
 };
 
 const base =
-  "group/btn inline-flex items-center justify-center rounded-brand font-medium tracking-[-0.005em] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  "group/btn inline-flex cursor-pointer items-center justify-center rounded-brand-sm font-medium tracking-[-0.005em] transition-[background-color,border-color,color,box-shadow] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 type CommonProps = {
   variant?: Variant;

@@ -38,20 +38,23 @@ const empty: Fields = {
 };
 
 const categories = [
-  "Leather goods",
-  "Footwear",
-  "Apparel and outerwear",
-  "Woven and knit textiles",
+  "Apparel and shirting",
+  "Knitwear and jersey",
+  "Outerwear",
+  "Denim and casual",
   "Workwear and uniform",
-  "Home and upholstery",
-  "Components and trims",
+  "Tailoring and formalwear",
+  "Woven and knit fabric",
+  "Home and soft furnishing",
+  "Trims, labels and packaging",
   "Multiple categories",
 ];
 
 const models = [
-  "Full-package production",
+  "Buying and import agency",
+  "Export and delivered trade",
+  "Owned production (full package)",
   "Cut, make and trim",
-  "Managed supplier network",
   "Not yet determined",
 ];
 
@@ -138,15 +141,16 @@ export function QuoteForm() {
         aria-live="polite"
         className="rounded-brand border border-line bg-bg-subtle p-8 sm:p-10"
       >
-        <span className="inline-flex h-10 w-10 items-center justify-center bg-ink text-bg">
+        <span className="inline-flex h-10 w-10 items-center justify-center rounded-brand-sm bg-accent text-white">
           <CheckIcon width={20} height={20} />
         </span>
         <h3 className="display display-md mt-6 text-ink">Enquiry received</h3>
         <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink-muted">
-          An Ostenmark client services lead will acknowledge your enquiry within{" "}
-          {site.responseSla.toLowerCase()} and will come back with a costed bill
-          of materials, an indicative production window and the applicable
-          Incoterms. Certification and audit documentation is issued on request.
+          An Attire Services client services lead will acknowledge your enquiry
+          within {site.responseSla.toLowerCase()} and will come back with a
+          costed bill of materials, an indicative shipping window and the
+          applicable Incoterms. Certification and audit documentation is issued
+          on request.
         </p>
         <dl className="mt-8 grid gap-x-8 gap-y-4 border-t border-line pt-6 sm:grid-cols-2">
           <div>

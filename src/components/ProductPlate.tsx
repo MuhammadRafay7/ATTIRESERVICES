@@ -23,13 +23,10 @@ const S = {
 const THIN = { ...S, strokeWidth: 0.75, opacity: 0.55 };
 
 export type PlateKey =
-  | "bag"
-  | "footwear"
   | "fabric"
   | "apparel"
   | "workwear"
   | "upholstery"
-  | "hide"
   | "trims";
 
 function Ground() {
@@ -79,30 +76,7 @@ function Ground() {
 }
 
 const plates: Record<PlateKey, React.ReactNode> = {
-  // Tote / holdall, three-quarter flat
-  bag: (
-    <g>
-      <path d="M132 118h136l14 124H118z" {...S} />
-      <path d="M118 242h164" {...S} />
-      <path d="M160 118V96a40 34 0 0 1 80 0v22" {...S} />
-      <path d="M132 140h136" {...THIN} />
-      <path d="M186 160h28v22h-28z" {...S} />
-      <path d="M200 160v22" {...THIN} />
-      <path d="M146 118l10 124M254 118l-10 124" {...THIN} />
-    </g>
-  ),
 
-  // Derby shoe, side profile with welt line
-  footwear: (
-    <g>
-      <path d="M96 206c0-30 14-44 34-52 22-9 30-26 46-38 18-13 44-14 62-2 20 13 26 34 42 44 14 9 24 16 24 34v14H96z" {...S} />
-      <path d="M96 206h208" {...S} />
-      <path d="M92 206h216l-6 20H98z" {...S} />
-      <path d="M176 128c14 10 30 16 48 18" {...THIN} />
-      <path d="M188 116l-8 14M204 110l-8 14M220 106l-8 14" {...THIN} />
-      <path d="M148 168c22 6 46 8 70 6" {...THIN} />
-    </g>
-  ),
 
   // Fabric roll with weave detail
   fabric: (
@@ -160,15 +134,6 @@ const plates: Record<PlateKey, React.ReactNode> = {
     </g>
   ),
 
-  // Hide with grading zones
-  hide: (
-    <g>
-      <path d="M118 92c22-14 40 6 62 4 20-2 32-16 54-10 20 6 24 22 38 32 14 10 30 12 28 30-2 20-26 22-34 40-8 18 2 36-14 44-18 9-32-10-52-12-22-2-40 14-60 6-18-8-14-30-24-46-10-16-30-22-26-42 4-18 26-32 28-46z" {...S} />
-      <path d="M150 130c26 30 88 34 122 8" {...THIN} />
-      <path d="M138 190c34 18 92 16 128-8" {...THIN} />
-      <path d="M200 108v128" {...THIN} />
-    </g>
-  ),
 
   // Zip, buckle and rivet
   trims: (

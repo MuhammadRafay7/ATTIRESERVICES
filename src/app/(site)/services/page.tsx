@@ -7,7 +7,6 @@ import { Reveal } from "@/components/Reveal";
 import { Stagger, StaggerItem } from "@/components/Stagger";
 import { SpecTable } from "@/components/SpecTable";
 import { CTABand } from "@/components/CTABand";
-import { SectionNav } from "@/components/SectionNav";
 import { Photo } from "@/components/Photo";
 import { CheckIcon } from "@/components/icons";
 import { services, pillars, divisions, divisionLabels } from "@/lib/content";
@@ -15,68 +14,53 @@ import type { Division } from "@/lib/content";
 import { commercialTerms } from "@/lib/site";
 import { breadcrumbSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
+import { getCopy, getSettings } from "@/lib/cms";
 
 export const metadata: Metadata = pageMetadata({
   title: "Capabilities",
   description:
-    "Ostenmark capability schedule across three divisions — garment manufacturing, leather manufacturing, and import & export — with stated minimum orders, lead times and producing sites.",
+    "Attire Services capability schedule across import & export and garment production — with stated minimum orders, lead times and producing sites.",
   path: "/services",
 });
 
 /** Three frames per division, so the schedule shows as well as tells. */
 const divisionGallery: Record<Division, { src: string; alt: string }[]> = {
-  garment: [
-    { src: "/photos/apparel-line.jpg", alt: "Machinist at an industrial sewing line" },
-    { src: "/photos/apparel-pressing.jpg", alt: "Pressing and finishing a garment" },
-    { src: "/photos/apparel-hangers.jpg", alt: "Finished garments on hangers" },
-  ],
-  leather: [
-    { src: "/photos/leather-line.jpg", alt: "Leather goods stacked on the production floor" },
-    { src: "/photos/leather-bag.jpg", alt: "Full-grain leather satchel" },
-    { src: "/photos/leather-shoes.jpg", alt: "Finished derby shoes" },
-  ],
   trade: [
     { src: "/photos/trade-port.jpg", alt: "Container vessel alongside quay cranes" },
     { src: "/photos/trade-warehouse.jpg", alt: "Distribution warehouse racking" },
     { src: "/photos/trade-packing.jpg", alt: "Cartons staged for despatch" },
   ],
+  garment: [
+    { src: "/photos/apparel-line.jpg", alt: "Machinist at an industrial sewing line" },
+    { src: "/photos/apparel-pressing.jpg", alt: "Pressing and finishing a garment" },
+    { src: "/photos/apparel-hangers.jpg", alt: "Finished garments on hangers" },
+  ],
 };
 
-const pageSections = [
-  { id: "schedule", label: "Capability schedule" },
-  { id: "contracting", label: "Contracting" },
-  { id: "terms", label: "Commercial terms" },
-];
 
-export default function CapabilitiesPage() {
+export default async function CapabilitiesPage() {
+  const copy = await getCopy("services");
+  const settings = await getSettings();
   return (
     <>
       <JsonLd schema={breadcrumbSchema([{ name: "Capabilities", href: "/services" }])} />
 
       <PageHero
-        eyebrow="Capabilities"
-        title="Capability schedule"
-        lead="Twelve capability lines across three divisions — garment, leather, and import & export. Each states its minimum order, lead time and producing site, so a programme can be scoped before a call is booked."
+        {...copy("page-hero")}
         facts={[
-          { value: "12", label: "Capability lines" },
-          { value: "49", label: "Production lines" },
-          { value: "3", label: "Divisions" },
-          { value: "220+", label: "Qualified vendors" },
+          { value: "10", label: "Capability lines" },
+          { value: "220+", label: "Qualified mills" },
+          { value: "120+", label: "Markets served" },
+          { value: "30", label: "Owned lines" },
         ]}
-        image="/photos/leather-line.jpg"
-        imageAlt="Finished leather goods stacked on the production floor"
+        image="/photos/trade-yard.jpg"
+        imageAlt="Stacked export containers in a marshalling yard"
       />
 
-      <SectionNav sections={pageSections} />
 
       {/* Capability schedule */}
       <Section id="schedule" background="default" divider={false}>
-        <SectionHeading
-          eyebrow="Schedule"
-          index="§ 01"
-          title="Manufacturing and service lines"
-          lead="Specifications shown are standard. Programme-specific terms are confirmed against the bill of materials at quotation."
-        />
+        <SectionHeading {...copy("capability-schedule")} />
 
         {(Object.keys(divisionLabels) as Division[]).map((div) => {
           const lines = services.filter((x) => x.division === div);
@@ -85,7 +69,7 @@ export default function CapabilitiesPage() {
             <div key={div} className="mt-16 first:mt-14">
               <Reveal>
                 <div className="flex flex-wrap items-baseline justify-between gap-4 border-b-2 border-ink pb-4">
-                  <h3 className="text-lg font-medium tracking-[-0.02em] text-ink">
+                  <h3 className="font-display text-lg font-semibold tracking-[-0.022em] text-ink">
                     {divisionLabels[div]}
                   </h3>
                   {meta && (
@@ -119,14 +103,14 @@ export default function CapabilitiesPage() {
                       {/* Identity */}
                       <div className="lg:col-span-4">
                         <div className="flex items-center gap-4">
-                          <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center border border-line text-accent">
+                          <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-brand-sm bg-accent-wash text-accent">
                             <service.icon width={22} height={22} />
                           </span>
                           <span className="label-mono text-ink-faint">
                             {service.code}
                           </span>
                         </div>
-                        <h2 className="mt-6 text-xl font-medium tracking-[-0.02em] text-ink">
+                        <h2 className="mt-6 font-display text-xl font-semibold tracking-[-0.022em] text-ink">
                           {service.title}
                         </h2>
                         <p className="mt-3.5 max-w-md text-sm leading-relaxed text-ink-muted">
@@ -176,21 +160,16 @@ export default function CapabilitiesPage() {
       <Section id="contracting" background="subtle">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
-            <SectionHeading
-              eyebrow="Contracting"
-              index="§ 02"
-              title="How capability is contracted"
-              lead="The capability lines above are delivered under one of three arrangements. The difference is material nomination and where liability sits."
-            />
+            <SectionHeading {...copy("contracting")} />
             <Reveal delay={120} className="mt-10">
               <Photo
-                src="/photos/leather-components.jpg"
-                alt="Cut leather components staged for closing"
+                src="/photos/trade-containers.jpg"
+                alt="Containers stacked awaiting loading"
                 sizes="(max-width: 1024px) 90vw, 30vw"
                 className="aspect-4/3 rounded-brand border border-line"
               />
               <p className="label-mono mt-3 text-ink-faint">
-                Fig. 01 — Cut components, Porto
+                Fig. 01 — Export consolidation, Rotterdam
               </p>
             </Reveal>
           </div>
@@ -199,11 +178,11 @@ export default function CapabilitiesPage() {
               {pillars.map((pillar) => (
                 <StaggerItem key={pillar.title}>
                   <div className="grid gap-x-8 gap-y-4 border-b border-line py-8 sm:grid-cols-[3rem_1fr]">
-                    <span className="label-mono pt-1 text-accent">
+                    <span className="label-mono pt-1 text-brass">
                       {pillar.code}
                     </span>
                     <div>
-                      <h3 className="text-lg font-medium tracking-[-0.02em] text-ink">
+                      <h3 className="font-display text-lg font-semibold tracking-[-0.022em] text-ink">
                         {pillar.title}
                       </h3>
                       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-muted">
@@ -233,12 +212,7 @@ export default function CapabilitiesPage() {
       <Section id="terms" background="default">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
-            <SectionHeading
-              eyebrow="Commercial terms"
-              index="§ 03"
-              title="Standard terms of trade"
-              lead="Published so a first enquiry can be qualified without a discovery call. Volume tiering and extended terms are available subject to credit review."
-            />
+            <SectionHeading {...copy("commercial-terms")} />
           </div>
           <Reveal delay={80} className="lg:col-span-7">
             <SpecTable rows={commercialTerms} />
@@ -247,8 +221,9 @@ export default function CapabilitiesPage() {
       </Section>
 
       <CTABand
-        title="Scope a programme"
-        lead="Send a specification and indicative volumes. We return a costed bill of materials, a firm production window and the applicable Incoterms."
+        {...copy("cta")}
+        responseSla={settings.responseSla}
+        email={settings.contact.email}
         secondaryLabel="Production protocol"
         secondaryHref="/manufacturing"
       />

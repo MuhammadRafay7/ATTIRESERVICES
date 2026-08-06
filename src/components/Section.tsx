@@ -6,7 +6,7 @@ const backgrounds: Record<Background, string> = {
   default: "bg-bg text-ink-body",
   subtle: "bg-bg-subtle text-ink-body",
   muted: "bg-bg-muted text-ink-body",
-  deep: "bg-deep text-on-deep",
+  deep: "deep-field text-on-deep",
 };
 
 /**

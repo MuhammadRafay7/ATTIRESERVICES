@@ -6,18 +6,16 @@ import {
   ShirtIcon,
   RouteIcon,
   EyeIcon,
-  UsersIcon,
   GlobeIcon,
   LeafIcon,
   ScissorsIcon,
   SpoolIcon,
-  BagIcon,
-  ShoeIcon,
   HangerIcon,
   SofaIcon,
   SearchIcon,
   ClipboardIcon,
   LayersIcon,
+  WarehouseIcon,
 } from "@/components/icons";
 import type { PlateKey } from "@/components/ProductPlate";
 
@@ -25,13 +23,14 @@ type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 
 /**
  * Hero fact strip — hard operating figures rather than adjectives.
- * These are the four numbers a sourcing lead scans for first.
+ * These are the four numbers a sourcing lead scans for first, and for a
+ * trading house the trade figures lead.
  */
 export const heroFacts: { value: string; label: string }[] = [
-  { value: "3", label: "Divisions" },
-  { value: "18.6M", label: "Units / year" },
-  { value: "49", label: "Production lines" },
-  { value: "120+", label: "Markets traded" },
+  { value: "120+", label: "Markets served" },
+  { value: "2,400", label: "TEU / year" },
+  { value: "220+", label: "Qualified mills" },
+  { value: "97.8%", label: "On-time shipment" },
 ];
 
 export type Pillar = {
@@ -43,52 +42,53 @@ export type Pillar = {
 };
 
 /**
- * The three contracting models Ostenmark operates under. Framed as
- * engagement types a procurement team can actually select between.
+ * The three contracting models Attire Services operates under. Framed as
+ * engagement types a procurement team can actually select between, and
+ * ordered the way the business is weighted — trade first.
  */
 export const pillars: Pillar[] = [
   {
-    icon: CogIcon,
+    icon: SearchIcon,
     code: "01",
-    title: "Full-package production",
+    title: "Buying and import agency",
     blurb:
-      "We take the specification and return finished, packed, inspected goods. Ostenmark holds responsibility for materials, labour, quality and export documentation under a single purchase order.",
-    points: [
-      "Tech pack to bulk delivery",
-      "Materials nominated or sourced by us",
-      "Single point of contractual liability",
-      "FOB or DDP at your election",
-    ],
-  },
-  {
-    icon: UsersIcon,
-    code: "02",
-    title: "Cut, make and trim",
-    blurb:
-      "You nominate and consign the materials; we provide the line, the labour and the quality system. Suited to brands with established mill relationships that need capacity, not sourcing.",
-    points: [
-      "Client-consigned materials",
-      "Dedicated or shared line allocation",
-      "Bonded warehousing for inputs",
-      "Per-unit conversion pricing",
-    ],
-  },
-  {
-    icon: GlobeIcon,
-    code: "03",
-    title: "Managed supplier network",
-    blurb:
-      "For categories outside our own floors, we appoint, audit and manage third-party vendors on your behalf — under Ostenmark's quality protocol and our contract, not yours.",
+      "You give us the specification and the market; we qualify the mills, place and administer the orders, inspect the output and import it. Attire Services holds the vendor contract, so you hold one contract instead of nine.",
     points: [
       "Vendor qualification and audit",
-      "On-site Ostenmark QA presence",
-      "Consolidated invoicing and freight",
-      "Ostenmark retains liability",
+      "Purchase order administration",
+      "Resident QA at partner sites",
+      "Cost breakdown disclosed in full",
+    ],
+  },
+  {
+    icon: ShipIcon,
+    code: "02",
+    title: "Export and delivered trade",
+    blurb:
+      "Finished goods moved under Incoterms 2020 with documentation issued in-house rather than brokered out — through to destination clearance and delivery under DDP where you want it.",
+    points: [
+      "EXW, FOB, CIF and DDP",
+      "Certificates of origin and EUR.1",
+      "Consolidated multi-origin shipments",
+      "Destination customs handled by us",
+    ],
+  },
+  {
+    icon: CogIcon,
+    code: "03",
+    title: "Owned production",
+    blurb:
+      "Where a programme needs capacity we control rather than capacity we book, it runs on our own floors — 30 lines across İzmir and Ho Chi Minh City, full package or CMT.",
+    points: [
+      "Tech pack to packed carton",
+      "Full package or cut-make-trim",
+      "Named line allocation",
+      "Single point of quality liability",
     ],
   },
 ];
 
-export type Division = "garment" | "leather" | "trade";
+export type Division = "trade" | "garment";
 
 export type Service = {
   slug: string;
@@ -102,12 +102,12 @@ export type Service = {
 };
 
 /**
- * The three divisions. Deliberately equal in weight: the business is a
- * garment maker, a leather maker and a trading house, and a visitor should
- * be able to tell which one they need within a few seconds.
+ * The headline capability blocks. Two are trade, one is production —
+ * which is the actual shape of the business and should be the shape of
+ * the page a visitor lands on.
  */
 export type DivisionEntry = {
-  key: Division;
+  key: string;
   icon: Icon;
   code: string;
   title: string;
@@ -121,12 +121,54 @@ export type DivisionEntry = {
 
 export const divisions: DivisionEntry[] = [
   {
+    key: "import",
+    icon: SearchIcon,
+    code: "D-01",
+    title: "Import and sourcing",
+    blurb:
+      "We buy on your behalf across a network of 220+ qualified mills and factories — appointing, auditing and administering the vendors, and carrying the quality liability ourselves.",
+    points: [
+      "Mill and factory qualification",
+      "Order placement and administration",
+      "In-line and final inspection",
+      "Material and trim consolidation",
+    ],
+    facts: [
+      { value: "220+", label: "Qualified vendors" },
+      { value: "12", label: "Sourcing countries" },
+    ],
+    image: "/photos/trade-warehouse.jpg",
+    imageAlt: "Palletised apparel cartons staged in a consolidation warehouse",
+    caption: "Dhaka · Chennai",
+  },
+  {
+    key: "export",
+    icon: ShipIcon,
+    code: "D-02",
+    title: "Export, freight and customs",
+    blurb:
+      "A trading arm in its own right. We export under Incoterms 2020 with origin certification, HS classification and destination clearance issued in-house, not subcontracted to a broker.",
+    points: [
+      "Export documentation and origin certification",
+      "HS classification and duty planning",
+      "Ocean, air and rail consolidation",
+      "Destination customs clearance under DDP",
+    ],
+    facts: [
+      { value: "120+", label: "Markets served" },
+      { value: "2,400", label: "TEU / year" },
+    ],
+    image: "/photos/trade-port.jpg",
+    imageAlt: "Container vessel loading alongside quay cranes",
+    caption: "Rotterdam · New York",
+  },
+  {
     key: "garment",
     icon: HangerIcon,
-    code: "D-01",
-    title: "Garment manufacturing",
+    code: "D-03",
+    title: "Owned garment production",
     blurb:
-      "Woven and knit cut-and-sew across apparel, knitwear, outerwear and workwear — from tech pack to packed carton, full package or CMT.",
+      "Thirty lines under our own roof for the programmes that need controlled capacity — woven and knit cut-and-sew across apparel, knitwear, outerwear and workwear.",
     points: [
       "Apparel, shirting and tailoring",
       "Knitwear and jersey, 3–14 gauge",
@@ -141,53 +183,93 @@ export const divisions: DivisionEntry[] = [
     imageAlt: "Machinist working a garment on an industrial sewing line",
     caption: "İzmir · Ho Chi Minh City",
   },
-  {
-    key: "leather",
-    icon: BagIcon,
-    code: "D-02",
-    title: "Leather manufacturing",
-    blurb:
-      "Bags, footwear and small leather goods cut and closed on our own floors, from LWG Gold tanned hides through hand and machine finishing.",
-    points: [
-      "Bags, luggage and small leather goods",
-      "Lasted footwear, three constructions",
-      "Finished leather and hides by the panel",
-      "Hand closing, edge paint, skiving",
-    ],
-    facts: [
-      { value: "6.5M", label: "Units / year" },
-      { value: "19", label: "Lines" },
-    ],
-    image: "/photos/leather-line.jpg",
-    imageAlt: "Finished leather goods stacked on the production floor",
-    caption: "Porto · Chennai",
-  },
-  {
-    key: "trade",
-    icon: ShipIcon,
-    code: "D-03",
-    title: "Import and export",
-    blurb:
-      "A trading arm in its own right. We source and import materials and finished goods, and we export under Incoterms 2020 with documentation issued in-house.",
-    points: [
-      "Import sourcing and vendor management",
-      "Export documentation and origin certification",
-      "Customs clearance and HS classification",
-      "Ocean, air and rail consolidation",
-    ],
-    facts: [
-      { value: "120+", label: "Markets served" },
-      { value: "2,400", label: "TEU / year" },
-    ],
-    image: "/photos/trade-port.jpg",
-    imageAlt: "Container vessel loading alongside quay cranes",
-    caption: "Rotterdam · New York",
-  },
 ];
 
 /** Full capability catalogue, each with hard specification data. */
 export const services: Service[] = [
-  // ---- Garment division -----------------------------------------------
+  // ---- Import & export ---------------------------------------------------
+  {
+    slug: "import-sourcing",
+    division: "trade",
+    icon: SearchIcon,
+    code: "TRD-01",
+    title: "Import and material sourcing",
+    summary:
+      "We buy and import on your behalf — qualifying mills, factories and trim suppliers, holding the vendor contract and the quality liability ourselves.",
+    points: [
+      "Vendor qualification and audit",
+      "Cost breakdown transparency",
+      "Purchase order administration",
+      "Resident QA at partner sites",
+    ],
+    specs: [
+      { key: "Network", value: "220+ qualified vendors" },
+      { key: "Audit cycle", value: "12 months, or on change" },
+      { key: "Liability", value: "Held by Attire Services" },
+    ],
+  },
+  {
+    slug: "export-logistics",
+    division: "trade",
+    icon: ShipIcon,
+    code: "TRD-02",
+    title: "Export and freight",
+    summary:
+      "Finished goods delivered under Incoterms 2020, with ocean, air and rail consolidation across our own and third-party production.",
+    points: [
+      "EXW, FOB, CIF and DDP",
+      "FCL, LCL, air and rail",
+      "Consolidated multi-site shipments",
+      "Tracking issued at departure",
+    ],
+    specs: [
+      { key: "Markets", value: "120+ served" },
+      { key: "Volume", value: "2,400 TEU / year" },
+      { key: "Sites", value: "Rotterdam · New York" },
+    ],
+  },
+  {
+    slug: "trade-compliance",
+    division: "trade",
+    icon: ClipboardIcon,
+    code: "TRD-03",
+    title: "Customs and trade compliance",
+    summary:
+      "Export documentation, origin certification, HS classification and destination clearance, issued in-house rather than brokered out.",
+    points: [
+      "Certificates of origin and EUR.1",
+      "HS classification and duty planning",
+      "Destination customs clearance",
+      "UKCA, SASO and G-Mark conformity",
+    ],
+    specs: [
+      { key: "Documentation", value: "Issued by Attire Services" },
+      { key: "DDP markets", value: "EU, UK, North America" },
+      { key: "Registrations", value: "AEO-F · EORI · CTPAT-aligned" },
+    ],
+  },
+  {
+    slug: "warehousing",
+    division: "trade",
+    icon: WarehouseIcon,
+    code: "TRD-04",
+    title: "Warehousing and distribution",
+    summary:
+      "Bonded and general storage at origin and destination, with pick, pack and retail-ready distribution into your channel or your customer's.",
+    points: [
+      "Bonded warehousing at origin",
+      "EU distribution from Rotterdam",
+      "Pick, pack and retail-ready presentation",
+      "Consignment and call-off stock",
+    ],
+    specs: [
+      { key: "Capacity", value: "34,000 pallet positions" },
+      { key: "Bonded", value: "Rotterdam · Chennai" },
+      { key: "Dispatch", value: "Same-day to 48 hours" },
+    ],
+  },
+
+  // ---- Garment production ------------------------------------------------
   {
     slug: "apparel",
     division: "garment",
@@ -269,139 +351,15 @@ export const services: Service[] = [
     ],
   },
 
-  // ---- Leather division ------------------------------------------------
-  {
-    slug: "leather-goods",
-    division: "leather",
-    icon: BagIcon,
-    code: "LTH-01",
-    title: "Leather goods",
-    summary:
-      "Bags, luggage, wallets, belts and small leather accessories in full-grain, top-grain and suede, cut and closed to luxury standards.",
-    points: [
-      "Hand and machine closing",
-      "Edge painting, skiving, creasing",
-      "Client-nominated or sourced hardware",
-      "Serialised authentication available",
-    ],
-    specs: [
-      { key: "Minimum order", value: "150 units / style" },
-      { key: "Lead time", value: "40–55 working days" },
-      { key: "Sites", value: "Porto · Chennai" },
-    ],
-  },
-  {
-    slug: "footwear",
-    division: "leather",
-    icon: ShoeIcon,
-    code: "LTH-02",
-    title: "Footwear",
-    summary:
-      "Lasted footwear across cemented, Goodyear-welted and vulcanised constructions, from last and pattern development through boxing.",
-    points: [
-      "Last and pattern development",
-      "Cemented, welted, vulcanised",
-      "Full size grading and fit trials",
-      "SATRA-referenced wear testing",
-    ],
-    specs: [
-      { key: "Minimum order", value: "300 pairs / style" },
-      { key: "Lead time", value: "50–60 working days" },
-      { key: "Sites", value: "Porto · Ho Chi Minh City" },
-    ],
-  },
-  {
-    slug: "finished-leather",
-    division: "leather",
-    icon: LeafIcon,
-    code: "LTH-03",
-    title: "Finished leather and hides",
-    summary:
-      "Tanned, finished and graded leather supplied by the hide or cut panel, from Leather Working Group Gold-rated tanneries.",
-    points: [
-      "Full-grain, top-grain, split and suede",
-      "Vegetable and chrome tanned",
-      "Cut to panel or supplied by the hide",
-      "Chrome VI and rub tested",
-    ],
-    specs: [
-      { key: "Minimum order", value: "200 sq ft" },
-      { key: "Lead time", value: "20–30 working days" },
-      { key: "Sites", value: "Chennai" },
-    ],
-  },
-
-  // ---- Import & export division ---------------------------------------
-  {
-    slug: "import-sourcing",
-    division: "trade",
-    icon: SearchIcon,
-    code: "TRD-01",
-    title: "Import and material sourcing",
-    summary:
-      "We buy and import on your behalf — qualifying mills, tanneries and trim suppliers, holding the vendor contract and the quality liability ourselves.",
-    points: [
-      "Vendor qualification and audit",
-      "Cost breakdown transparency",
-      "Purchase order administration",
-      "Resident QA at partner sites",
-    ],
-    specs: [
-      { key: "Network", value: "220+ qualified vendors" },
-      { key: "Audit cycle", value: "12 months, or on change" },
-      { key: "Liability", value: "Held by Ostenmark" },
-    ],
-  },
-  {
-    slug: "export-logistics",
-    division: "trade",
-    icon: ShipIcon,
-    code: "TRD-02",
-    title: "Export and freight",
-    summary:
-      "Finished goods delivered under Incoterms 2020, with ocean, air and rail consolidation across our own and third-party production.",
-    points: [
-      "EXW, FOB, CIF and DDP",
-      "FCL, LCL, air and rail",
-      "Consolidated multi-site shipments",
-      "Tracking issued at departure",
-    ],
-    specs: [
-      { key: "Markets", value: "120+ served" },
-      { key: "Volume", value: "2,400 TEU / year" },
-      { key: "Sites", value: "Rotterdam · New York" },
-    ],
-  },
-  {
-    slug: "trade-compliance",
-    division: "trade",
-    icon: ClipboardIcon,
-    code: "TRD-03",
-    title: "Customs and trade compliance",
-    summary:
-      "Export documentation, origin certification, HS classification and destination clearance, issued in-house rather than brokered out.",
-    points: [
-      "Certificates of origin and EUR.1",
-      "HS classification and duty planning",
-      "Destination customs clearance",
-      "UKCA, SASO and G-Mark conformity",
-    ],
-    specs: [
-      { key: "Documentation", value: "Issued by Ostenmark" },
-      { key: "DDP markets", value: "EU, UK, North America" },
-      { key: "Registrations", value: "EORI · CTPAT-aligned" },
-    ],
-  },
-
-  // ---- Cross-division --------------------------------------------------
+  // ---- Cross-division ----------------------------------------------------
   {
     slug: "quality-compliance",
-    division: "garment",
+    division: "trade",
     icon: ShieldIcon,
     code: "QA-01",
     title: "Quality and compliance",
     summary:
-      "An inspection regime governed by AQL 2.5 across in-line and final stages, applied identically to all three divisions.",
+      "An inspection regime governed by AQL 2.5 across in-line and final stages, applied identically to our own lines and to every partner mill.",
     points: [
       "AQL 2.5 in-line and final",
       "Needle and metal detection",
@@ -421,7 +379,7 @@ export const services: Service[] = [
     code: "OEM-01",
     title: "Private label and OEM",
     summary:
-      "Confidential production under your marks across every division, with branded labelling, packaging and retail presentation.",
+      "Confidential production under your marks, with branded labelling, packaging and retail presentation ready for the shelf on arrival.",
     points: [
       "Brand book adherence",
       "Retail-ready and e-commerce packing",
@@ -438,17 +396,16 @@ export const services: Service[] = [
 
 /** Home page shows a focused preview of representative capabilities. */
 export const featuredServiceSlugs = [
-  "apparel",
-  "leather-goods",
+  "import-sourcing",
   "export-logistics",
-  "knitwear",
+  "trade-compliance",
+  "apparel",
 ];
 
-/** Human labels for the three divisions, used to group the schedule. */
+/** Human labels for the two divisions, used to group the schedule. */
 export const divisionLabels: Record<Division, string> = {
-  garment: "Garment division",
-  leather: "Leather division",
-  trade: "Import & export division",
+  trade: "Import & export",
+  garment: "Garment production",
 };
 
 export type ProductCategory = {
@@ -463,7 +420,7 @@ export type ProductCategory = {
   plate?: PlateKey;
 };
 
-/** Product portfolio — what the floors actually produce. */
+/** Product portfolio — what we trade and what the floors produce. */
 export const productCategories: ProductCategory[] = [
   {
     icon: HangerIcon,
@@ -510,28 +467,12 @@ export const productCategories: ProductCategory[] = [
     code: "P-06",
     title: "Tailoring and formalwear",
     blurb: "Structured jackets, suiting and formal separates.",
-    detail: "Fused and half-canvas · MOQ 150 units",
+    detail: "Fused and half-canvas · MOQ 200 units",
     image: "/photos/tailoring.jpg",
   },
   {
-    icon: BagIcon,
-    code: "P-07",
-    title: "Leather goods",
-    blurb: "Bags, luggage, wallets, belts and small leather accessories.",
-    detail: "Full-grain and top-grain · MOQ 150 units",
-    image: "/photos/leather-handbags.jpg",
-  },
-  {
-    icon: ShoeIcon,
-    code: "P-08",
-    title: "Footwear",
-    blurb: "Lasted shoes, boots and sandals across three constructions.",
-    detail: "Cemented, welted, vulcanised · MOQ 300 pairs",
-    image: "/photos/leather-boots.jpg",
-  },
-  {
     icon: SpoolIcon,
-    code: "P-09",
+    code: "P-07",
     title: "Woven and knit fabric",
     blurb: "Fabric to nominated weight, construction and colour.",
     detail: "Dyed and finished in-house · MOQ 500 m",
@@ -539,31 +480,23 @@ export const productCategories: ProductCategory[] = [
   },
   {
     icon: SofaIcon,
-    code: "P-10",
-    title: "Home and upholstery",
-    blurb: "Linens, throws and upholstery-grade leather and fabric.",
+    code: "P-08",
+    title: "Home and soft furnishing",
+    blurb: "Linens, throws, curtaining and upholstery-grade fabric.",
     detail: "Martindale-rated to 40,000 rubs · MOQ 300 units",
     image: "/photos/upholstery.jpg",
   },
   {
-    icon: LeafIcon,
-    code: "P-11",
-    title: "Finished leather and hides",
-    blurb: "Tanned, finished and graded leather supplied by the hide or panel.",
-    detail: "LWG Gold tanneries · MOQ 200 sq ft",
-    plate: "hide",
-  },
-  {
     icon: LayersIcon,
-    code: "P-12",
-    title: "Components and trims",
-    blurb: "Straps, hardware, labels and branded trim components.",
+    code: "P-09",
+    title: "Trims, labels and packaging",
+    blurb: "Hardware, labels, hangtags and retail-ready packaging components.",
     detail: "Nickel-free tested · MOQ by component",
-    image: "/photos/leather-components.jpg",
+    plate: "trims",
   },
 ];
 
-/** Production workflow — the contractual sequence, with owners and durations. */
+/** Order lifecycle — the contractual sequence, with owners and durations. */
 export type Step = {
   icon: Icon;
   step: string;
@@ -577,18 +510,18 @@ export const manufacturingProcess: Step[] = [
   {
     icon: ClipboardIcon,
     step: "01",
-    title: "Specification and costing",
+    title: "Enquiry and costing",
     blurb:
-      "We review the tech pack, resolve open construction questions and return a costed bill of materials with a firm production window.",
+      "We review the tech pack, resolve open construction questions and return a costed bill of materials with a firm production and shipping window.",
     duration: "3–5 days",
     owner: "Client services",
   },
   {
     icon: SearchIcon,
     step: "02",
-    title: "Material qualification",
+    title: "Vendor and material qualification",
     blurb:
-      "Leather, fabric and trim are selected and physically tested — or your nominated supplier is audited and approved before any order is placed.",
+      "Fabric, yarn and trim are selected and physically tested — or your nominated supplier is audited and approved before any order is placed.",
     duration: "5–10 days",
     owner: "Sourcing · QA",
   },
@@ -604,27 +537,27 @@ export const manufacturingProcess: Step[] = [
   {
     icon: CogIcon,
     step: "04",
-    title: "Bulk production",
+    title: "Production and in-line inspection",
     blurb:
-      "The run is scheduled against a named line with weekly output reporting and in-line inspection at defined checkpoints.",
+      "The run is scheduled against a named line — ours or a qualified partner's — with weekly output reporting and inspection at defined checkpoints.",
     duration: "25–45 days",
     owner: "Production",
   },
   {
     icon: ShieldIcon,
     step: "05",
-    title: "Final inspection",
+    title: "Final inspection and documentation",
     blurb:
-      "Final random inspection to AQL 2.5. Third-party inspectors may attend unannounced. Non-conforming lots are reworked, not shipped.",
+      "Final random inspection to AQL 2.5, then the export pack: invoice, packing list, origin certificate and any conformity documentation the market needs.",
     duration: "2–4 days",
-    owner: "Quality assurance",
+    owner: "Quality · Trade compliance",
   },
   {
     icon: ShipIcon,
     step: "06",
-    title: "Export and delivery",
+    title: "Export, customs and delivery",
     blurb:
-      "Packing, export documentation, customs clearance and freight under your elected Incoterm, with tracking issued at departure.",
+      "Consolidation, booking, customs clearance and freight under your elected Incoterm, with tracking issued at departure and clearance handled at destination under DDP.",
     duration: "Per Incoterm",
     owner: "Trade compliance",
   },
@@ -633,24 +566,24 @@ export const manufacturingProcess: Step[] = [
 export type Value = { icon: Icon; title: string; blurb: string };
 
 /** Differentiators, argued with evidence rather than adjectives. */
-export const whyOstenmark: Value[] = [
-  {
-    icon: CogIcon,
-    title: "Owned production, not brokerage",
-    blurb:
-      "Six sites and 49 lines are Ostenmark-owned and Ostenmark-staffed across garment and leather production, and the trading arm is ours too. When a specification is missed, the accountable party is a company you hold a contract with — not an agent's undisclosed subcontractor.",
-  },
-  {
-    icon: ShieldIcon,
-    title: "Auditable at any time",
-    blurb:
-      "ISO 9001 and 14001 certified, SMETA 4-Pillar audited annually, with lot-level traceability retained for seven years. Unannounced client and third-party audits are permitted by contract.",
-  },
+export const whyAttireServices: Value[] = [
   {
     icon: RouteIcon,
-    title: "Single contractual counterparty",
+    title: "A principal, not an introducer",
     blurb:
-      "Materials, conversion, inspection, documentation and freight sit under one purchase order and one liable entity, whether the work runs on our floors or a managed partner's.",
+      "We buy and sell on our own account. When we place an order with a mill, the contract is ours — so if a lot fails, you claim against Attire Services, not against a factory in another jurisdiction you have never met.",
+  },
+  {
+    icon: GlobeIcon,
+    title: "Documentation issued in-house",
+    blurb:
+      "Origin certification, HS classification, EUR.1 and destination clearance are handled by our own AEO-F registered team. Nothing about your shipment depends on a broker's queue.",
+  },
+  {
+    icon: CogIcon,
+    title: "Owned capacity behind the trade",
+    blurb:
+      "Thirty lines across İzmir and Ho Chi Minh City mean we are not only as good as the vendors we can book. Programmes that need controlled capacity move onto our own floors.",
   },
   {
     icon: EyeIcon,
@@ -684,7 +617,7 @@ export const companyValues: Value[] = [
     icon: LeafIcon,
     title: "Verified responsibility",
     blurb:
-      "LWG Gold tanneries, OEKO-TEX and GOTS certified textiles, and audited labour standards — evidenced by certificate, not by claim.",
+      "OEKO-TEX and GOTS certified textiles, amfori BSCI social compliance and audited labour standards — evidenced by certificate, not by claim.",
   },
 ];
 
@@ -703,27 +636,27 @@ export const qualityControls = [
 /** FAQ — the objections a procurement team raises before onboarding a vendor. */
 export const faqs = [
   {
+    q: "Are you a trading house or a manufacturer?",
+    a: "Both, weighted toward trade. The majority of what we ship is sourced, inspected and exported by us from a network of 220+ qualified mills and factories. Behind that we hold 30 owned garment lines in İzmir and Ho Chi Minh City for programmes that need capacity we control directly. You contract with one entity either way.",
+  },
+  {
     q: "What is your minimum order quantity?",
-    a: "150 units per style and colourway for leather goods and apparel, 300 pairs for footwear, and 500 metres per colourway for fabric. Lower quantities are accepted for sampling and for first production runs where a scaling commitment is agreed.",
+    a: "200 units per style and colourway for apparel, 250 for knitwear, 300 for outerwear and workwear, and 500 metres per colourway for fabric. Lower quantities are accepted for sampling and for first production runs where a scaling commitment is agreed.",
   },
   {
     q: "Who holds liability if a shipment fails inspection?",
-    a: "Ostenmark does. That applies equally to work produced on our own floors and to work placed with a managed partner, because in the managed model we hold the vendor contract rather than introducing you to it. Non-conforming lots are reworked or replaced at our cost.",
+    a: "Attire Services does. That applies equally to goods produced on our own lines and to goods bought from a partner mill, because we hold the vendor contract as principal rather than introducing you to it. Non-conforming lots are reworked or replaced at our cost.",
   },
   {
-    q: "Can we nominate our own mills and tanneries?",
-    a: "Yes. Under a cut-make-trim arrangement you consign the materials directly. Under full-package production you may nominate suppliers and we will audit and administer them, or we will source against your specification from our qualified network.",
-  },
-  {
-    q: "What audit access do we get?",
-    a: "Unannounced access to any Ostenmark site during production hours is written into our standard terms, for your staff and for third-party inspection bodies. Current ISO, SMETA, OEKO-TEX, LWG and GOTS certificates are issued on request with the vendor pack.",
+    q: "Can we nominate our own mills and factories?",
+    a: "Yes. You may nominate suppliers and we will audit, appoint and administer them under our protocol, or we will source against your specification from our qualified network. Under a cut-make-trim arrangement on our own lines you consign the materials directly.",
   },
   {
     q: "Which Incoterms do you trade on?",
-    a: "EXW, FOB, CIF and DDP under Incoterms 2020. We issue export documentation, certificates of origin and EUR.1 movement certificates directly, and we handle destination customs clearance under DDP in the EU, UK and North America.",
+    a: "EXW, FOB, CIF and DDP under Incoterms 2020. We issue export documentation, certificates of origin and EUR.1 movement certificates directly as an AEO-F registered operator, and we handle destination customs clearance under DDP in the EU, UK and North America.",
   },
   {
-    q: "How is intellectual property protected?",
-    a: "Production runs under a mutual NDA as standard. Client-owned lasts, dies and tooling are held segregated and returned on request, patterns are not reused across accounts, and category exclusivity is available contractually.",
+    q: "What audit access do we get?",
+    a: "Unannounced access to any Attire Services site during production hours is written into our standard terms, for your staff and for third-party inspection bodies. The same access is contracted into our partner mill agreements. Current ISO, AEO, SMETA, OEKO-TEX and GOTS certificates are issued on request with the vendor pack.",
   },
 ];

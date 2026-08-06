@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { resolveMedia } from "@/lib/cms";
 
 /**
  * Image frame. Photography is treated with a light, neutral desaturation
@@ -6,9 +7,12 @@ import Image from "next/image";
  * warm duotone that reads as a lifestyle brand.
  *
  * The wrapper must set an aspect ratio / size via `className`.
- * Photos in /public/photos are placeholders (see CREDITS.txt).
+ *
+ * `src` is resolved through the media manifest, so a `/photos/…` path written
+ * anywhere in the codebase or stored in the database points at whatever the
+ * admin has uploaded. Unknown paths pass through untouched.
  */
-export function Photo({
+export async function Photo({
   src,
   alt,
   className = "",
@@ -30,7 +34,7 @@ export function Photo({
   return (
     <div className={`relative overflow-hidden bg-bg-muted ${className}`}>
       <Image
-        src={src}
+        src={await resolveMedia(src)}
         alt={alt}
         fill
         sizes={sizes}

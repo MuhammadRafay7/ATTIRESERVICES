@@ -254,23 +254,7 @@ export function CheckIcon(props: IconProps) {
   );
 }
 
-export function BagIcon(props: IconProps) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M5 8h14l-1 12H6L5 8Z" />
-      <path d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8" />
-    </svg>
-  );
-}
 
-export function ShoeIcon(props: IconProps) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M3 8c1.5 0 2 1 3 2l3.5 2c1 .4 2 .5 3.2.5H18a3 3 0 0 1 3 3v1.5H3V8Z" />
-      <path d="M3 12.5h4" />
-    </svg>
-  );
-}
 
 export function ScissorsIcon(props: IconProps) {
   return (
@@ -309,4 +293,54 @@ export function SofaIcon(props: IconProps) {
       <path d="M5 19v1.5M19 19v1.5" />
     </svg>
   );
+}
+
+/**
+ * Name → component registry.
+ *
+ * Content is stored in the database, where an icon can only be a string. This
+ * is the single place that turns one back into a component, so the admin panel
+ * can offer a picker and the renderer never has to trust arbitrary input.
+ */
+export const iconMap = {
+  ShipIcon,
+  PlaneIcon,
+  TruckIcon,
+  ClipboardIcon,
+  WarehouseIcon,
+  SearchIcon,
+  ShieldIcon,
+  RouteIcon,
+  GlobeIcon,
+  EyeIcon,
+  UsersIcon,
+  LayersIcon,
+  LeafIcon,
+  BeakerIcon,
+  CpuIcon,
+  CogIcon,
+  ShirtIcon,
+  CarIcon,
+  CartIcon,
+  WheatIcon,
+  ArrowIcon,
+  MailIcon,
+  PhoneIcon,
+  PinIcon,
+  CheckIcon,
+  ScissorsIcon,
+  SpoolIcon,
+  HangerIcon,
+  SofaIcon,
+} as const;
+
+export type IconName = keyof typeof iconMap;
+
+export function isIconName(value: unknown): value is IconName {
+  return typeof value === "string" && value in iconMap;
+}
+
+/** Resolves a stored icon name, falling back so bad data never breaks a page. */
+export function resolveIcon(name: unknown, fallback: IconName = "LayersIcon") {
+  return isIconName(name) ? iconMap[name] : iconMap[fallback];
 }

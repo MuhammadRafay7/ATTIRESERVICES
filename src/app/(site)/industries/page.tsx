@@ -10,98 +10,58 @@ import { Photo } from "@/components/Photo";
 import { ProductPlate } from "@/components/ProductPlate";
 import { DataTable, SpecTable } from "@/components/SpecTable";
 import { CTABand } from "@/components/CTABand";
-import { SectionNav } from "@/components/SectionNav";
 import { ArrowIcon, ShieldIcon } from "@/components/icons";
 import { productCategories } from "@/lib/content";
+import { getCollection, getCopy, getSettings } from "@/lib/cms";
 import { breadcrumbSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Product Portfolio",
   description:
-    "Ostenmark's product portfolio across leather goods, footwear, apparel, textiles, workwear, upholstery, finished leather and components — with minimum orders and material standards stated.",
+    "Attire Services product portfolio across apparel, knitwear, outerwear, denim, workwear, tailoring, fabric, home textiles and trims — with minimum orders and material standards stated.",
   path: "/industries",
 });
 
-const materialStandards = [
-  {
-    material: "Leather and hides",
-    grades: "Full-grain, top-grain, split, suede",
-    standard: "LWG Gold tanneries",
-    testing: "Tensile, tear, rub, chrome VI",
-  },
-  {
-    material: "Woven textiles",
-    grades: "Cotton, linen, wool, technical blends",
-    standard: "OEKO-TEX 100 · GOTS 7.0",
-    testing: "Seam slippage, shrinkage, shade",
-  },
-  {
-    material: "Knit textiles",
-    grades: "Single jersey, interlock, rib, fleece",
-    standard: "OEKO-TEX 100",
-    testing: "Pilling, spirality, colourfastness",
-  },
-  {
-    material: "Trims and hardware",
-    grades: "Zips, buckles, rivets, branded furniture",
-    standard: "Nickel release EN 1811",
-    testing: "Pull, corrosion, cycle testing",
-  },
-  {
-    material: "Insulation and lining",
-    grades: "Down, synthetic loft, bemberg, mesh",
-    standard: "RDS certified down",
-    testing: "Fill power, migration, wash",
-  },
-];
 
-const constraints = [
-  { term: "Restricted substances", value: "REACH SVHC, CPSIA and Prop 65 screened" },
-  { term: "Animal-derived inputs", value: "CITES checked; exotic skins not handled" },
-  { term: "Country of origin", value: "Declared per line item on the packing list" },
-  { term: "Recycled content", value: "GRS-certified inputs available on request" },
-];
+export default async function PortfolioPage() {
+  const copy = await getCopy("industries");
+  const settings = await getSettings();
+  // Editable under Pages → Portfolio in the admin.
+  const materialStandards = await getCollection<{
+    material: string;
+    grades: string;
+    standard: string;
+    testing: string;
+  }>("material_standards");
+  const constraints = await getCollection<{ term: string; value: string }>(
+    "compliance_constraints",
+  );
 
-const pageSections = [
-  { id: "categories", label: "Categories" },
-  { id: "materials", label: "Material standards" },
-  { id: "compliance", label: "Compliance" },
-];
-
-export default function PortfolioPage() {
   return (
     <>
       <JsonLd schema={breadcrumbSchema([{ name: "Product Portfolio", href: "/industries" }])} />
 
       <PageHero
-        eyebrow="Portfolio"
-        title="Product portfolio and material standards"
-        lead="Twelve categories across garment, leather and traded goods. Each entry states its minimum order and the standard its materials are held to — the two facts that determine whether a programme is viable."
+        {...copy("page-hero")}
         facts={[
-          { value: "12", label: "Categories" },
-          { value: "150", label: "Lowest MOQ (units)" },
-          { value: "220+", label: "Qualified vendors" },
+          { value: "9", label: "Categories" },
+          { value: "200", label: "Lowest MOQ (units)" },
+          { value: "220+", label: "Qualified mills" },
           { value: "7 yr", label: "Traceability retained" },
         ]}
-        image="/photos/leather-line.jpg"
-        imageAlt="Finished leather goods stacked on the production floor"
+        image="/photos/apparel-hangers.jpg"
+        imageAlt="Finished garments on hangers awaiting final inspection"
       />
 
-      <SectionNav sections={pageSections} />
 
       {/* Category schedule */}
       <Section id="categories" background="default" divider={false}>
-        <SectionHeading
-          eyebrow="Categories"
-          index="§ 01"
-          title="Production categories"
-          lead="Minimum orders are stated per style and colourway. Lower quantities are accepted for sampling and for first runs where a scaling commitment is agreed."
-        />
-        <Stagger className="mt-14 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        <SectionHeading {...copy("categories")} />
+        <Stagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {productCategories.map((cat) => (
-            <StaggerItem key={cat.title} className="bg-bg">
-              <div className="flex h-full flex-col">
+            <StaggerItem key={cat.title}>
+              <div className="card flex h-full flex-col overflow-hidden">
                 {cat.image ? (
                   <Photo
                     src={cat.image}
@@ -121,7 +81,7 @@ export default function PortfolioPage() {
                     <span className="label-mono text-ink-faint">{cat.code}</span>
                     <cat.icon width={17} height={17} className="text-accent" />
                   </div>
-                  <h2 className="mt-3 text-base font-medium tracking-[-0.015em] text-ink">
+                  <h2 className="mt-3 font-display text-base font-semibold tracking-[-0.018em] text-ink">
                     {cat.title}
                   </h2>
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">
@@ -139,12 +99,7 @@ export default function PortfolioPage() {
 
       {/* Material standards */}
       <Section id="materials" background="subtle">
-        <SectionHeading
-          eyebrow="Materials"
-          index="§ 02"
-          title="Material standards and testing"
-          lead="Every input is qualified against a named standard and physically tested before it reaches a production line, whether we source it or you nominate it."
-        />
+        <SectionHeading {...copy("materials")} />
         <Reveal delay={80} className="mt-12">
           <DataTable
             caption="Material standards and testing regime"
@@ -163,12 +118,7 @@ export default function PortfolioPage() {
       <Section id="compliance" background="default">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
-            <SectionHeading
-              eyebrow="Compliance"
-              index="§ 03"
-              title="Declared constraints"
-              lead="What we screen for, what we decline, and what is declared on your documentation. Stated up front because it is cheaper to know now."
-            />
+            <SectionHeading {...copy("compliance")} />
             <Reveal delay={120} className="mt-9">
               <div className="flex items-start gap-4 rounded-brand border border-line bg-bg-subtle p-6">
                 <ShieldIcon
@@ -178,11 +128,11 @@ export default function PortfolioPage() {
                 />
                 <p className="text-sm leading-relaxed text-ink-body">
                   <span className="font-medium text-ink">
-                    Exotic skins are not handled.
+                    Origin is declared, never optimised.
                   </span>{" "}
-                  Ostenmark does not process CITES Appendix I or II hides in any
-                  category, and will not broker them through the managed vendor
-                  network.
+                  Attire Services states the true country of origin on every line
+                  item and will not transship to alter it — including where a
+                  duty preference would otherwise apply.
                 </p>
               </div>
             </Reveal>
@@ -191,7 +141,7 @@ export default function PortfolioPage() {
             <SpecTable rows={constraints} />
             <Link
               href="/manufacturing"
-              className="link-underline mt-9 inline-flex items-center gap-2 text-sm font-medium text-ink"
+              className="link-underline mt-9 inline-flex items-center gap-2 text-sm font-medium text-accent"
             >
               Quality and inspection protocol <ArrowIcon width={15} height={15} />
             </Link>
@@ -200,8 +150,9 @@ export default function PortfolioPage() {
       </Section>
 
       <CTABand
-        title="Qualify a category"
-        lead="Tell us the category, the indicative volume and the destination markets. We confirm feasibility, minimum order and lead time against the current production schedule."
+        {...copy("cta")}
+        responseSla={settings.responseSla}
+        email={settings.contact.email}
         secondaryLabel="Capability schedule"
         secondaryHref="/services"
       />

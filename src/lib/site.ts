@@ -1,21 +1,21 @@
 /**
- * Central place for all placeholder brand data.
+ * Central place for all brand data.
  * Swap these values to rebrand — name, contact, figures, nav and credentials
  * are all defined here so there is one file to find-and-replace.
  */
 
 export const site = {
-  name: "Ostenmark",
-  wordmark: "OSTENMARK",
-  descriptor: "Garments · Leather · Import & Export",
+  name: "Attire Services",
+  wordmark: "ATTIRE SERVICES",
+  descriptor: "Apparel Import · Export · Sourcing",
   tagline:
-    "Garment manufacturing, leather manufacturing, and import & export.",
-  shortTagline: "Owned production. Audited supply chain. Global export.",
+    "Apparel and textile import, export and sourcing, with owned production behind it.",
+  shortTagline: "One counterparty from mill to port of destination.",
   description:
-    "Ostenmark operates three divisions: garment manufacturing, leather manufacturing, and import & export. Six owned sites, 49 production lines, 18.6M units of annual capacity, and trade into 120+ markets under Incoterms 2020. ISO 9001 and SMETA-audited throughout.",
-  url: "https://www.ostenmark.com",
+    "Attire Services is an apparel and textile trading house. We source, import and export finished garments, fabric and trim into 120+ markets under Incoterms 2020, backed by 30 owned production lines and a qualified mill network. ISO 9001, AEO-F and SMETA-audited throughout.",
+  url: "https://www.attireservices.com",
   founded: 2004,
-  legalEntity: "Ostenmark Group B.V.",
+  legalEntity: "Attire Services B.V.",
   registration: "NL 8234 51 097",
   duns: "D-U-N-S 41-882-6103",
   contact: {
@@ -34,18 +34,18 @@ export const site = {
 } as const;
 
 export const nav = [
-  { label: "Capabilities", href: "/services" },
+  { label: "Trade services", href: "/services" },
   { label: "Manufacturing", href: "/manufacturing" },
   { label: "Portfolio", href: "/industries" },
   { label: "Company", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
-/** Headline operating figures reused on the home + about pages. */
+/** Headline operating figures reused on the home + about pages. Trade first. */
 export const stats = [
-  { value: "12.1M", label: "Garment units / year", note: "30 lines · İzmir, HCMC" },
-  { value: "6.5M", label: "Leather units / year", note: "19 lines · Porto, Chennai" },
-  { value: "120+", label: "Markets traded", note: "2,400 TEU exported" },
+  { value: "120+", label: "Markets served", note: "Six continents, DDP capable" },
+  { value: "2,400", label: "TEU shipped / year", note: "Ocean, air and rail" },
+  { value: "12.1M", label: "Units handled / year", note: "Own lines and partner mills" },
   { value: "97.8%", label: "On-time shipment", note: "Against confirmed ETD" },
 ] as const;
 
@@ -64,6 +64,12 @@ export const credentials = [
     valid: "2027",
   },
   {
+    code: "AEO-F",
+    scope: "Authorised Economic Operator",
+    body: "Dutch Customs",
+    valid: "Continuous",
+  },
+  {
     code: "SMETA 4-Pillar",
     scope: "Ethical trade audit",
     body: "Sedex",
@@ -73,12 +79,6 @@ export const credentials = [
     code: "OEKO-TEX 100",
     scope: "Textile substance testing",
     body: "Hohenstein",
-    valid: "2026",
-  },
-  {
-    code: "LWG Gold",
-    scope: "Tannery environmental rating",
-    body: "Leather Working Group",
     valid: "2026",
   },
   {
@@ -104,30 +104,31 @@ export const credentials = [
 /** Commercial terms surfaced early — the questions procurement asks first. */
 export const commercialTerms = [
   { term: "Incoterms 2020", value: "EXW · FOB · CIF · DDP" },
-  { term: "Minimum order", value: "150 units / style / colourway" },
+  { term: "Consolidation", value: "FCL · LCL · air · rail" },
+  { term: "Minimum order", value: "200 units / style / colourway" },
   { term: "Sampling lead time", value: "10–15 working days" },
   { term: "Bulk lead time", value: "35–60 working days" },
   { term: "Payment terms", value: "30% deposit · 70% against B/L" },
   { term: "Settlement currencies", value: "USD · EUR · GBP" },
 ] as const;
 
-/** Production and commercial sites — the operating footprint. */
+/** Trade, sourcing and production sites — the operating footprint. */
 export const offices = [
   {
     city: "Rotterdam",
     country: "Netherlands",
     region: "Europe",
-    role: "Group headquarters · EU distribution",
+    role: "Group headquarters · EU customs and distribution",
     lines: 0,
     headcount: 90,
   },
   {
-    city: "Porto",
-    country: "Portugal",
-    region: "Europe",
-    role: "Leather goods · Footwear",
-    lines: 11,
-    headcount: 340,
+    city: "New York",
+    country: "United States",
+    region: "North America",
+    role: "Commercial · Americas client services",
+    lines: 0,
+    headcount: 40,
   },
   {
     city: "İzmir",
@@ -138,28 +139,28 @@ export const offices = [
     headcount: 470,
   },
   {
-    city: "Chennai",
-    country: "India",
-    region: "South Asia",
-    role: "Leather goods · Tannery-adjacent",
-    lines: 8,
-    headcount: 310,
-  },
-  {
     city: "Ho Chi Minh City",
     country: "Vietnam",
     region: "Southeast Asia",
-    role: "Garment · Outerwear · Footwear",
+    role: "Garment · Outerwear · Workwear",
     lines: 16,
     headcount: 710,
   },
   {
-    city: "New York",
-    country: "United States",
-    region: "North America",
-    role: "Commercial · Client services",
+    city: "Dhaka",
+    country: "Bangladesh",
+    region: "South Asia",
+    role: "Sourcing office · Vendor qualification and QA",
     lines: 0,
-    headcount: 40,
+    headcount: 140,
+  },
+  {
+    city: "Chennai",
+    country: "India",
+    region: "South Asia",
+    role: "Sourcing office · Consolidation and export",
+    lines: 0,
+    headcount: 120,
   },
 ] as const;
 
@@ -172,3 +173,25 @@ export const marketRegions = [
   { region: "Asia Pacific", detail: "Japan, Korea, Australia, Singapore" },
   { region: "Latin America", detail: "Brazil, Chile, Colombia · consolidated freight" },
 ] as const;
+
+/**
+ * Trade lanes drawn on the globe. Coordinates are real port/city positions —
+ * the arcs animate origin → destination in the hero.
+ */
+export const tradeLanes = [
+  { from: "İzmir", to: "Rotterdam" },
+  { from: "Dhaka", to: "Rotterdam" },
+  { from: "Chennai", to: "Rotterdam" },
+  { from: "Ho Chi Minh City", to: "Rotterdam" },
+  { from: "Rotterdam", to: "New York" },
+] as const;
+
+/** Latitude / longitude for every node the globe renders. */
+export const geo: Record<string, { lat: number; lon: number }> = {
+  Rotterdam: { lat: 51.92, lon: 4.48 },
+  "New York": { lat: 40.71, lon: -74.01 },
+  "İzmir": { lat: 38.42, lon: 27.14 },
+  "Ho Chi Minh City": { lat: 10.82, lon: 106.63 },
+  Dhaka: { lat: 23.81, lon: 90.41 },
+  Chennai: { lat: 13.08, lon: 80.27 },
+};

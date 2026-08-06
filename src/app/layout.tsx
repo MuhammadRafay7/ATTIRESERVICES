@@ -1,20 +1,29 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Inter } from "next/font/google";
+import { Archivo, IBM_Plex_Mono, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
-import { site } from "@/lib/site";
+import { ThemeTokens } from "@/components/ThemeTokens";
+import { getSettings } from "@/lib/cms";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
 
-// Inter carries both display and body — tight, neutral, institutional.
-const inter = Inter({
-  variable: "--font-inter",
+// Archivo carries every heading and figure — a wide industrial grotesque
+// that holds authority at large sizes without tipping into fashion.
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
   display: "swap",
 });
 
-// Monospace for data labels, reference codes, figures and eyebrows.
+// Source Sans 3 runs the body: quieter and more readable than the display
+// face at paragraph length.
+const sourceSans = Source_Sans_3({
+  variable: "--font-source-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Monospace for data labels, reference codes, HS-style figures and eyebrows —
+// the register trade documents are already written in.
 const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
@@ -22,51 +31,58 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+// Metadata is generated so brand fields edited in the admin panel reach the
+// document head, not just the rendered body.
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getSettings();
+  const headline = `${s.name} — Apparel & Textile Import, Export and Sourcing`;
+
+  return {
+  metadataBase: new URL(s.url),
   title: {
-    default: `${site.name} — Contract Leather & Textile Manufacturing`,
-    template: `%s | ${site.name}`,
+    default: headline,
+    template: `%s | ${s.name}`,
   },
-  description: site.description,
-  applicationName: site.name,
+  description: s.description,
+  applicationName: s.name,
   keywords: [
-    "contract manufacturing",
+    "apparel import export",
+    "textile trading company",
+    "garment sourcing",
+    "apparel export house",
+    "customs and trade compliance",
+    "incoterms 2020",
+    "DDP apparel delivery",
+    "freight consolidation",
     "private label manufacturing",
-    "OEM leather goods",
-    "textile manufacturing",
-    "footwear manufacturing",
-    "apparel production",
     "supplier audit",
     "AQL inspection",
     "OEKO-TEX",
-    "Leather Working Group",
-    "export documentation",
-    "incoterms",
   ],
-  authors: [{ name: site.name }],
+  authors: [{ name: s.name }],
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
     type: "website",
-    siteName: site.name,
-    title: `${site.name} — Contract Leather & Textile Manufacturing`,
-    description: site.description,
+    siteName: s.name,
+    title: headline,
+    description: s.description,
     // No `url` here on purpose — a hardcoded one makes every route advertise
     // the homepage. Next derives og:url from each page's canonical instead.
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — Contract Leather & Textile Manufacturing`,
-    description: site.description,
+    title: headline,
+    description: s.description,
   },
-};
+  };
+}
 
 export const viewport: Viewport = {
-  themeColor: "#0a1a2b",
+  themeColor: "#061727",
   colorScheme: "light",
 };
 
@@ -76,20 +92,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${plexMono.variable}`}>
+    <html
+      lang="en"
+      className={`${archivo.variable} ${sourceSans.variable} ${plexMono.variable}`}
+    >
       <body className="flex min-h-screen flex-col bg-bg">
+        <ThemeTokens />
         <JsonLd schema={[organizationSchema(), websiteSchema()]} />
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-brand focus:bg-deep focus:px-4 focus:py-2 focus:text-on-deep"
-        >
-          Skip to content
-        </a>
-        <Header />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

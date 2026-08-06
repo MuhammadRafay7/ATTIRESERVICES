@@ -19,9 +19,12 @@ export function PageHero({
   imageAlt,
   children,
 }: {
-  eyebrow: string;
-  title: string;
+  /** Optional so a copy record can be spread in directly. */
+  eyebrow?: string;
+  title?: string;
   lead?: ReactNode;
+  /** Present when a copy record is spread in; not rendered. */
+  key?: string;
   facts?: HeroFact[];
   image?: string;
   imageAlt?: string;
@@ -91,10 +94,10 @@ export function PageHero({
                   key={fact.label}
                   className="border-b border-line px-0 py-5 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0"
                 >
-                  <dt className="label-mono">{fact.label}</dt>
-                  <dd className="figure mt-2 text-2xl sm:text-[1.75rem]">
+                  <dd className="figure text-2xl sm:text-[1.75rem]">
                     {fact.value}
                   </dd>
+                  <dt className="label-mono mt-2">{fact.label}</dt>
                 </div>
               ))}
             </dl>

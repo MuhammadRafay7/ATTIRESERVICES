@@ -68,7 +68,7 @@ export default function OpengraphImage() {
               fontSize: 18,
               letterSpacing: 4,
               textTransform: "uppercase",
-              color: "#a9873f",
+              color: "#d2a462",
             }}
           >
             {site.descriptor}
@@ -84,8 +84,7 @@ export default function OpengraphImage() {
               fontWeight: 500,
             }}
           >
-            Leather goods, footwear, apparel and textiles — produced on owned
-            floors.
+            Apparel and textiles, sourced and shipped under one contract.
           </div>
         </div>
 

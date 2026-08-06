@@ -123,7 +123,7 @@ export async function POST(request: Request) {
     .filter(([, value]) => value.length > 0);
 
   const text = [
-    "New production enquiry from the Ostenmark website",
+    "New sourcing enquiry from the Attire Services website",
     "",
     ...lines.map(([label, value]) => `${label}: ${value}`),
     "",
@@ -134,7 +134,7 @@ export async function POST(request: Request) {
     <div style="font-family:ui-sans-serif,system-ui,sans-serif;color:#0a1a2b;line-height:1.6">
       <h2 style="margin:0 0 4px;font-size:18px">New production enquiry</h2>
       <p style="margin:0 0 20px;color:#5f6d7a;font-size:13px">
-        Submitted via the Ostenmark website
+        Submitted via the Attire Services website
       </p>
       <table style="border-collapse:collapse;width:100%;max-width:640px">
         ${lines

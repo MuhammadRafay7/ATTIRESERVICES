@@ -10,41 +10,33 @@ import { SpecTable } from "@/components/SpecTable";
 import { MailIcon, PinIcon } from "@/components/icons";
 // phone — commented out: restore PhoneIcon to the import above
 import { site, offices, commercialTerms } from "@/lib/site";
+import { getCollection, getCopy } from "@/lib/cms";
 import { breadcrumbSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
-    "Open a production enquiry with Ostenmark. Acknowledged within one business day with a costed bill of materials, production window and applicable Incoterms.",
+    "Open a sourcing enquiry with Attire Services. Acknowledged within one business day with a costed bill of materials, a shipping window and the applicable Incoterms.",
   path: "/contact",
 });
 
-const routes = [
-  {
-    term: "New enquiries",
-    value: "mrtrades2005@gmail.com",
-  },
-  { term: "Existing programmes", value: "Via your named client services lead" },
-  { term: "Quality escalation", value: "quality@ostenmark.com" },
-  { term: "Vendor pack requests", value: "compliance@ostenmark.com" },
-  { term: "Press and corporate", value: "press@ostenmark.com" },
-];
+export default async function ContactPage() {
+  const copy = await getCopy("contact");
+  // Editable under Pages → Contact in the admin.
+  const routes = await getCollection<{ term: string; value: string }>("contact_routes");
 
-export default function ContactPage() {
   return (
     <>
       <JsonLd schema={breadcrumbSchema([{ name: "Contact", href: "/contact" }])} />
 
       <PageHero
-        eyebrow="Contact"
-        title="Open a production enquiry"
-        lead="Send a specification, tech pack or reference sample. A client services lead acknowledges within one business day and returns a costed bill of materials, a firm production window and the applicable Incoterms."
+        {...copy("page-hero")}
         facts={[
           { value: "1 day", label: "Acknowledgement" },
           { value: "3–5 d", label: "Costed BOM" },
           { value: "10–15 d", label: "First sample" },
-          { value: "6", label: "Contact offices" },
+          { value: "6", label: "Offices worldwide" },
         ]}
       />
 
@@ -55,7 +47,7 @@ export default function ContactPage() {
             <Reveal>
               <p className="eyebrow">Enquiry form</p>
               <h2 className="display display-md mt-5 text-ink">
-                Production enquiry
+                Sourcing enquiry
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-muted">
                 Fields marked <span className="text-accent">*</span> are required.
@@ -151,7 +143,7 @@ export default function ContactPage() {
                       <span className="text-ink-faint">, {office.country}</span>
                     </span>
                     <span className="label-mono shrink-0">
-                      {office.lines > 0 ? `${office.lines} lines` : "Commercial"}
+                      {office.lines > 0 ? `${office.lines} lines` : "Office"}
                     </span>
                   </li>
                 ))}

@@ -17,7 +17,9 @@ export function SectionHeading({
 }: {
   eyebrow?: string;
   index?: string;
-  title: ReactNode;
+  /** Present when a copy record is spread in; not rendered. */
+  key?: string;
+  title?: ReactNode;
   lead?: ReactNode;
   align?: "left" | "center";
   onDeep?: boolean;
@@ -50,13 +52,15 @@ export function SectionHeading({
           )}
         </div>
       )}
-      <h2
-        className={`display display-md mt-5 ${
-          onDeep ? "text-on-deep" : "text-ink"
-        }`}
-      >
-        {title}
-      </h2>
+      {title ? (
+        <h2
+          className={`display display-md mt-5 ${
+            onDeep ? "text-on-deep" : "text-ink"
+          }`}
+        >
+          {title}
+        </h2>
+      ) : null}
       {lead && (
         <p
           className={`mt-5 max-w-2xl text-base leading-relaxed sm:text-[1.0625rem] ${
